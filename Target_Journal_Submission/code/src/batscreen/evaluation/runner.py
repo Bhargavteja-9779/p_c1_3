@@ -15,14 +15,20 @@ def load_features(path):
 
 
 def stratified_split(strata, fractions, seed):
-    """Random partition into train/cal/test within each stratum (cell = unit)."""
+    """Training cells are drawn within strata (dataset x class) so every model sees all
+    groups; calibration and test cells are then drawn uniformly at random from the
+    remaining pool. This keeps calibration and test cells exactly exchangeable (within
+    each class), which the finite-sample guarantee requires; stratifying them separately
+    with rounding would give different group mixtures in the two sets."""
     rng = np.random.default_rng(seed)
-    idx = {"train": [], "cal": [], "test": []}
+    tr, pool = [], []
     for s in np.unique(strata):
-        ii = rng.permutation(np.where(strata == s)[0]); n = len(ii)
-        n_tr = int(round(fractions["train"] * n)); n_ca = int(round(fractions["cal"] * n))
-        idx["train"] += list(ii[:n_tr]); idx["cal"] += list(ii[n_tr:n_tr + n_ca]); idx["test"] += list(ii[n_tr + n_ca:])
-    return {k: np.array(sorted(v), int) for k, v in idx.items()}
+        ii = rng.permutation(np.where(strata == s)[0])
+        n_tr = int(round(fractions["train"] * len(ii)))
+        tr += list(ii[:n_tr]); pool += list(ii[n_tr:])
+    pool = rng.permutation(np.array(pool, int))
+    n_ca = int(round(fractions["cal"] / (fractions["cal"] + fractions["test"]) * len(pool)))
+    return {"train": np.array(sorted(tr), int), "cal": np.sort(pool[:n_ca]), "test": np.sort(pool[n_ca:])}
 
 
 def _design(F, m, model, feature_mask):
