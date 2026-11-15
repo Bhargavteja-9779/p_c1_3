@@ -21,6 +21,12 @@ def _seeds(cfg, exp, n):
     return [cfg["seed_base"] + OFFSETS[exp] + i for i in range(n)]
 
 
+def _exists(cfg, name):
+    """Resume support: an experiment output that already exists is not recomputed
+    (delete the file, or pass --force to run_all.py, to recompute)."""
+    return (not cfg.get("force", False)) and os.path.exists(os.path.join(cfg["paths"]["results"], "raw", name))
+
+
 def _save(df, cfg, name):
     d = os.path.join(cfg["paths"]["results"], "raw"); os.makedirs(d, exist_ok=True)
     p = os.path.join(d, name); df.to_csv(p, index=False, compression="gzip" if p.endswith(".gz") else None)
@@ -30,6 +36,8 @@ def _save(df, cfg, name):
 def e1_main(cfg, log):
     out = []
     for ds in DS:
+        if _exists(cfg, f"E1_{ds}_splits.csv") and _exists(cfg, f"E1_{ds}_cells.csv.gz") and _exists(cfg, f"E1_{ds}_scores.csv.gz"):
+            log.info(f"E1 {ds}: outputs exist, skipped (resume)"); continue
         d = cfg["datasets"][ds]; F = _feat(cfg, ds)
         t = time.time()
         df, cells = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E1", cfg["n_splits"]["en"]),
@@ -38,10 +46,12 @@ def e1_main(cfg, log):
         _save(df, cfg, f"E1_{ds}_splits.csv"); _save(cells, cfg, f"E1_{ds}_cells.csv.gz")
         _save(cells.attrs["scores"].assign(dataset=ds), cfg, f"E1_{ds}_scores.csv.gz")
         log.info(f"E1 {ds}: {len(df)} rows in {time.time()-t:.0f}s"); out.append(df)
-    return pd.concat(out)
+    return pd.concat(out) if out else None
 
 
 def e2_models(cfg, log):
+    if _exists(cfg, "E2_models_splits.csv"):
+        log.info("E2_models_splits.csv: exists, skipped (resume)"); return None
     out = []
     for ds in DS:
         d = cfg["datasets"][ds]; F = _feat(cfg, ds)
@@ -70,6 +80,8 @@ def _grids(ck):
 
 def e3_ablation(cfg, log, n=None):
     """Checkpoint-grid ablation; all grids evaluated on the same splits and fitted models."""
+    if _exists(cfg, "E3_ablation_grid_splits.csv"):
+        log.info("E3_ablation_grid_splits.csv: exists, skipped (resume)"); return None
     out = []
     n = n or max(1, cfg["n_splits"]["en"] // 3)
     for ds in DS:
@@ -83,6 +95,8 @@ def e3_ablation(cfg, log, n=None):
 
 
 def e4_robustness(cfg, log, n=None):
+    if _exists(cfg, "E4_robustness_splits.csv"):
+        log.info("E4_robustness_splits.csv: exists, skipped (resume)"); return None
     out = []
     n = n or max(1, cfg["n_splits"]["en"] // 3)
     meths = ["proposed", "naive", "single_k100", "gauss"]
@@ -136,6 +150,8 @@ def _combined_capacity(cfg):
 
 
 def e5_shift(cfg, log, n=None):
+    if _exists(cfg, "E5_shift_splits.csv"):
+        log.info("E5_shift_splits.csv: exists, skipped (resume)"); return None
     out = []
     n = n or max(1, cfg["n_splits"]["en"] // 3)
     meths = ["proposed", "naive", "single_k100", "gauss", "point_k100"]
@@ -182,6 +198,8 @@ def e6_compute(cfg, log, reps=5):
     """Wall-clock per split (all checkpoints: fit + score + calibrate + decide), single
     process; peak resident memory of a fresh process running one split; cost of the
     calibration/decision step alone for growing calibration sets."""
+    if _exists(cfg, "E6_compute.csv"):
+        log.info("E6_compute.csv: exists, skipped (resume)"); return None
     import subprocess
     rows = []
     for ds in DS:
@@ -211,6 +229,8 @@ def e6_compute(cfg, log, reps=5):
 
 
 def e7_sensitivity(cfg, log, n=None):
+    if _exists(cfg, "E7_sensitivity_splits.csv"):
+        log.info("E7_sensitivity_splits.csv: exists, skipped (resume)"); return None
     out = []
     n = n or max(1, cfg["n_splits"]["en"] // 3)
     meths = ["proposed", "naive", "single_k100", "gauss"]

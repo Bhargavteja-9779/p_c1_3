@@ -13,3 +13,6 @@
 | 16:30 | Quick mode end-to-end OK. Runner refactored to fit once per split and evaluate variants (grids, noise, alpha/beta); equivalence verified on split 1000. |
 | 16:33 | FULL RUN started (seed_base 20261115). |
 | 16:42 | **Evaluation flaw found and fixed.** In the first full E1 run, the single-checkpoint conformal rule had FPR 0.101 (95% CI 0.096-0.107), above its exact theoretical value (~0.095). Cause: calibration and test sets were both stratified by (dataset x class) with rounding, so the MATR/CLO mixture among bad cells differed between calibration and test, breaking within-class exchangeability. Fix: stratify only the training set; draw calibration/test uniformly from the remaining pool. Check (400 splits): single_k100 FPR 0.090 +- 0.009 vs exact theory 0.083. Aborted run deleted; full run restarted 16:46 with identical seeds. |
+| 16:53 | E1 MATR+CLO completed (1000 splits, 449 s). |
+| ~17:00-21:50 | Session worker restarted; background run killed (E1 HUST onward lost). Files intact. |
+| 21:52 | Suite made resumable (outputs that exist are skipped; --force recomputes). Relaunched E1(HUST)-E7 + analysis + figures with setsid. |

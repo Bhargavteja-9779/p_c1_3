@@ -19,11 +19,13 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--mode", choices=["quick", "full"], default="quick")
 ap.add_argument("--stages", nargs="*", default=["data", "features", "experiments", "analysis", "figures"])
 ap.add_argument("--experiments", nargs="*", default=["E1", "E2", "E3", "E4", "E5", "E6", "E7"])
+ap.add_argument("--force", action="store_true", help="recompute experiments whose outputs already exist")
 a = ap.parse_args()
 cfg = load_config(f"config/{'default' if a.mode == 'full' else 'quick'}.yaml")
 if a.mode == "quick":
     for k in ("results", "figures", "tables"):
         cfg["paths"][k] = cfg["paths"][k] + "_quick"
+cfg["force"] = a.force
 if cfg["n_jobs"] == -1:
     cfg["n_jobs"] = os.cpu_count()
 for k in ("results", "figures", "tables"):

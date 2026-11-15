@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-Last update: 2026-11-15 16:35 UTC
+Last update: 2026-11-15 21:52 UTC
 
 ## Selected target journal
 Battery Energy (Wiley; eISSN 2768-1696). See Target_Journal_Submission/journal_selection/.
@@ -21,9 +21,16 @@ Target_Journal_Submission/code (package batscreen, run_all.py quick/full).
 
 ## Experiment status
 * Pilot (seeds 1000-1099) done; design frozen in literature/research_design.md.
-* Full run started 16:33 (E1-E7 + analysis) -> results/, tables/.
+* 16:42 evaluation flaw (calibration/test exchangeability) fixed; full run restarted 16:45.
+* E1 MATR+CLO finished 16:53 (results/raw/E1_matr_clo_*). The session worker was restarted
+  afterwards (process killed, files intact). Suite made resumable (existing outputs skipped);
+  remaining experiments (E1 HUST, E2-E7) relaunched 21:52 with setsid/nohup.
+* Manuscript draft part 1 (front matter, introduction, related work, methods) in
+  Target_Journal_Submission/manuscript/src/.
 
-## Next steps
-1. Wait for full run; write figures module; inspect results.
-2. Literature matrix; manuscript draft (Wiley/Battery Energy structure).
-3. Review cycles (10 reviewer perspectives), revisions, DOCX, cover letter, audits.
+## Next steps (exact)
+1. Monitor relaunched full run (log: Target_Journal_Submission/results_full_stdout2.log).
+2. Parallel agents: citation audit + reference list; manuscript render/DOCX pipeline.
+3. When results complete: build_numbers -> results/discussion sections -> first full manuscript.
+4. Ten-reviewer cycle 1 (agents), consolidate, fix, rerun affected experiments; further cycles.
+5. DOCX/PDF, cover letter, audits, manifest, risk report, decision.
