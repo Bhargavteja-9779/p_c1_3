@@ -1,0 +1,28 @@
+# Full configuration (python run_all.py --mode full). Seeds are fixed in advance.
+paths:
+  raw: ${BATSCREEN_RAW:-/home/user/data_raw}        # raw downloads (not in git)
+  processed: ${BATSCREEN_PROCESSED:-/home/user/data_raw/processed}
+  features: ../data/features
+  results: ../results
+  figures: ../figures
+  tables: ../tables
+datasets:
+  matr_clo:
+    cache: matr_clo.npz
+    features: severson
+    Lstar: 750
+    Lstar_sensitivity: [550, 750, 900]
+    checkpoints: [20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200, 250, 300]
+    split: {train: 0.5, cal: 0.25, test: 0.25}
+  hust:
+    cache: hust.npz
+    features: vq
+    Lstar: 1900
+    Lstar_sensitivity: [1600, 1900, 2200]
+    checkpoints: [20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 300, 400, 500, 600, 800, 1000]
+    split: {train: 0.4, cal: 0.3, test: 0.3}   # 77 cells: keeps >= 9 cells per class for calibration
+alpha: 0.1
+beta: 0.1
+n_splits: {en: 1000, logit: 1000, gbr: 200, rf: 200, gp: 200, cnn: 30}
+seed_base: 20261115
+n_jobs: -1

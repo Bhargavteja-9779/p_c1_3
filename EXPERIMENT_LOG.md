@@ -1,0 +1,14 @@
+# EXPERIMENT_LOG
+
+| Time (UTC) | Event |
+|---|---|
+| 15:31-15:39 | Downloaded MATR (4 batches, 10.9 GB) and HUST (1.19 GB); sizes match server Content-Length. |
+| 15:47-15:52 | Preprocessing. First run failed: placeholder cycles with 2-element Qdlin arrays (fixed: keep NaN). Second run failed lifetime check: some batch-2 cells were cycled past EOL (check relaxed to lifetime <= len+2). |
+| 15:56 | OOM when loading npz member-by-member (fixed: decompress each member once). |
+| 15:58 | IR features dropped: CLO batch has no IR records (all zeros). |
+| 16:00 | Defect found: Q(V) features at checkpoints 200/250 decorrelated from lifetime in CLO/batch-2 because specific cycles are non-standard (single-cycle glitches). Fix: element-wise median of Q(V) over cycles k-4..k (no look-ahead) and 8..12 for the reference. EN MAPE then decreases monotonically with checkpoint (30% at 20 cycles, 10.9% at 100, 7.2% at 300; 5 random 50/50 splits). |
+| 16:02 | Pilot, 100 splits (seeds 1000-1099), EN, MATR+CLO L*=750: proposed FPR .066 FRR .075 saving .827; naive .148/.152; single_k100 .089/.047 .820; gauss .042/.041 .778; interval .012/.014 .560; bonf never decides. |
+| 16:05 | Pilot HUST (100 splits), EN, L*=1900: proposed .068/.087 saving .527; single_k100 .071/.106 .423; gauss .092/.138; point_k100 .237/.395; naive .274/.258. Logit (truncated training) MATR 50 splits: proposed .074/.080 saving .719. |
+| 16:10 | 40-split checks GBR (.105/.084) and GP (.089/.090) for the proposed rule; single split 3 hard for all models (EN .25 FPR) -> split variability, not a bug. |
+| 16:30 | Quick mode end-to-end OK. Runner refactored to fit once per split and evaluate variants (grids, noise, alpha/beta); equivalence verified on split 1000. |
+| 16:33 | FULL RUN started (seed_base 20261115). |

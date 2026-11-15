@@ -1,0 +1,20 @@
+journal,issn,source,n,median,q1,q3,mean,share_le_60,share_le_100
+Briefings in Bioinformatics,1477-4054,PubMed:2025,541,117,87.0,154.0,126.1,0.059,0.372
+Bioinformatics (OUP),1367-4811,PubMed:2025,525,166,118.5,226.0,179.9,0.027,0.152
+JAMIA,1527-974X,PubMed:2025,186,118.0,91.0,152.25,122.5,0.102,0.344
+GigaScience,2047-217X,PubMed:2025,161,177,131.0,221.5,180.6,0.037,0.155
+NAR Genomics and Bioinformatics,2631-9268,PubMed:2025,195,156,125.0,200.0,167.1,0.031,0.118
+Computers in Biology and Medicine,1879-0534,PubMed:2025,600,172.0,113.25,250.0,190.1,0.05,0.185
+Neural Networks,1879-2782,PubMed:2025,600,210.5,154.25,277.0,226.3,0.007,0.065
+IEEE JBHI,2168-2208,PubMed:2025,0,,,,,,
+IEEE TNNLS,2162-2388,PubMed:2025,0,,,,,,
+Artificial Intelligence in Medicine,1873-2860,PubMed:2025,170,306.0,209.0,384.75,304.8,0.006,0.024
+Journal of Biomedical Informatics,1532-0480,PubMed:2025,189,143,113.0,177.0,151.4,0.005,0.164
+Comput Methods Programs Biomed,1872-7565,PubMed:2025,570,150.5,111.0,211.25,175.9,0.021,0.177
+Medical Image Analysis,1361-8423,PubMed:2025,482,254.0,187.75,353.25,289.2,0.006,0.025
+Patterns,2666-3899,PubMed:2025,76,150.5,121.25,191.0,159.1,0.013,0.118
+J Chem Inf Model,1549-960X,PubMed:2025,0,,,,,,
+J Cheminformatics,1758-2946,PubMed:2025,176,136.5,103.0,172.5,147.8,0.017,0.227
+IEEE Trans Biomed Eng,1558-2531,PubMed:2025,0,,,,,,
+IEEE Trans Cybernetics,2168-2275,PubMed:2025,0,,,,,,
+Database (OUP),1758-0463,PubMed:2025,81,167,125.0,219.0,177.8,0.0,0.123

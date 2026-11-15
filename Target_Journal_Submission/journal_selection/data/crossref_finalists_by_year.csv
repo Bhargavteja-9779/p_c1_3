@@ -1,0 +1,7 @@
+journal,issn,source,n,median,q1,q3,mean,share_le_60,share_le_100
+Battery Energy,2768-1696,Crossref:2024,48,66.5,49.25,96.0,73.9,0.396,0.812
+Battery Energy,2768-1696,Crossref:2025,93,85,52.5,107.0,85.4,0.323,0.699
+Battery Energy,2768-1696,Crossref:2026,79,86,40.0,136.0,91.1,0.342,0.646
+Virtual and Physical Prototyping,1745-2767,Crossref:2024,244,72.0,53.0,93.0,79.9,0.348,0.795
+Virtual and Physical Prototyping,1745-2767,Crossref:2025,225,67,53.0,90.0,83.7,0.382,0.804
+Virtual and Physical Prototyping,1745-2767,Crossref:2026,185,65,49.0,88.5,80.6,0.47,0.832
