@@ -1,3 +1,4 @@
 # Pipeline check only (python run_all.py --mode quick): same code paths, few splits.
 inherit: default.yaml
 n_splits: {en: 20, logit: 20, gbr: 5, rf: 5, gp: 5, cnn: 2}
+n_splits_secondary: 6

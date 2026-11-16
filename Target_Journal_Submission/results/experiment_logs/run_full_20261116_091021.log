@@ -1,0 +1,6 @@
+2026-11-16 09:10:22,917 INFO mode=full stages=['experiments', 'analysis', 'figures'] env={"python": "3.13.18", "platform": "Linux-6.18.44-fc-v470-x86_64-with-glibc2.39", "numpy": "2.5.3", "scipy": "1.18.1", "sklearn": "1.9.1", "cpu_count": 4, "device": "cpu", "torch": "2.15.0+cpu"}
+2026-11-16 09:10:23,993 INFO --- E1 start
+2026-11-16 09:10:23,993 INFO E1 matr_clo: outputs exist, skipped (resume)
+2026-11-16 09:10:23,993 INFO E1 hust: outputs exist, skipped (resume)
+2026-11-16 09:10:23,993 INFO --- E1 done in 0s
+2026-11-16 09:10:23,993 INFO --- E2 start

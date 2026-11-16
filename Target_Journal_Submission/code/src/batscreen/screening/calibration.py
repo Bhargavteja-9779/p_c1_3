@@ -35,6 +35,24 @@ def conformal_upper(values, level):
     return v[r - 1]
 
 
+def pac_rank(n, level, delta):
+    """Smallest rank r such that the conditional coverage of the r-th order statistic,
+    distributed Beta(r, n+1-r) for continuous exchangeable scores, falls below `level`
+    with probability <= delta (training-conditional / PAC calibration). None if no rank
+    in 1..n qualifies."""
+    from scipy.stats import beta as _beta
+    for r in range(1, n + 1):
+        if _beta.cdf(level, r, n + 1 - r) <= delta:
+            return r
+    return None
+
+
+def pac_upper(values, level, delta):
+    v = np.sort(np.asarray(values, dtype=float))
+    r = pac_rank(v.size, level, delta)
+    return np.inf if r is None else v[r - 1]
+
+
 def _traj_max(S, alive):
     X = np.where(alive, S, -np.inf)
     return X.max(axis=1)
@@ -57,6 +75,10 @@ def calibrate(S_cal, Z_cal, alpha, beta, method="traj", single_index=None):
     if method == "traj":
         lam = conformal_upper(_traj_max(S_cal[bad], alive[bad]), 1 - alpha)
         mu = conformal_upper(_traj_max(-S_cal[good], alive[good]), 1 - beta)
+        pass_thr[:] = lam; rej_thr[:] = -mu
+    elif method == "traj_pac":  # P(conditional false-pass prob > alpha) <= delta (delta = 0.1)
+        lam = pac_upper(_traj_max(S_cal[bad], alive[bad]), 1 - alpha, 0.1)
+        mu = pac_upper(_traj_max(-S_cal[good], alive[good]), 1 - beta, 0.1)
         pass_thr[:] = lam; rej_thr[:] = -mu
     elif method in ("naive", "bonf"):
         a = alpha if method == "naive" else alpha / M

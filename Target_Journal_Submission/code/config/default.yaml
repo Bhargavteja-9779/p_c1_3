@@ -24,5 +24,6 @@ datasets:
 alpha: 0.1
 beta: 0.1
 n_splits: {en: 1000, logit: 1000, gbr: 200, rf: 200, gp: 200, cnn: 30}
+n_splits_secondary: 200   # E3, E4, E5, E7 (fixed before running)
 seed_base: 20261115
 n_jobs: -1

@@ -150,6 +150,35 @@ def run(cfg, log):
                              bad_share=g.n_bad.sum() / (g.n_bad.sum() + g.n_good.sum()), n_splits=len(g)))
         v = pd.DataFrame(rows); v["dataset"] = v["dataset"].map(DS_LABEL)
         _md(v, os.path.join(TB, "T10_sensitivity.md")); metrics["E7"] = v.to_dict(orient="records")
+    # ---------------- E9 protocol-grouped (added after design freeze)
+    e9 = _raw(cfg, "E9_protocol_grouped_splits.csv")
+    if e9 is not None:
+        allraw.append(e9.assign(experiment="E9"))
+        v = validity_summary(e9, a, b, by=("method",)); v.insert(0, "dataset", "MATR+CLO (protocol-disjoint)")
+        _md(v[["dataset", "method", "fpr_mean", "fpr_ci_hi", "frr_mean", "frr_ci_hi", "accuracy_mean", "early_rate_mean",
+               "time_saving_mean", "n_splits"]], os.path.join(TB, "T11_protocol_grouped.md"))
+        metrics["E9"] = v.to_dict(orient="records")
+    # ---------------- E10 PAC (added after design freeze) + analytic table
+    e10 = _raw(cfg, "E10_pac_splits.csv")
+    if e10 is not None:
+        allraw.append(e10.assign(experiment="E10"))
+        rows = []
+        for key, g in e10.groupby(["dataset", "cal_design", "method"]):
+            rows.append(dict(dataset=DS_LABEL[key[0]], cal_design=key[1], method=key[2], fpr_mean=g.fpr.mean(), frr_mean=g.frr.mean(),
+                             fpr_split_above_alpha=float((g.fpr > a + 1e-12).mean()), frr_split_above_beta=float((g.frr > b + 1e-12).mean()),
+                             never_pass=float(np.isinf(g.pass_thr).mean()), time_saving_mean=g.time_saving.mean(),
+                             n_cal_bad=g.n_cal_bad.mean(), n_cal_good=g.n_cal_good.mean(), n_splits=len(g)))
+        v = pd.DataFrame(rows); _md(v, os.path.join(TB, "T12_pac.md")); metrics["E10"] = v.to_dict(orient="records")
+    from scipy.stats import beta as _beta
+    from batscreen.screening.calibration import pac_rank
+    rows = []
+    for n0 in [9, 10, 15, 20, 25, 30, 40, 60, 100]:
+        r = int(np.ceil((n0 + 1) * (1 - a)))
+        p_exceed = float(_beta.cdf(1 - a, r, n0 + 1 - r)) if r <= n0 else 0.0
+        rows.append(dict(n_calibration_cells_in_class=n0, marginal_rank=r if r <= n0 else None,
+                         P_conditional_error_above_alpha=p_exceed,
+                         pac_rank_delta_0_1=pac_rank(n0, 1 - a, 0.1), pac_rank_delta_0_2=pac_rank(n0, 1 - a, 0.2)))
+    t = pd.DataFrame(rows); _md(t, os.path.join(TB, "T13_conditional_error_analytic.md")); statsj["T13_analytic"] = t.to_dict(orient="records")
     if allraw:
         pd.concat(allraw, ignore_index=True).to_csv(os.path.join(R, "raw_results.csv"), index=False)
     json.dump(metrics, open(os.path.join(R, "metrics.json"), "w"), indent=1, default=float)

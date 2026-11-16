@@ -145,6 +145,8 @@ def _evaluate(F, T, Z, Lstar, tr, ca, te, nC, yhat, scale, model, split_seed, al
     S = {"raw": raw, "norm": raw / scale}
     m_ref = int(np.argmin(np.abs(ck - 100)))
     specs = method_specs(kind, m_ref, alpha, beta)
+    if methods is not None and "traj_pac" in methods and kind != "classifier":  # opt-in only
+        specs["traj_pac"] = ("norm", "traj_pac")
     if methods is not None:
         specs = {k: v for k, v in specs.items() if k in methods}
     rows, cell_rows = [], []
@@ -156,7 +158,7 @@ def _evaluate(F, T, Z, Lstar, tr, ca, te, nC, yhat, scale, model, split_seed, al
                                       float(yhat[nC + i, m]), float(scale[nC + i, m])))
     for name, (skey, cal) in specs.items():
         Sc, St = S[skey][:nC], S[skey][nC:]
-        if cal in ("traj", "naive", "bonf"):
+        if cal in ("traj", "naive", "bonf", "traj_pac"):
             pt, rt = calibrate(Sc, Z[ca], alpha, beta, cal)
         elif cal == "single":
             pt, rt = calibrate(Sc, Z[ca], alpha, beta, "single", single_index=m_ref)

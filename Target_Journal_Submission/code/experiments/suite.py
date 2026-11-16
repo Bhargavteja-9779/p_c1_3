@@ -27,6 +27,17 @@ def _exists(cfg, name):
     return (not cfg.get("force", False)) and os.path.exists(os.path.join(cfg["paths"]["results"], "raw", name))
 
 
+def _chunk(cfg, log, name, fn):
+    """Checkpointing for long experiments: each (dataset x configuration) chunk is saved
+    to results/raw/chunks/<name>.csv as soon as it finishes and is re-used on resume."""
+    d = os.path.join(cfg["paths"]["results"], "raw", "chunks"); os.makedirs(d, exist_ok=True)
+    p = os.path.join(d, name + ".csv")
+    if os.path.exists(p) and not cfg.get("force", False):
+        log.info(f"chunk {name}: exists, re-used"); return pd.read_csv(p)
+    t = time.time(); df = fn(); df.to_csv(p, index=False); log.info(f"chunk {name}: {len(df)} rows in {time.time()-t:.0f}s")
+    return df
+
+
 def _save(df, cfg, name):
     d = os.path.join(cfg["paths"]["results"], "raw"); os.makedirs(d, exist_ok=True)
     p = os.path.join(d, name); df.to_csv(p, index=False, compression="gzip" if p.endswith(".gz") else None)
@@ -55,13 +66,12 @@ def e2_models(cfg, log):
     out = []
     for ds in DS:
         d = cfg["datasets"][ds]; F = _feat(cfg, ds)
-        for model in ["logit", "gbr", "rf", "gp", "cnn"]:
-            t = time.time()
-            nj = cfg["n_jobs"]
-            df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], model,
-                             _seeds(cfg, "E2", cfg["n_splits"][model]), n_jobs=nj, tag=f"E2_{ds}_{model}")
-            df["dataset"] = ds; out.append(df)
-            log.info(f"E2 {ds} {model}: {time.time()-t:.0f}s")
+        for model in ["logit", "gp", "cnn", "gbr", "rf"]:
+            def job(model=model, F=F, d=d, ds=ds):
+                df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], model,
+                                 _seeds(cfg, "E2", cfg["n_splits"][model]), n_jobs=cfg["n_jobs"], tag=f"E2_{ds}_{model}")
+                df["dataset"] = ds; return df
+            out.append(_chunk(cfg, log, f"E2_{ds}_{model}", job))
     df = pd.concat(out); _save(df, cfg, "E2_models_splits.csv"); return df
 
 
@@ -83,14 +93,16 @@ def e3_ablation(cfg, log, n=None):
     if _exists(cfg, "E3_ablation_grid_splits.csv"):
         log.info("E3_ablation_grid_splits.csv: exists, skipped (resume)"); return None
     out = []
-    n = n or max(1, cfg["n_splits"]["en"] // 3)
+    n = n or cfg.get("n_splits_secondary", max(1, cfg["n_splits"]["en"] // 3))
     for ds in DS:
         d = cfg["datasets"][ds]; F = _feat(cfg, ds)
         variants = [dict(tag=g, grid=g, ck_subset=sub, methods=["proposed", "naive", "traj_unnorm"])
                     for g, sub in _grids(F["checkpoints"]).items()]
-        df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E3", n),
-                         n_jobs=cfg["n_jobs"], variants=variants)
-        df["dataset"] = ds; out.append(df); log.info(f"E3 {ds} done")
+        def job(F=F, d=d, ds=ds, variants=variants):
+            df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E3", n),
+                             n_jobs=cfg["n_jobs"], variants=variants)
+            df["dataset"] = ds; return df
+        out.append(_chunk(cfg, log, f"E3_{ds}", job))
     df = pd.concat(out); _save(df, cfg, "E3_ablation_grid_splits.csv"); return df
 
 
@@ -98,25 +110,31 @@ def e4_robustness(cfg, log, n=None):
     if _exists(cfg, "E4_robustness_splits.csv"):
         log.info("E4_robustness_splits.csv: exists, skipped (resume)"); return None
     out = []
-    n = n or max(1, cfg["n_splits"]["en"] // 3)
+    n = n or cfg.get("n_splits_secondary", max(1, cfg["n_splits"]["en"] // 3))
     meths = ["proposed", "naive", "single_k100", "gauss"]
     for ds in DS:
         d = cfg["datasets"][ds]; F = _feat(cfg, ds); base = d["split"]
         cal_grid = [0.10, 0.15, 0.20, 0.25] if ds == "matr_clo" else [0.20, 0.30, 0.40]
         for cf in cal_grid:
             fr = dict(train=base["train"], cal=cf, test=round(1 - base["train"] - cf, 3))
-            df, _ = run_many(F, d["Lstar"], fr, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E4", n), n_jobs=cfg["n_jobs"], methods=meths)
-            df["dataset"] = ds; df["factor"] = "cal_fraction"; df["level"] = cf; out.append(df)
+            def job(fr=fr, F=F, d=d, ds=ds, cf=cf):
+                df, _ = run_many(F, d["Lstar"], fr, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E4", n), n_jobs=cfg["n_jobs"], methods=meths)
+                df["dataset"] = ds; df["factor"] = "cal_fraction"; df["level"] = cf; return df
+            out.append(_chunk(cfg, log, f"E4_{ds}_cal_{cf}", job))
         tr_grid = [0.2, 0.3, 0.4, 0.5] if ds == "matr_clo" else [0.2, 0.3, 0.4]
         for tf in tr_grid:
             fr = dict(train=tf, cal=base["cal"], test=round(1 - tf - base["cal"], 3))
-            df, _ = run_many(F, d["Lstar"], fr, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E4", n), n_jobs=cfg["n_jobs"], methods=meths)
-            df["dataset"] = ds; df["factor"] = "train_fraction"; df["level"] = tf; out.append(df)
+            def job(fr=fr, F=F, d=d, ds=ds, tf=tf):
+                df, _ = run_many(F, d["Lstar"], fr, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E4", n), n_jobs=cfg["n_jobs"], methods=meths)
+                df["dataset"] = ds; df["factor"] = "train_fraction"; df["level"] = tf; return df
+            out.append(_chunk(cfg, log, f"E4_{ds}_train_{tf}", job))
         variants = [dict(tag=f"noise_{w}_{lv}", factor=f"noise_{w}", level=lv, noise=lv, noise_on=w, methods=meths)
                     for w in ["both", "test"] for lv in [0.1, 0.25, 0.5, 1.0]]
-        df, _ = run_many(F, d["Lstar"], base, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E4", n), n_jobs=cfg["n_jobs"],
-                         variants=variants)
-        df["dataset"] = ds; out.append(df)
+        def job(F=F, d=d, ds=ds, variants=variants, base=base):
+            df, _ = run_many(F, d["Lstar"], base, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E4", n), n_jobs=cfg["n_jobs"],
+                             variants=variants)
+            df["dataset"] = ds; return df
+        out.append(_chunk(cfg, log, f"E4_{ds}_noise", job))
         log.info(f"E4 {ds} done")
     df = pd.concat(out); _save(df, cfg, "E4_robustness_splits.csv"); return df
 
@@ -153,16 +171,18 @@ def e5_shift(cfg, log, n=None):
     if _exists(cfg, "E5_shift_splits.csv"):
         log.info("E5_shift_splits.csv: exists, skipped (resume)"); return None
     out = []
-    n = n or max(1, cfg["n_splits"]["en"] // 3)
+    n = n or cfg.get("n_splits_secondary", max(1, cfg["n_splits"]["en"] // 3))
     meths = ["proposed", "naive", "single_k100", "gauss", "point_k100"]
     d = cfg["datasets"]["matr_clo"]; F = _feat(cfg, "matr_clo")
     for target in [["b3"], ["b4"]]:
         for scen, nt in [("source_cal", 0), ("target_cal", 20), ("target_cal", 30)]:
             fn = _batch_split_fn(F, d["Lstar"], ["b1", "b2"], target, scen, nt)
-            df, _ = run_many(F, d["Lstar"], None, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E5", n), n_jobs=cfg["n_jobs"],
-                             methods=meths, split_fn=fn)
-            df["experiment"] = "batch_shift"; df["target"] = "+".join(target); df["scenario"] = scen; df["n_target_cal"] = nt
-            out.append(df); log.info(f"E5 batch {target} {scen} {nt}")
+            def job(fn=fn, target=target, scen=scen, nt=nt):
+                df, _ = run_many(F, d["Lstar"], None, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E5", n), n_jobs=cfg["n_jobs"],
+                                 methods=meths, split_fn=fn)
+                df["experiment"] = "batch_shift"; df["target"] = "+".join(target); df["scenario"] = scen; df["n_target_cal"] = nt
+                return df
+            out.append(_chunk(cfg, log, f"E5_batch_{'+'.join(target)}_{scen}_{nt}", job))
     # cross-laboratory: capacity-trajectory features only (protocol-agnostic)
     F2, n_src = _combined_capacity(cfg); Ls = cfg["datasets"]["hust"]["Lstar"]; T2 = F2["lifetime"]; Z2 = (T2 >= Ls).astype(int)
     src = np.arange(n_src); tgt = np.arange(n_src, len(T2))
@@ -177,10 +197,12 @@ def e5_shift(cfg, log, n=None):
             tr_t = np.r_[parts["g"][0], parts["b"][0]]; ca = np.r_[parts["g"][1], parts["b"][1]]; te = np.r_[parts["g"][2], parts["b"][2]]
             tr = src if scen.startswith("source") else tr_t
             return dict(train=np.sort(tr), cal=np.sort(ca), test=np.sort(te))
-        df, _ = run_many(F2, Ls, None, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E5", n), n_jobs=cfg["n_jobs"],
-                         methods=meths, split_fn=fn)
-        df["experiment"] = "cross_lab"; df["target"] = "HUST"; df["scenario"] = scen; df["n_target_cal"] = -1
-        out.append(df); log.info(f"E5 cross-lab {scen}")
+        def job(fn=fn, scen=scen):
+            df, _ = run_many(F2, Ls, None, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E5", n), n_jobs=cfg["n_jobs"],
+                             methods=meths, split_fn=fn)
+            df["experiment"] = "cross_lab"; df["target"] = "HUST"; df["scenario"] = scen; df["n_target_cal"] = -1
+            return df
+        out.append(_chunk(cfg, log, f"E5_xlab_{scen}", job))
     df = pd.concat(out); _save(df, cfg, "E5_shift_splits.csv"); return df
 
 
@@ -232,16 +254,73 @@ def e7_sensitivity(cfg, log, n=None):
     if _exists(cfg, "E7_sensitivity_splits.csv"):
         log.info("E7_sensitivity_splits.csv: exists, skipped (resume)"); return None
     out = []
-    n = n or max(1, cfg["n_splits"]["en"] // 3)
+    n = n or cfg.get("n_splits_secondary", max(1, cfg["n_splits"]["en"] // 3))
     meths = ["proposed", "naive", "single_k100", "gauss"]
     for ds in DS:
         d = cfg["datasets"][ds]; F = _feat(cfg, ds)
         variants = [dict(tag=f"ab_{a}_{b}", alpha=a, beta=b, methods=meths) for a, b in [(0.05, 0.05), (0.1, 0.1), (0.2, 0.2), (0.05, 0.2)]]
-        df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E7", n), n_jobs=cfg["n_jobs"],
-                         variants=variants)
-        df["dataset"] = ds; df["factor"] = "alpha_beta"; df["Lstar"] = d["Lstar"]; out.append(df)
+        def job_ab(F=F, d=d, ds=ds, variants=variants):
+            df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E7", n), n_jobs=cfg["n_jobs"],
+                             variants=variants)
+            df["dataset"] = ds; df["factor"] = "alpha_beta"; df["Lstar"] = d["Lstar"]; return df
+        out.append(_chunk(cfg, log, f"E7_{ds}_ab", job_ab))
         for Ls in d["Lstar_sensitivity"]:
-            df, _ = run_many(F, Ls, d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E7", n), n_jobs=cfg["n_jobs"], methods=meths)
-            df["dataset"] = ds; df["factor"] = "Lstar"; df["alpha"] = cfg["alpha"]; df["beta"] = cfg["beta"]; df["Lstar"] = Ls; out.append(df)
+            def job_L(F=F, d=d, ds=ds, Ls=Ls):
+                df, _ = run_many(F, Ls, d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E7", n), n_jobs=cfg["n_jobs"], methods=meths)
+                df["dataset"] = ds; df["factor"] = "Lstar"; df["alpha"] = cfg["alpha"]; df["beta"] = cfg["beta"]; df["Lstar"] = Ls; return df
+            out.append(_chunk(cfg, log, f"E7_{ds}_L{Ls}", job_L))
         log.info(f"E7 {ds} done")
     df = pd.concat(out); _save(df, cfg, "E7_sensitivity_splits.csv"); return df
+
+
+# ---------------------------------------------------------------------------
+# Additional analyses added after the design freeze (anticipating reviewer questions);
+# reported as such in the manuscript.
+OFFSETS.update(E9=700000, E10=800000)
+
+
+def e9_protocol_grouped(cfg, log, n=None):
+    """MATR+CLO with charging protocols disjoint between training, calibration and test:
+    whole protocol groups are assigned (50% of groups to training; remaining groups split
+    at random between calibration and test). HUST needs no such experiment because every
+    HUST cell has its own discharge protocol."""
+    if _exists(cfg, "E9_protocol_grouped_splits.csv"):
+        log.info("E9 exists, skipped (resume)"); return None
+    n = n or cfg.get("n_splits_secondary", 200)
+    d = cfg["datasets"]["matr_clo"]; F = _feat(cfg, "matr_clo")
+    groups = np.array([f"{ds}:{p}" for ds, p in zip(F["dataset"], F["policy"])])
+    ug = np.unique(groups)
+
+    def fn(seed):
+        rng = np.random.default_rng(seed)
+        g = rng.permutation(ug); ntr = int(round(0.5 * len(g)))
+        g_tr, rest = g[:ntr], g[ntr:]
+        to_cal = rng.random(len(rest)) < 0.5
+        idx = lambda gs: np.sort(np.where(np.isin(groups, gs))[0])
+        return dict(train=idx(g_tr), cal=idx(rest[to_cal]), test=idx(rest[~to_cal]))
+    def job():
+        df, _ = run_many(F, d["Lstar"], None, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E9", n), n_jobs=cfg["n_jobs"],
+                         methods=["proposed", "naive", "single_k100", "gauss", "point_k100"], split_fn=fn)
+        df["dataset"] = "matr_clo"; df["n_groups"] = len(ug); return df
+    df = _chunk(cfg, log, "E9_matr_clo", job)
+    _save(df, cfg, "E9_protocol_grouped_splits.csv"); log.info(f"E9 done ({len(ug)} protocol groups)"); return df
+
+
+def e10_pac(cfg, log, n=None):
+    """Training-conditional (PAC) variant: rank chosen so that P(conditional error > alpha)
+    <= 0.1 under the Beta law of conformal coverage; default and enlarged calibration sets."""
+    if _exists(cfg, "E10_pac_splits.csv"):
+        log.info("E10 exists, skipped (resume)"); return None
+    n = n or cfg.get("n_splits_secondary", 200)
+    out = []
+    big = {"matr_clo": dict(train=0.35, cal=0.45, test=0.20), "hust": dict(train=0.3, cal=0.5, test=0.2)}
+    for ds in DS:
+        d = cfg["datasets"][ds]; F = _feat(cfg, ds)
+        for tag, fr in (("default", d["split"]), ("large_cal", big[ds])):
+            def job(F=F, d=d, ds=ds, tag=tag, fr=fr):
+                df, _ = run_many(F, d["Lstar"], fr, cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E10", n), n_jobs=cfg["n_jobs"],
+                                 methods=["proposed", "traj_pac", "single_k100"])
+                df["dataset"] = ds; df["cal_design"] = tag; return df
+            out.append(_chunk(cfg, log, f"E10_{ds}_{tag}", job))
+        log.info(f"E10 {ds} done")
+    df = pd.concat(out); _save(df, cfg, "E10_pac_splits.csv"); return df

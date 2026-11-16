@@ -16,3 +16,7 @@
 | 16:53 | E1 MATR+CLO completed (1000 splits, 449 s). |
 | ~17:00-21:50 | Session worker restarted; background run killed (E1 HUST onward lost). Files intact. |
 | 21:52 | Suite made resumable (outputs that exist are skipped; --force recomputes). Relaunched E1(HUST)-E7 + analysis + figures with setsid. |
+| 22:21 (Nov 15) | E1 HUST completed (1000 splits, 1702 s under heavy CPU contention). E2 started. |
+| 22:2x-09:03 | Container restarted (usage-limit pause); E2 lost; the three helper agents stopped by the usage limit before producing output. |
+| 09:05 (Nov 16) | All long experiments now checkpoint per (dataset x configuration) chunk in results/raw/chunks/; quick-mode smoke test of E1-E10 + analysis passed. |
+| 09:11 | Full run relaunched (E1 reused; E2, E3, E4, E5, E6, E7, E9, E10, analysis, figures). Secondary experiments use 200 splits (n_splits_secondary). E9 (protocol-disjoint splits) and E10 (PAC calibration) added after the design freeze. |
