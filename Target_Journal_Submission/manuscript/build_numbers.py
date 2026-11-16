@@ -159,6 +159,16 @@ def main():
             worst += [g.fpr.mean() / a, g.frr.mean() / b]
     if worst:
         put("RATIO.naive_max", max(worst), ".1f")
+    # ---- base-model accuracy by checkpoint (test cells of E1, pooled over splits)
+    for ds, key, F in (("matr_clo", "mc", Fm), ("hust", "h", Fh)):
+        sc = raw(f"E1_{ds}_scores.csv.gz")
+        if sc is None:
+            continue
+        T = F["lifetime"].astype(float); ck = F["checkpoints"]
+        sc["ape"] = np.abs(10 ** sc.yhat - T[sc.cell.values]) / T[sc.cell.values]
+        for m, g in sc.groupby("m"):
+            put(f"E1ACC.{key}.k{int(ck[m])}", g.ape.mean(), "pct1")
+            put(f"E1ACC.{key}.scale_k{int(ck[m])}", 10 ** g.scale.mean() - 1, "pct1")
     # ---- decision-time shares (E1 cells)
     for ds, key, Lx in (("matr_clo", "mc", Lm), ("hust", "h", Lh)):
         cells = raw(f"E1_{ds}_cells.csv.gz")

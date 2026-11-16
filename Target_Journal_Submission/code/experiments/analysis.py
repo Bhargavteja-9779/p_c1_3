@@ -58,8 +58,9 @@ def run(cfg, log):
         err = pcp.groupby("margin_bin", sort=False).agg(n_cells=("cell", "size"), false_pass_freq=("fp", "mean"),
                                                          false_reject_freq=("fr", "mean"), early_decision=("early", "mean"),
                                                          mean_cycles=("time", "mean")).reset_index()
-        order = [str(pd.Interval(bins[i], bins[i + 1])) for i in range(len(bins) - 1)]
-        err["o"] = err.margin_bin.map({s: i for i, s in enumerate(order)}); err = err.sort_values("o").drop(columns="o")
+        cats = pd.cut(pd.Series(bins[:-1]) + 1e-9, bins)  # one representative per bin, in numeric order
+        order = {str(c): i for i, c in enumerate(cats)}
+        err["o"] = err.margin_bin.map(order); err = err.sort_values("o").drop(columns="o")
         _md(err, os.path.join(TB, f"E8_error_by_margin_{ds}.md"))
         byb = pcp.groupby("batch").agg(n_cells=("cell", "size"), false_pass_freq=("fp", "mean"), false_reject_freq=("fr", "mean"),
                                        early=("early", "mean")).reset_index()

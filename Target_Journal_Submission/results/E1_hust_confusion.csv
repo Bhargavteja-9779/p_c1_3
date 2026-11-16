@@ -1,0 +1,17 @@
+method,good,-1,1
+bonf,False,12111,0
+bonf,True,0,10889
+gauss,False,11132,979
+gauss,True,1480,9409
+interval_traj,False,12022,89
+interval_traj,True,120,10769
+naive,False,8669,3442
+naive,True,2300,8589
+point_k100,False,9231,2880
+point_k100,True,4002,6887
+proposed,False,11276,835
+proposed,True,806,10083
+single_k100,False,11234,877
+single_k100,True,859,10030
+traj_unnorm,False,11288,823
+traj_unnorm,True,813,10076
