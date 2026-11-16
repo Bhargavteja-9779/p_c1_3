@@ -53,6 +53,8 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 
 {{STABLE:tables/T12_pac.csv|Training-conditional (PAC) calibration (E10).|}}
 
+{{STABLE:tables/T13_conditional_error_analytic.csv|Conditional (training-conditional) error of marginally calibrated thresholds. For $n$ calibration cells of a class and $\alpha=0.10$: the rank used by the marginal rule, the probability that the conditional error probability of the resulting threshold exceeds $\alpha$ (Beta$(r,n+1-r)$ law of conformal coverage for continuous scores), and the rank required for a PAC guarantee with $\delta=0.1$ and $\delta=0.2$ (empty: impossible with $n$ cells).|}}
+
 {{STABLE:tables/E8_error_by_margin_matr_clo.csv|Error analysis by distance of the true lifetime from the specification, MATR/CLO (proposed rule, E1).|}}
 
 {{STABLE:tables/E8_error_by_margin_hust.csv|Error analysis by distance of the true lifetime from the specification, HUST (proposed rule, E1).|}}
