@@ -5,3 +5,10 @@
 2026-11-16 09:10:23,993 INFO --- E1 done in 0s
 2026-11-16 09:10:23,993 INFO --- E2 start
 2026-11-16 09:17:27,453 INFO chunk E2_matr_clo_logit: 3000 rows in 423s
+2026-11-16 09:23:36,059 INFO chunk E2_matr_clo_gp: 1600 rows in 369s
+2026-11-16 09:24:53,249 INFO chunk E2_matr_clo_cnn: 240 rows in 77s
+2026-11-16 09:34:12,303 INFO chunk E2_matr_clo_gbr: 1600 rows in 559s
+2026-11-16 09:48:01,113 INFO chunk E2_matr_clo_rf: 1600 rows in 829s
+2026-11-16 09:54:17,340 INFO chunk E2_hust_logit: 3000 rows in 376s
+2026-11-16 09:55:32,768 INFO chunk E2_hust_gp: 1600 rows in 75s
+2026-11-16 09:56:08,138 INFO chunk E2_hust_cnn: 240 rows in 35s

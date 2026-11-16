@@ -33,6 +33,23 @@ def run(cfg, log):
     a, b = cfg["alpha"], cfg["beta"]
     metrics, statsj = {}, {}
     allraw = []
+    # ---------------- T1: data sets and screening set-up (from the feature tables and config)
+    rows = []
+    for ds, kind in (("matr_clo", "severson"), ("hust", "vq")):
+        F = load_features(os.path.join(cfg["paths"]["features"], f"{ds}_{kind}.npz")); T = F["lifetime"].astype(float)
+        d = cfg["datasets"][ds]
+        for sub in (["MATR", "CLO"] if ds == "matr_clo" else ["HUST"]):
+            m = F["dataset"] == sub
+            rows.append(dict(data_set=sub, source={"MATR": "Severson et al. 2019", "CLO": "Attia et al. 2020", "HUST": "Ma et al. 2022"}[sub],
+                             cells=int(m.sum()), chemistry="LFP/graphite (A123 APR18650M1A, 1.1 Ah)",
+                             protocols={"MATR": "fast charging (various), 4C discharge", "CLO": "multi-step fast charging (CLO), 4C discharge",
+                                        "HUST": "5C/1C CC-CV charging, multi-step discharge (various)"}[sub],
+                             n_protocols=int(len(np.unique(F["policy"][m]))),
+                             T_min=int(T[m].min()), T_median=float(np.median(T[m])), T_max=int(T[m].max()),
+                             Lstar=int(d["Lstar"]), bad_share=float((T[m] < d["Lstar"]).mean()),
+                             checkpoints=f"{len(d['checkpoints'])} ({min(d['checkpoints'])}-{max(d['checkpoints'])} cycles)",
+                             split=f"{int(100*d['split']['train'])}/{int(100*d['split']['cal'])}/{int(100*d['split']['test'])}"))
+    _md(pd.DataFrame(rows), os.path.join(TB, "T1_datasets.md"))
     # ---------------- E1 main
     e1 = []
     for ds in ("matr_clo", "hust"):
