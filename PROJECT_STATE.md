@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-Last update: 2026-11-16 09:12 UTC
+Last update: 2026-11-16 09:18 UTC
 
 ## Selected target journal
 Battery Energy (Wiley; eISSN 2768-1696). See Target_Journal_Submission/journal_selection/.
@@ -28,6 +28,13 @@ Target_Journal_Submission/code (package batscreen, run_all.py quick/full).
 * 09:11 Nov 16: full run relaunched with per-chunk checkpoints (log: results_full_stdout3.log).
 * Manuscript draft part 1 (front matter, introduction, related work, methods) in
   Target_Journal_Submission/manuscript/src/.
+
+## Agents / workflows
+* 09:12 workflow `prep-audit-build` (run wf_15c1a175-b64): build pipeline (manuscript/build/), bibliography verification
+  (literature/references_final.json, REVIEW/citation_audit_bibliography.md), claim checks (REVIEW/citation_audit_claims.md),
+  novelty sweeps (REVIEW/novelty_sweep_*.md), 3-lens methods/code pre-review (REVIEW/prereview_*.md) with adversarial
+  verification of serious findings. Resume: Workflow({scriptPath: <session workflows dir>/prep-audit-build-wf_15c1a175-b64.js,
+  resumeFromRunId: "wf_15c1a175-b64"}).
 
 ## Next steps (exact)
 1. Monitor relaunched full run (log: Target_Journal_Submission/results_full_stdout2.log).

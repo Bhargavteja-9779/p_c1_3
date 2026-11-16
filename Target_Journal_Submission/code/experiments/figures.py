@@ -44,21 +44,23 @@ def _F(cfg, ds, kind=None):
 
 
 def fig_workflow(cfg):
-    fig, ax = plt.subplots(figsize=(7.2, 2.3)); ax.axis("off"); ax.set_xlim(0, 10); ax.set_ylim(0, 3)
-    boxes = [(0.1, "Cycling data\n(cycles 1..k)"), (2.05, "Checkpoint features\ndQ(V) / dV(q), fade"),
-             (4.0, "Base model h_k\n(trained once)"), (5.95, "Normalised score\nS_k = (h_k - log L*) / s_k"),
-             (7.9, "Sequential decision\npass / reject / continue")]
+    fig, ax = plt.subplots(figsize=(7.2, 2.9)); ax.axis("off"); ax.set_xlim(0, 10); ax.set_ylim(0, 3.4)
+    boxes = [(0.05, "Cycling data\n(cycles 1 ... $k$)"),
+             (2.05, "Checkpoint features\n$\\Delta Q(V)$, $\\Delta V(q)$,\ncapacity fade"),
+             (4.05, "Base predictor $h_k$\n(trained on\ntraining cells)"),
+             (6.05, "Normalised score\n$S_k=(h_k-\\log_{10}L^*)/s_k$"),
+             (8.05, "Decision at $k$:\npass / reject /\ncontinue cycling")]
     for x, t in boxes:
-        ax.add_patch(FancyBboxPatch((x, 1.55), 1.8, 1.1, boxstyle="round,pad=0.03,rounding_size=0.08", fc="#f0efec", ec=INK2, lw=0.8))
-        ax.text(x + 0.9, 2.1, t, ha="center", va="center", fontsize=7.2, color=INK)
-    for x in [1.9, 3.85, 5.8, 7.75]:
-        ax.annotate("", xy=(x + 0.15, 2.1), xytext=(x - 0.02, 2.1), arrowprops=dict(arrowstyle="->", color=INK2, lw=1))
-    ax.add_patch(FancyBboxPatch((4.0, 0.1), 5.7, 1.05, boxstyle="round,pad=0.03,rounding_size=0.08", fc="#cde2fb", ec=BLUE, lw=0.8))
-    ax.text(6.85, 0.62, "Trajectory calibration on calibration cells cycled only to min(T, L*):\n"
-            "lambda = rank-quantile of max_k S_k over bad cells;  mu = rank-quantile of max_k (-S_k) over good cells\n"
-            "=> P(false pass | bad) <= alpha and P(false reject | good) <= beta under any stopping rule",
-            ha="center", va="center", fontsize=6.6, color=INK)
-    ax.annotate("", xy=(8.8, 1.52), xytext=(8.8, 1.17), arrowprops=dict(arrowstyle="->", color=BLUE, lw=1))
+        ax.add_patch(FancyBboxPatch((x, 1.95), 1.85, 1.2, boxstyle="round,pad=0.02,rounding_size=0.08", fc="#f0efec", ec=INK2, lw=0.8))
+        ax.text(x + 0.925, 2.55, t, ha="center", va="center", fontsize=7, color=INK, linespacing=1.3)
+    for x in [1.9, 3.9, 5.9, 7.9]:
+        ax.annotate("", xy=(x + 0.15, 2.55), xytext=(x, 2.55), arrowprops=dict(arrowstyle="-|>", color=INK2, lw=1))
+    ax.add_patch(FancyBboxPatch((0.1, 0.05), 9.8, 1.35, boxstyle="round,pad=0.02,rounding_size=0.08", fc="#cde2fb", ec=BLUE, lw=0.8))
+    ax.text(5.0, 0.72, "Trajectory calibration on calibration cells cycled only to $\\min(T, L^*)$\n"
+            "$\\hat\\lambda$ = rank quantile of $\\max_k S_k$ over bad cells;   $\\hat\\mu$ = rank quantile of $\\max_k(-S_k)$ over good cells\n"
+            "pass if $S_k>\\hat\\lambda$, reject if $S_k<-\\hat\\mu$  $\\Rightarrow$  P(false pass | bad) $\\leq \\alpha$,  P(false reject | good) $\\leq \\beta$ for any stopping time",
+            ha="center", va="center", fontsize=7, color=INK, linespacing=1.5)
+    ax.annotate("", xy=(8.975, 1.93), xytext=(8.975, 1.42), arrowprops=dict(arrowstyle="-|>", color=BLUE, lw=1))
     _save(fig, cfg, "Fig1_workflow")
 
 
@@ -73,9 +75,10 @@ def fig_lifetimes(cfg):
         bins = np.linspace(T.min() * 0.95, T.max() * 1.02, 25)
         ax.hist([g[1] for g in groups], bins=bins, stacked=True, color=[g[2] for g in groups], label=[g[0] for g in groups],
                 edgecolor="white", linewidth=0.8)
-        ax.axvline(Ls, color=INK, lw=1.2, ls="--"); ax.text(Ls, ax.get_ylim()[1] * 0.95, f" L* = {Ls}", va="top", fontsize=7, color=INK)
+        ax.axvline(Ls, color=INK, lw=1.2, ls="--"); ax.text(Ls, ax.get_ylim()[1] * 0.97, f" $L^*$ = {Ls}", va="top", ha="left", fontsize=7, color=INK)
         ax.set_xlabel("Cycle life T (cycles to 80% of nominal capacity)"); ax.set_ylabel("Cells")
-        ax.set_title(f"{DS[ds][0]} (n = {len(T)})", fontsize=8.5, color=INK, loc="left"); ax.legend(fontsize=7, loc="upper right")
+        ax.set_title(f"{DS[ds][0]} (n = {len(T)})", fontsize=8.5, color=INK, loc="left")
+        ax.legend(fontsize=7, loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=2)
     fig.tight_layout(); _save(fig, cfg, "Fig2_lifetime_distributions")
 
 
@@ -105,7 +108,7 @@ def _validity_table(df, alpha, beta):
 
 def fig_validity_efficiency(cfg):
     a, b = cfg["alpha"], cfg["beta"]
-    fig, axs = plt.subplots(2, 2, figsize=(7.2, 4.6), sharey="row")
+    fig, axs = plt.subplots(2, 2, figsize=(7.4, 5.2), sharey="row")
     for j, ds in enumerate(DS):
         df = _raw(cfg, f"E1_{ds}_splits.csv")
         if df is None:
@@ -119,14 +122,14 @@ def fig_validity_efficiency(cfg):
         ax.set_yticks(y); ax.set_yticklabels([LBL[m] for m in g.index]); ax.set_xlabel("Error rate (mean over splits, 95% CI)")
         ax.set_title(f"{DS[ds][0]}: validity", fontsize=8.5, loc="left", color=INK)
         if j == 1:
-            ax.legend(fontsize=7, loc="lower right")
+            ax.legend(fontsize=7, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2)
         ax = axs[1, j]
         cols = [BLUE if m == "proposed" else GRAY for m in g.index]
         ax.barh(y, 100 * g.sav, color=cols, height=0.6)
         for yy, (m, r) in zip(y, g.iterrows()):
             ax.text(100 * r.sav + 1, yy, f"{100*r.sav:.1f}%" + ("" if r.valid else "  (error > nominal)"), va="center", fontsize=6.8, color=INK)
-        ax.set_yticks(y); ax.set_yticklabels([LBL[m] for m in g.index]); ax.set_xlim(0, 125)
-        ax.set_xlabel("Cycling time saved vs observing every cell to min(T, L*) (%)")
+        ax.set_yticks(y); ax.set_yticklabels([LBL[m] for m in g.index]); ax.set_xlim(0, 135)
+        ax.set_xlabel("Cycling time saved (%)")
         ax.set_title(f"{DS[ds][0]}: efficiency", fontsize=8.5, loc="left", color=INK)
     fig.tight_layout(); _save(fig, cfg, "Fig4_validity_and_efficiency")
 
@@ -145,7 +148,9 @@ def fig_decision_time(cfg):
         full = np.minimum(T[c[c.method == "proposed"].cell.values], Ls)
         ax.plot(grid, [(full <= x).mean() for x in grid], color=GRAY, ls="--", label="Observe to min(T, L*)")
         ax.set_xlabel("Cycles completed"); ax.set_ylabel("Share of test cells decided"); ax.set_ylim(0, 1.02)
-        ax.set_title(DS[ds][0], fontsize=8.5, loc="left", color=INK); ax.legend(fontsize=6.8, loc="lower right")
+        ax.set_title(DS[ds][0], fontsize=8.5, loc="left", color=INK)
+    h, l = axs[0].get_legend_handles_labels()
+    fig.legend(h, l, fontsize=7, loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.06))
     fig.tight_layout(); _save(fig, cfg, "Fig5_decision_time")
 
 
@@ -255,7 +260,9 @@ def fig_errors(cfg):
         ax.scatter(d.log_ratio[d.log_ratio < 0], d.fp[d.log_ratio < 0], s=10, color=ORANGE, label="bad cell: false-pass frequency", edgecolors="white", linewidths=0.4)
         ax.scatter(d.log_ratio[d.log_ratio >= 0], d.fr[d.log_ratio >= 0], s=10, color=BLUE, label="good cell: false-reject frequency", edgecolors="white", linewidths=0.4)
         ax.axvline(0, color=INK, lw=0.8); ax.set_xlabel("log10(T / L*)"); ax.set_ylabel("Error frequency across splits")
-        ax.set_title(DS[ds][0], fontsize=8.5, loc="left", color=INK); ax.legend(fontsize=6.8)
+        ax.set_title(DS[ds][0], fontsize=8.5, loc="left", color=INK)
+    h, l = axs[0].get_legend_handles_labels()
+    fig.legend(h, l, fontsize=7, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.06))
     fig.tight_layout(); _save(fig, cfg, "Fig11_error_analysis")
 
 
