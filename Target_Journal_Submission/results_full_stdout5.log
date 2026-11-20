@@ -12,3 +12,4 @@
 2026-11-20 22:13:53,408 INFO chunk E2_hust_logit: exists, re-used
 2026-11-20 22:13:53,417 INFO chunk E2_hust_gp: exists, re-used
 2026-11-20 22:13:53,422 INFO chunk E2_hust_cnn: exists, re-used
+2026-11-20 22:25:18,414 INFO chunk E2_hust_gbr: 1600 rows in 685s

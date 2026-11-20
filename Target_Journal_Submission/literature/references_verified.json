@@ -86,8 +86,17 @@
  },
  "hust_data": {
   "key": "hust_data",
-  "id": "doi:10.17632/nsc7hnsg4s.2",
-  "verified": false
+  "verified": true,
+  "title": "The dataset for: Real-time personalized health status prediction of lithium-ion batteries using deep transfer learning",
+  "authors": [
+   "Ma, Guijun"
+  ],
+  "venue": "Mendeley Data",
+  "year": 2022,
+  "version": "2",
+  "doi": "10.17632/nsc7hnsg4s.2",
+  "type": "dataset",
+  "note": "verified via DataCite"
  },
  "attia2021stat": {
   "key": "attia2021stat",
@@ -463,7 +472,7 @@
    "Liu, Jiaxiong"
   ],
   "venue": "Battery Energy",
-  "year": 2024,
+  "year": 2025,
   "volume": "4",
   "issue": "3",
   "pages": "e20240036",
@@ -618,10 +627,14 @@
    "Evan Patterson",
    "Emmanuel J. Candès"
   ],
-  "venue": "arXiv",
+  "venue": "Advances in Neural Information Processing Systems",
   "year": 2019,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "32",
+  "pages": "3538-3548",
+  "type": "proceedings-article",
+  "note": "verified: Semantic Scholar (NeurIPS 2019, pp. 3538-3548)"
  },
  "angelopoulos2023gentle": {
   "key": "angelopoulos2023gentle",
@@ -666,10 +679,15 @@
    "Ying Jin",
    "Emmanuel J. Candès"
   ],
-  "venue": "arXiv",
-  "year": 2022,
+  "venue": "Journal of Machine Learning Research",
+  "year": 2023,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "24",
+  "issue": "244",
+  "pages": "1-41",
+  "type": "journal-article",
+  "note": "verified: Semantic Scholar record (JMLR 24:244:1-41)"
  },
  "tong2018np": {
   "key": "tong2018np",
@@ -699,7 +717,7 @@
    "Wasserman, Larry"
   ],
   "venue": "Journal of the American Statistical Association",
-  "year": 2018,
+  "year": 2019,
   "volume": "114",
   "issue": "525",
   "pages": "223-234",
@@ -768,10 +786,14 @@
    "Emmanuel J. Candes",
    "Aaditya Ramdas"
   ],
-  "venue": "arXiv",
+  "venue": "Advances in Neural Information Processing Systems",
   "year": 2019,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "32",
+  "pages": "2526-2536",
+  "type": "proceedings-article",
+  "note": "verified: Semantic Scholar (NeurIPS 2019)"
  },
  "gibbs2021aci": {
   "key": "gibbs2021aci",
@@ -781,10 +803,14 @@
    "Isaac Gibbs",
    "Emmanuel Candès"
   ],
-  "venue": "arXiv",
+  "venue": "Advances in Neural Information Processing Systems",
   "year": 2021,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "34",
+  "pages": null,
+  "type": "proceedings-article",
+  "note": "verified: Semantic Scholar (NeurIPS 2021)"
  },
  "howard2021cs": {
   "key": "howard2021cs",
@@ -847,10 +873,14 @@
    "Matthieu Perrot",
    "Édouard Duchesnay"
   ],
-  "venue": "arXiv",
-  "year": 2012,
+  "venue": "Journal of Machine Learning Research",
+  "year": 2011,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "12",
+  "pages": "2825-2830",
+  "type": "journal-article",
+  "note": "verified: Semantic Scholar (JMLR 2011)"
  },
  "efron1979bootstrap": {
   "key": "efron1979bootstrap",
@@ -870,8 +900,19 @@
  },
  "holm1979": {
   "key": "holm1979",
-  "id": "doi:10.2307/4615733",
-  "verified": false
+  "verified": true,
+  "title": "A simple sequentially rejective multiple test procedure",
+  "authors": [
+   "Holm, Sture"
+  ],
+  "venue": "Scandinavian Journal of Statistics",
+  "year": 1979,
+  "volume": "6",
+  "issue": "2",
+  "pages": "65-70",
+  "type": "journal-article",
+  "url": "https://www.jstor.org/stable/4615733",
+  "note": "verified via web search (JSTOR 4615733); DOI does not resolve, so no DOI is printed"
  },
  "wilcoxon1945": {
   "key": "wilcoxon1945",
@@ -950,10 +991,16 @@
    "Zhimei Ren",
    "Rina Foygel Barber"
   ],
-  "venue": "arXiv",
-  "year": 2022,
+  "venue": "Biometrika",
+  "year": 2024,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "doi": "10.1093/biomet/asad076",
+  "volume": "111",
+  "issue": "2",
+  "pages": "459-477",
+  "type": "journal-article",
+  "note": "verified: Crossref"
  },
  "sesia2025dr": {
   "key": "sesia2025dr",
