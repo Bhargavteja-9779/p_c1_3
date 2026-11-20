@@ -1048,5 +1048,41 @@
   "source": "crossref",
   "verified": true,
   "key": "zhang2023range"
+ },
+ "lei2015functional": {
+  "doi": "10.1007/s10472-013-9366-6",
+  "title": "A conformal prediction approach to explore functional data",
+  "authors": [
+   "Lei, Jing",
+   "Rinaldo, Alessandro",
+   "Wasserman, Larry"
+  ],
+  "venue": "Annals of Mathematics and Artificial Intelligence",
+  "year": 2015,
+  "volume": "74",
+  "issue": "1-2",
+  "pages": "29-43",
+  "type": "journal-article",
+  "source": "crossref",
+  "verified": true,
+  "key": "lei2015functional"
+ },
+ "diquigiovanni2022bands": {
+  "doi": "10.1016/j.jmva.2021.104879",
+  "title": "Conformal prediction bands for multivariate functional data",
+  "authors": [
+   "Diquigiovanni, Jacopo",
+   "Fontana, Matteo",
+   "Vantini, Simone"
+  ],
+  "venue": "Journal of Multivariate Analysis",
+  "year": 2022,
+  "volume": "189",
+  "issue": null,
+  "pages": "104879",
+  "type": "journal-article",
+  "source": "crossref",
+  "verified": true,
+  "key": "diquigiovanni2022bands"
  }
 }

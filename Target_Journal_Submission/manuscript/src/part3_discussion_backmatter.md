@@ -1,4 +1,4 @@
-## 5 Discussion
+### 3.11 Implications for cycle-life testing
 
 **Repeated looks must be paid for.** The most consequential result for practice is the behaviour of the naive sequential rule. Each of its per-checkpoint thresholds is a valid conformal threshold, and a practitioner who re-evaluates a prediction every few cycles and stops at the first confident call is implicitly using it. Its error rates were {{E1.mc.naive.fpr}} (false pass) and {{E1.mc.naive.frr}} (false reject) on MATR/CLO and {{E1.h.naive.fpr}} and {{E1.h.naive.frr}} on HUST at a nominal 0.10 — the optional-stopping inflation known from sequential analysis [@wald1945sprt; @howard2021cs] appears in battery screening at a practically relevant scale. Calibrating on the maximum over checkpoints removes this inflation at a cost that the data show to be modest, because scores of the same cell at successive checkpoints are strongly dependent; Bonferroni's union bound ignores that dependence and, with tens of calibration cells, never reached a decision.
 
@@ -12,7 +12,7 @@
 
 **Recommended workflow.** (1) Fix $L^\ast$, $\alpha$, $\beta$ and the checkpoint grid before testing. (2) Train a base predictor on any available historical cells (full-lifetime or truncated). (3) Cycle a calibration set of at least ten bad and ten good cells (preferably more than 22 of each for training-conditional control) from the population to be screened, to $\min(T,L^\ast)$ only. (4) Screen new cells sequentially with the trajectory-calibrated thresholds. (5) Recalibrate whenever the cell population, tester or protocol family changes.
 
-## 6 Limitations
+### 3.12 Limitations
 
 * **One chemistry.** All {{D.n_total}} cells are LiFePO~4~/graphite 18650 cells of one type, from two laboratories. We tried to add cells of other chemistries, but the NCA/NCM data of Zhu et al. (Zenodo) and the NMC data of RWTH Aachen were not reachable from our computing environment (HTTP 403 and an interactive browser challenge), and the Sandia data available through BatteryArchive involve partial-depth cycling with many cells not reaching end of life. The guarantee itself does not depend on chemistry, but the efficiency results may.
 * **Exchangeability and shift.** The guarantees require the calibration cells to be exchangeable with the cells being screened, and Section 4.6 shows that they can fail under batch or laboratory shift without recalibration.
@@ -21,7 +21,7 @@
 * **Cost model.** Time saved is measured in cell-cycles relative to cycling each cell to $\min(T,L^\ast)$; channel scheduling, rest periods and reference performance tests are not modelled.
 * **Lifetime labels** are those of the data providers (first cycle at 80% of nominal capacity); other end-of-life definitions change the class labels [@li2026endpoint].
 
-## 7 Conclusions
+## 4 Conclusions
 
 Early cycle-life predictions are routinely used to make go/no-go decisions, but the error rate of those decisions is rarely controlled, and the common practice of re-checking predictions as cycling proceeds silently inflates it. We showed that calibrating pass and reject thresholds on the maximum over checkpoints of normalised model scores gives finite-sample, distribution-free bounds on the false-pass and false-reject probabilities that hold under any stopping time, and that the calibration needs cells cycled only to the specification. On {{D.n_total}} commercial LiFePO~4~/graphite cells from two laboratories, the rule met its error targets with {{CFG.alpha}} nominal levels while cutting cycling by {{E1.mc.proposed.sav}}% (MATR/CLO) and {{E1.h.proposed.sav}}% (HUST) relative to cycling every cell to the specification, whereas naive sequential use of valid per-checkpoint thresholds exceeded the targets by up to a factor of {{RATIO.naive_max}}. The procedure is a thin layer on top of any lifetime predictor, costs milliseconds to run, and is released with code that reproduces every result.
 

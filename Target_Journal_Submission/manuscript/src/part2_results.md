@@ -1,6 +1,6 @@
-## 4 Results
+## 3 Results and Discussion
 
-### 4.1 Data and base predictors
+### 3.1 Data and base predictors
 
 {{FIG:Fig2_lifetime_distributions|Cycle-life distributions of the two data sets and the specifications used in the main experiments. MATR/CLO: {{D.n_matr}} cells of Severson et al. and {{D.n_clo}} cells of the CLO validation batch of Attia et al.; HUST: {{D.n_hust}} cells of Ma et al. Dashed lines: $L^\ast$ = {{D.mc.Lstar}} and {{D.h.Lstar}} cycles; {{D.mc.bad_share}}% and {{D.h.bad_share}}% of the cells, respectively, are bad.}}
 
@@ -8,7 +8,7 @@ The specifications split both data sets roughly in half ({{FIGREF:Fig2_lifetime_
 
 {{FIG:Fig3_base_model_accuracy|Accuracy of the per-checkpoint elastic-net predictor on test cells, pooled over all splits of experiment E1: mean absolute percentage error (MAPE) of the predicted cycle life and the score scale $s_k$ (expressed as a percentage error, $10^{s_k}-1$).}}
 
-### 4.2 Validity of the screening decisions
+### 3.2 Validity of the screening decisions
 
 {{FIG:Fig4_validity_and_efficiency|Validity (top) and efficiency (bottom) of the screening rules in experiment E1 ({{CFG.n_main}} random splits per data set, elastic net, $\alpha=\beta=0.10$). Top: mean false-pass rate among bad test cells and false-reject rate among good test cells with 95% confidence intervals; the dashed line marks the nominal level. Bottom: cycling time saved relative to cycling every test cell to $\min(T,L^\ast)$; rules whose error rate exceeds the nominal level are labelled.}}
 
@@ -18,7 +18,7 @@ The trajectory-calibrated rule met both error targets on both data sets ({{FIGRE
 
 The rules without a valid calibration behaved very differently. Using individually valid per-checkpoint thresholds sequentially (naive sequential) inflated the false-pass rate to {{E1.mc.naive.fpr}} on MATR/CLO and {{E1.h.naive.fpr}} on HUST, and the false-reject rate to {{E1.mc.naive.frr}} and {{E1.h.naive.frr}} — up to {{RATIO.naive_max}} times the nominal level. The Severson-style point rule at cycle 100 happened to stay below 0.10 on MATR/CLO ({{E1.mc.point_k100.fpr}} and {{E1.mc.point_k100.frr}}) but not on HUST ({{E1.h.point_k100.fpr}} and {{E1.h.point_k100.frr}}). The parametric rule with Gaussian thresholds on the same normalised scores was conservative on MATR/CLO ({{E1.mc.gauss.fpr}}, {{E1.mc.gauss.frr}}) and violated the false-reject target on HUST ({{E1.h.gauss.frr}}, upper confidence limit {{E1.h.gauss.frr_hi}}). Bonferroni calibration never passed or rejected a cell, because with about {{E1.mc.bonf.ncal_bad}} bad and {{E1.mc.bonf.ncal_good}} good calibration cells the required order statistic at level $\alpha/M$ does not exist.
 
-### 4.3 Testing time saved
+### 3.3 Testing time saved
 
 {{FIG:Fig5_decision_time|Share of test cells decided as a function of the number of cycles completed (all splits of E1). The proposed rule decides most cells within the first few checkpoints and sends the remainder to observation; the single-checkpoint rule decides at cycle 100; the naive sequential rule decides almost every cell early but violates the error targets; the dashed line is full observation to $\min(T,L^\ast)$.}}
 
@@ -32,7 +32,7 @@ Among the valid rules, the proposed rule saved more cycling than the lifetime-in
 
 {{SECTION_E2_E10}}
 
-### 4.9 Physical basis of early decisions
+### 3.9 Physical basis of early decisions
 
 {{FIG:Fig15_interpretation|Which early-cycle signals carry the screening decision (E11). Top: Spearman correlation between each feature and $\log_{10}$ cycle life over all cells alive at each checkpoint. Bottom: mean absolute standardised elastic-net coefficient of the four most used features over the training sets of {{CFG.n_secondary}} E1 splits; the dashed line sums all other features. Features are ordered by their largest coefficient.}}
 
@@ -40,7 +40,7 @@ The time at which a cell can be decided is set by when its early-cycle data begi
 
 The HUST cells behaved differently. Their early signal came mainly from the initial capacity at cycle 2 (ρ = {{E11.h.rho.q2.k20}}) and the intercept of the capacity trajectory (ρ = {{E11.h.rho.fade_intercept.k100}} at cycle 100), i.e. from cell-to-cell differences present at the start of life rather than from degradation. The statistics of $\Delta V(q)$, the HUST analogue of $\Delta Q(V)$, were only moderately informative (|ρ| ≤ {{E11.h.maxabs.k100}} for any feature at cycle 100), and the capacity-fade features became strongly informative only after about 600 cycles (ρ = {{E11.h.rho.fade_slope.k800}} for the fade slope at cycle 800). This is why the HUST cells were decided later and why less cycling was saved there than on MATR/CLO. A plausible reason is that every HUST cell was discharged with a different multi-step protocol, which changes the voltage-curve signatures that the MATR/CLO features exploit; we could not test this explanation directly. The comparison shows that the efficiency of any early-screening rule is limited by when the electrochemical signal appears, whereas the error guarantee does not depend on it.
 
-### 4.10 Error analysis
+### 3.10 Error analysis
 
 {{FIG:Fig11_error_analysis|Error frequency of the proposed rule for each cell, across the splits in which the cell was a test cell (E1), against the distance of its cycle life from the specification, $\log_{10}(T/L^\ast)$. Bad cells (left) can only be falsely passed; good cells (right) can only be falsely rejected.}}
 
