@@ -330,9 +330,40 @@ def fig_compute(cfg):
     fig.tight_layout(); _save(fig, cfg, "Fig14_compute")
 
 
+FEAT_LBL = {"dq_min": "min ΔQ(V)", "dq_var": "var ΔQ(V)", "dq_skew": "skew ΔQ(V)", "dq_kurt": "kurt ΔQ(V)",
+            "dv_min": "min ΔV(q)", "dv_var": "var ΔV(q)", "dv_skew": "skew ΔV(q)", "dv_kurt": "kurt ΔV(q)", "dv_mean": "mean ΔV(q)",
+            "q2": "Q at cycle 2", "qmax_minus_q2": "Qmax − Q2", "fade_slope": "fade slope", "fade_intercept": "fade intercept",
+            "fade_slope_late": "fade slope (last 10)", "dq_k_10": "Q_k − Q_10", "chargetime5": "charge time", "tmax_mean": "mean Tmax"}
+
+
+def fig_interpretation(cfg):
+    r = _raw(cfg, "E11_correlations.csv"); c = _raw(cfg, "E11_coefficients.csv")
+    if r is None or c is None:
+        return
+    fig, axs = plt.subplots(2, 2, figsize=(7.2, 6.4), gridspec_kw=dict(height_ratios=[1.25, 1], hspace=0.55, wspace=0.55))
+    for j, ds in enumerate(["matr_clo", "hust"]):
+        rr = r[r.dataset == ds].pivot(index="feature", columns="checkpoint", values="spearman")
+        cc = c[c.dataset == ds].groupby(["feature", "checkpoint"]).coef.agg(lambda v: np.mean(np.abs(v))).unstack()
+        order = cc.max(axis=1).sort_values(ascending=False).index.tolist()
+        rr = rr.reindex(order); ax = axs[0, j]
+        im = ax.imshow(rr.values, cmap="RdBu", vmin=-1, vmax=1, aspect="auto")
+        ax.set_yticks(range(len(order))); ax.set_yticklabels([FEAT_LBL.get(f, f) for f in order], fontsize=6.5)
+        ax.set_xticks(range(rr.shape[1])); ax.set_xticklabels(rr.columns, fontsize=6, rotation=90)
+        ax.set_xlabel("Checkpoint (cycle)"); ax.set_title(f"{DS[ds][0]}: Spearman ρ with log cycle life", fontsize=8); ax.grid(False)
+        ax = axs[1, j]
+        for f, col in zip(order[:4], [BLUE, ORANGE, AQUA, YELLOW]):
+            ax.plot(range(cc.shape[1]), cc.loc[f].values, "-o", ms=2.5, color=col, label=FEAT_LBL.get(f, f))
+        others = cc.loc[order[4:]].sum(axis=0)
+        ax.plot(range(cc.shape[1]), others.values, "--", color=GRAY, lw=1.2, label="all other features (sum)")
+        ax.set_xticks(range(cc.shape[1])); ax.set_xticklabels(cc.columns, fontsize=6, rotation=90); ax.set_xlabel("Checkpoint (cycle)"); ax.set_ylabel("Mean |standardised EN coefficient|", fontsize=7)
+        ax.legend(fontsize=6, frameon=True, framealpha=0.9, edgecolor="none")
+    fig.colorbar(im, ax=axs[0, :].tolist(), shrink=0.8, label="ρ", pad=0.02)
+    _save(fig, cfg, "Fig15_interpretation")
+
+
 def run(cfg, log):
     for f in [fig_workflow, fig_lifetimes, fig_accuracy, fig_validity_efficiency, fig_decision_time, fig_trajectories,
-              fig_ablation, fig_robustness, fig_shift, fig_errors, fig_confusion, fig_roc_pr, fig_compute]:
+              fig_ablation, fig_robustness, fig_shift, fig_errors, fig_confusion, fig_roc_pr, fig_compute, fig_interpretation]:
         try:
             f(cfg); log.info(f"figure {f.__name__} ok")
         except Exception as e:  # report, never hide

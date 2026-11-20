@@ -32,7 +32,15 @@ Among the valid rules, the proposed rule saved more cycling than the lifetime-in
 
 {{SECTION_E2_E10}}
 
-### 4.9 Error analysis
+### 4.9 Physical basis of early decisions
+
+{{FIG:Fig15_interpretation|Which early-cycle signals carry the screening decision (E11). Top: Spearman correlation between each feature and $\log_{10}$ cycle life over all cells alive at each checkpoint. Bottom: mean absolute standardised elastic-net coefficient of the four most used features over the training sets of {{CFG.n_secondary}} E1 splits; the dashed line sums all other features. Features are ordered by their largest coefficient.}}
+
+The time at which a cell can be decided is set by when its early-cycle data begin to separate long- from short-lived cells ({{FIGREF:Fig15_interpretation}}). On MATR/CLO no feature correlated with cycle life by more than |ρ| = {{E11.mc.maxabs.k20}} at cycle 20. From cycle 40 onwards the variance of $\Delta Q_{k-10}(V)$ became the dominant signal (ρ = {{E11.mc.rho.dq_var.k40}} at cycle 40, {{E11.mc.rho.dq_var.k100}} at cycle 100), and from cycle 100 it carried the largest share of the elastic-net weight ({{E11.mc.share.dq_var.k100}}% at cycle 100). Severson et al. linked this change in the shape of the discharge voltage curve to degradation modes, such as loss of active material, that are not yet visible as capacity fade [@severson2019]. This timing matches the decision profile of the proposed rule: most MATR/CLO cells were decided between cycles 40 and 100 ({{FIGREF:Fig5_decision_time}}). Capacity-fade features (slope of the capacity trajectory, $Q_k-Q_{10}$) correlated with lifetime only after about 200 cycles, i.e. after most decisions had been taken.
+
+The HUST cells behaved differently. Their early signal came mainly from the initial capacity at cycle 2 (ρ = {{E11.h.rho.q2.k20}}) and the intercept of the capacity trajectory (ρ = {{E11.h.rho.fade_intercept.k100}} at cycle 100), i.e. from cell-to-cell differences present at the start of life rather than from degradation. The statistics of $\Delta V(q)$, the HUST analogue of $\Delta Q(V)$, were only moderately informative (|ρ| ≤ {{E11.h.maxabs.k100}} for any feature at cycle 100), and the capacity-fade features became strongly informative only after about 600 cycles (ρ = {{E11.h.rho.fade_slope.k800}} for the fade slope at cycle 800). This is why the HUST cells were decided later and why less cycling was saved there than on MATR/CLO. A plausible reason is that every HUST cell was discharged with a different multi-step protocol, which changes the voltage-curve signatures that the MATR/CLO features exploit; we could not test this explanation directly. The comparison shows that the efficiency of any early-screening rule is limited by when the electrochemical signal appears, whereas the error guarantee does not depend on it.
+
+### 4.10 Error analysis
 
 {{FIG:Fig11_error_analysis|Error frequency of the proposed rule for each cell, across the splits in which the cell was a test cell (E1), against the distance of its cycle life from the specification, $\log_{10}(T/L^\ast)$. Bad cells (left) can only be falsely passed; good cells (right) can only be falsely rejected.}}
 

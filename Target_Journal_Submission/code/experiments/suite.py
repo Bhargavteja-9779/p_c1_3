@@ -324,3 +324,43 @@ def e10_pac(cfg, log, n=None):
             out.append(_chunk(cfg, log, f"E10_{ds}_{tag}", job))
         log.info(f"E10 {ds} done")
     df = pd.concat(out); _save(df, cfg, "E10_pac_splits.csv"); return df
+
+
+def e11_interpretation(cfg, log, n=None):
+    """Descriptive physical interpretation (added 2026-11-20, after the main results; it
+    makes no claim about screening performance). For each checkpoint, (a) Spearman
+    correlation of every feature with log10 cycle life over all cells alive at the
+    checkpoint, and (b) standardised elastic-net coefficients over the training sets of
+    the first n E1 splits (same seeds as E1), i.e. which signals the screening scores use
+    at early and late checkpoints."""
+    from scipy.stats import spearmanr
+    if _exists(cfg, "E11_coefficients.csv") and _exists(cfg, "E11_correlations.csv"):
+        log.info("E11 exists, skipped (resume)"); return None
+    n = n or cfg.get("n_splits_secondary", 200)
+    coefs, cors = [], []
+    for ds in DS:
+        d = cfg["datasets"][ds]; F = _feat(cfg, ds); T = F["lifetime"].astype(float)
+        names = [str(x) for x in F["names"]]
+        for m, k in enumerate(F["checkpoints"]):
+            alive = T > k
+            for j, nm in enumerate(names):
+                x = F["X"][alive, m, j]; ok = np.isfinite(x)
+                r = spearmanr(x[ok], np.log10(T[alive][ok])).statistic if ok.sum() > 5 else np.nan
+                cors.append(dict(dataset=ds, checkpoint=int(k), feature=nm, spearman=r, n_cells=int(ok.sum())))
+        strata = np.array([f"{a}_{int(t >= d['Lstar'])}" for a, t in zip(F["dataset"], T)])
+        def job(F=F, d=d, ds=ds, T=T, names=names, strata=strata):
+            from joblib import Parallel, delayed
+            def one(seed):
+                tr = stratified_split(strata, d["split"], seed)["train"]; rows = []
+                for m, k in enumerate(F["checkpoints"]):
+                    a = tr[T[tr] > k]
+                    if len(a) < 10: continue
+                    mdl = MODELS["en"](seed=seed + 7919 * m).fit(F["X"][a, m, :], np.log10(T[a]))
+                    c = mdl.pipe[-1].coef_
+                    rows += [dict(dataset=ds, seed=seed, checkpoint=int(k), feature=nm, coef=float(c[j])) for j, nm in enumerate(names)]
+                return rows
+            res = Parallel(n_jobs=cfg["n_jobs"])(delayed(one)(s) for s in _seeds(cfg, "E1", n))
+            return pd.DataFrame([r for rr in res for r in rr])
+        coefs.append(_chunk(cfg, log, f"E11_{ds}", job))
+    _save(pd.DataFrame(cors), cfg, "E11_correlations.csv"); _save(pd.concat(coefs), cfg, "E11_coefficients.csv")
+    log.info("E11 done")
