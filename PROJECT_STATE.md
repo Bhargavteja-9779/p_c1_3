@@ -1,6 +1,6 @@
 # PROJECT_STATE  (read this first when resuming in a new session)
 
-Last update: 2026-11-20 22:40 UTC. Branch: `claude/gifted-euler-vaa8g2`; keep committing and pushing to it.
+Last update: 2026-11-20 22:55 UTC (handover to new account). Branch: `claude/gifted-euler-vaa8g2`; keep committing and pushing to it.
 
 ## How to resume (new session / new account)
 1. `cd Target_Journal_Submission/code && pip install -r requirements.txt`. The experiments need only the feature tables
@@ -56,3 +56,26 @@ Last update: 2026-11-20 22:40 UTC. Branch: `claude/gifted-euler-vaa8g2`; keep co
 5. Render: `python3 manuscript/build/render.py --pdf --si`, then check with `manuscript/build/check_docx.py`.
 6. Ten review rounds -> REVIEW/review_01..10.md + final_audit.md; fix the issues and rerun experiments where needed.
 7. Final DOCX/PDF, cover letter (manuscript/src_cover), manifest, rejection-risk report, READY/NOT READY decision.
+
+## Status at handover (22:55 UTC)
+* Finished and committed: E1, E2 (all models), E3. E4 was running when the session ended. Relaunch the run command
+  above; finished chunks are re-used, and E4-E11, analysis and figures will run.
+* Section 3.4 (E2) is drafted in manuscript/drafts/sec3_4_base_predictors.md. Paste it in place of
+  {{SECTION_E2_E10}}, before 3.5. Its claims were checked against the E2 results: valid with every model except
+  CNN/HUST FRR 0.113 (30 splits); GP Bayesian rule HUST FPR 0.274 / FRR 0.362; trajectory rule beats single-cp100 with
+  every model except EN on MATR/CLO.
+* E3 finding, to be reported honestly in 3.5 and in the discussion:
+
+  | Data set | Grid | Saved | FPR | FRR |
+  |---|---|---|---|---|
+  | MATR/CLO | dense 16-checkpoint grid | 79.4% | | |
+  | MATR/CLO | sparse {50,100,200,300} | 84.3% | 0.071 | 0.076 |
+  | MATR/CLO | single 50 | 81.9% | | |
+  | HUST | dense 17-checkpoint grid | 52.6% | | |
+  | HUST | sparse {100,300,600,1000} | 56.8% | | |
+  | HUST | single 300 | 61.5% | | |
+
+  Many looks cost efficiency. The best single checkpoint is unknown in advance and differs between data sets. Recommend
+  a sparse grid. Optional extra experiment (E12): choose the grid by inner CV on training cells only, which keeps the
+  guarantee.
+* The background auto-commit script was in /tmp and is gone after a restart. Commit manually.

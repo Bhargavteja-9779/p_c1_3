@@ -30,3 +30,4 @@
 2026-11-20 23:01:20,975 INFO chunk E4_matr_clo_train_0.5: 800 rows in 96s
 2026-11-20 23:03:00,841 INFO chunk E4_matr_clo_noise: 6400 rows in 100s
 2026-11-20 23:03:00,842 INFO E4 matr_clo done
+2026-11-20 23:05:44,189 INFO chunk E4_hust_cal_0.2: 800 rows in 163s
