@@ -20,3 +20,7 @@
 2026-11-20 22:48:12,631 INFO chunk E3_hust: 4200 rows in 168s
 2026-11-20 22:48:12,758 INFO --- E3 done in 269s
 2026-11-20 22:48:12,759 INFO --- E4 start
+2026-11-20 22:49:53,921 INFO chunk E4_matr_clo_cal_0.1: 800 rows in 101s
+2026-11-20 22:51:32,298 INFO chunk E4_matr_clo_cal_0.15: 800 rows in 98s
+2026-11-20 22:53:09,990 INFO chunk E4_matr_clo_cal_0.2: 800 rows in 98s
+2026-11-20 22:54:47,312 INFO chunk E4_matr_clo_cal_0.25: 800 rows in 97s
