@@ -51,3 +51,11 @@
 2026-11-21 12:10:26,173 INFO --- E5 done in 764s
 2026-11-21 12:10:26,173 INFO --- E6 start
 2026-11-21 12:15:05,704 INFO E6 matr_clo done
+2026-11-21 12:18:59,659 INFO E6 hust done
+2026-11-21 12:18:59,661 INFO --- E6 done in 513s
+2026-11-21 12:18:59,661 INFO --- E7 start
+2026-11-21 12:20:37,651 INFO chunk E7_matr_clo_ab: 3200 rows in 98s
+2026-11-21 12:22:11,404 INFO chunk E7_matr_clo_L550: 800 rows in 94s
+2026-11-21 12:23:45,064 INFO chunk E7_matr_clo_L750: 800 rows in 94s
+2026-11-21 12:25:23,813 INFO chunk E7_matr_clo_L900: 800 rows in 99s
+2026-11-21 12:25:23,813 INFO E7 matr_clo done
