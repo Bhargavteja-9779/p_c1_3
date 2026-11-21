@@ -34,3 +34,4 @@
 2026-11-20 23:08:26,290 INFO chunk E4_hust_cal_0.3: 800 rows in 162s
 2026-11-20 23:11:07,856 INFO chunk E4_hust_cal_0.4: 800 rows in 162s
 2026-11-20 23:15:13,287 INFO chunk E4_hust_train_0.2: 800 rows in 245s
+2026-11-20 23:18:27,301 INFO chunk E4_hust_train_0.3: 800 rows in 194s
