@@ -20,3 +20,29 @@
 2026-11-21 11:22:37,338 INFO chunk E3_hust: 4200 rows in 156s
 2026-11-21 11:22:37,451 INFO --- E3 done in 260s
 2026-11-21 11:22:37,451 INFO --- E4 start
+2026-11-21 11:24:21,343 INFO chunk E4_matr_clo_cal_0.1: 800 rows in 104s
+2026-11-21 11:25:59,774 INFO chunk E4_matr_clo_cal_0.15: 800 rows in 98s
+2026-11-21 11:27:33,813 INFO chunk E4_matr_clo_cal_0.2: 800 rows in 94s
+2026-11-21 11:29:08,077 INFO chunk E4_matr_clo_cal_0.25: 800 rows in 94s
+2026-11-21 11:30:38,710 INFO chunk E4_matr_clo_train_0.2: 800 rows in 91s
+2026-11-21 11:32:18,707 INFO chunk E4_matr_clo_train_0.3: 800 rows in 100s
+2026-11-21 11:34:00,963 INFO chunk E4_matr_clo_train_0.4: 800 rows in 102s
+2026-11-21 11:35:43,285 INFO chunk E4_matr_clo_train_0.5: 800 rows in 102s
+2026-11-21 11:37:25,879 INFO chunk E4_matr_clo_noise: 6400 rows in 103s
+2026-11-21 11:37:25,879 INFO E4 matr_clo done
+2026-11-21 11:40:07,120 INFO chunk E4_hust_cal_0.2: 800 rows in 161s
+2026-11-21 11:42:43,814 INFO chunk E4_hust_cal_0.3: 800 rows in 157s
+2026-11-21 11:45:25,406 INFO chunk E4_hust_cal_0.4: 800 rows in 162s
+2026-11-21 11:49:19,901 INFO chunk E4_hust_train_0.2: 800 rows in 234s
+2026-11-21 11:52:21,036 INFO chunk E4_hust_train_0.3: 800 rows in 181s
+2026-11-21 11:55:00,979 INFO chunk E4_hust_train_0.4: 800 rows in 160s
+2026-11-21 11:57:41,409 INFO chunk E4_hust_noise: 6400 rows in 160s
+2026-11-21 11:57:41,409 INFO E4 hust done
+2026-11-21 11:57:41,734 INFO --- E4 done in 2104s
+2026-11-21 11:57:41,734 INFO --- E5 start
+2026-11-21 11:59:14,178 INFO chunk E5_batch_b3_source_cal_0: 1000 rows in 92s
+2026-11-21 12:00:45,887 INFO chunk E5_batch_b3_target_cal_20: 1000 rows in 92s
+2026-11-21 12:02:19,482 INFO chunk E5_batch_b3_target_cal_30: 1000 rows in 94s
+2026-11-21 12:03:53,105 INFO chunk E5_batch_b4_source_cal_0: 1000 rows in 94s
+2026-11-21 12:05:24,930 INFO chunk E5_batch_b4_target_cal_20: 1000 rows in 92s
+2026-11-21 12:07:01,661 INFO chunk E5_batch_b4_target_cal_30: 1000 rows in 97s
