@@ -180,7 +180,7 @@ def fig_ablation(cfg):
     e3 = _raw(cfg, "E3_ablation_grid_splits.csv")
     if e3 is None:
         return
-    fig, axs = plt.subplots(1, 2, figsize=(7.2, 2.8))
+    fig, axs = plt.subplots(1, 2, figsize=(7.2, 4.0))
     for ax, ds in zip(axs, DS):
         d = e3[e3.dataset == ds]
         g = d.groupby(["grid", "method"]).agg(sav=("time_saving", "mean"), fpr=("fpr", "mean"), frr=("frr", "mean")).reset_index()
@@ -190,11 +190,12 @@ def fig_ablation(cfg):
             ax.barh(y + off, 100 * gg.sav, height=0.18, color=col, label=LBL[m])
             for yy, (gname, r) in zip(y, gg.iterrows()):
                 ax.text(100 * r.sav + 1, yy + off, f"FP {r.fpr:.2f} / FR {r.frr:.2f}", va="center", fontsize=5.6, color=INK2)
-        ax.set_yticks(y); ax.set_yticklabels(grids, fontsize=7); ax.set_xlim(0, 140); ax.set_xlabel("Cycling time saved (%)")
+        ax.set_yticks(y); ax.set_yticklabels(grids, fontsize=7); ax.set_xlim(0, 130); ax.set_xlabel("Cycling time saved (%)")
+        ax.set_xticks([0, 25, 50, 75, 100])
         ax.set_title(DS[ds][0], fontsize=8.5, loc="left", color=INK)
-        if ds == "hust":
-            ax.legend(fontsize=6.5, loc="lower right")
-    fig.tight_layout(); _save(fig, cfg, "Fig7_ablation_checkpoint_grid")
+    h, l = axs[0].get_legend_handles_labels()
+    fig.legend(h, l, fontsize=7, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.0))
+    fig.tight_layout(rect=(0, 0.06, 1, 1)); _save(fig, cfg, "Fig7_ablation_checkpoint_grid")
 
 
 def fig_robustness(cfg):
