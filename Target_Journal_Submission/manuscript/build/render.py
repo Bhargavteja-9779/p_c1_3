@@ -251,6 +251,29 @@ def equations(text):
 
 
 # ----------------------------------------------------------------------------- DOCX post-processing
+def fix_math_glyphs(docx_path):
+    """Replace a bare ASCII '*' in OMML runs (pandoc's rendering of \\ast) by U+2217. Word shows both
+    identically; LibreOffice Math parses a bare '*' as an operator without operands and renders an
+    error glyph, which corrupted every L^* in the PDF."""
+    import shutil, tempfile, zipfile
+    tmp = tempfile.mktemp(suffix=".docx")
+    with zipfile.ZipFile(docx_path) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
+        for item in zin.infolist():
+            data = zin.read(item.filename)
+            if item.filename == "word/document.xml":
+                data = data.decode("utf-8").replace("<m:t>*</m:t>", "<m:t>\u2217</m:t>").encode("utf-8")
+            zout.writestr(item, data)
+    shutil.move(tmp, docx_path)
+
+
+def _check_soffice_math():
+    """Without the LibreOffice Math component, soffice silently drops every equation from the PDF."""
+    import glob
+    if not glob.glob("/usr/lib/libreoffice/program/libsmlo.so") and not glob.glob("/usr/lib*/libreoffice/program/libsm*.so"):
+        raise BuildError("LibreOffice Math is not installed (apt-get install libreoffice-math); "
+                         "the PDF would be rendered without equations")
+
+
 def postprocess(docx_path, kind="main"):
     from docx import Document
     from docx.shared import Pt, Cm, RGBColor
@@ -440,8 +463,10 @@ def build(numbers_path, out_docx, want_pdf, want_si):
         subprocess.run(["pandoc", md, "-f", "markdown+tex_math_dollars+superscript+subscript+pipe_tables+implicit_figures",
                         "-o", out, "--resource-path", ROOT], check=True)
         n_eq = postprocess(out, kind)
+        fix_math_glyphs(out)
         outputs[kind] = dict(docx=out, md=md, equations_numbered=n_eq, citations=len(st["order"]))
         if want_pdf:
+            _check_soffice_math()
             subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", os.path.dirname(out), out],
                            check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             outputs[kind]["pdf"] = out.replace(".docx", ".pdf")

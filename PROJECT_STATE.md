@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-Last update: 2026-11-20 23:25 UTC
+Last update: 2026-11-21 02:10 UTC
 
 ## Selected target journal
 Battery Energy (Wiley; eISSN 2768-1696). See Target_Journal_Submission/journal_selection/.
@@ -32,6 +32,13 @@ Target_Journal_Submission/code (package batscreen, run_all.py quick/full).
 * 18:34 Nov 16: run 4 reached E2 (8/10 chunks: HUST gbr, rf missing) before the container was reclaimed.
 * 23:18 Nov 20: new container; raw data not present (not needed: feature tables in git). Dependencies
   reinstalled; full run resumed (log: results_full_stdout5.log), reusing E1 and E2 chunks.
+* 01:22 Nov 21: FULL RUN COMPLETE (E1-E10, analysis, 14 figures, tables T1-T13, E8). build_numbers: 6,915 values.
+* Results 4.4-4.7 written (base models/grids, calibration size + PAC, shift + noise, sensitivity + compute);
+  error analysis renumbered 4.8; abstract shift sentence filled (250 words); discussion/limitations updated
+  with the test-only-noise finding.
+* PDF pipeline bug fixed: libreoffice-math was missing, so soffice silently dropped ALL equations from earlier PDFs;
+  render.py now refuses to build a PDF without it, and maps OMML '*' to U+2217 (LibreOffice error glyph).
+  Container setup needs: pip install -r code/requirements.txt; apt-get install libreoffice-math.
 
 ## Agents / workflows
 * 09:12 workflow `prep-audit-build` (run wf_15c1a175-b64): build pipeline (manuscript/build/), bibliography verification
@@ -42,8 +49,8 @@ Target_Journal_Submission/code (package batscreen, run_all.py quick/full).
   resumeFromRunId: "wf_15c1a175-b64"}).
 
 ## Next steps (exact)
-1. Monitor resumed full run (log: Target_Journal_Submission/results_full_stdout5.log); commit chunks as they land.
-2. Parallel agents: citation audit + reference list; manuscript render/DOCX pipeline.
-3. When results complete: build_numbers -> results/discussion sections -> first full manuscript.
+1. (done) full run, results sections, first full manuscript (manuscript/Draft_Manuscript.{docx,pdf}, 33 pp).
+2. Redo lost audits: citation audit + claim check, novelty sweep, methods/code pre-review.
+3. Figure file names (Fig7..Fig14) differ from in-text numbering; rename at final packaging.
 4. Ten-reviewer cycle 1 (agents), consolidate, fix, rerun affected experiments; further cycles.
 5. DOCX/PDF, cover letter, audits, manifest, risk report, decision.
