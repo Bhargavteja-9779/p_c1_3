@@ -22,7 +22,11 @@ DONE (laughing-bohr, 15:50): 3.4-3.8 assembled into src/part2_results.md with fi
  DONE 16:25: E11-E13 complete (+analysis, figures); E13 text in 3.5 (bonf sparse), 3.6 (persistent noise), 3.11 (gauss_bonf);
  render.py resolves references nested in captions; Table S1 generated (tables/S1_experiments.csv, incl. E11-E13).
  Draft_Manuscript.{md,docx,pdf} (43 pp) + SI (21 pp) render and pass check_docx (only author placeholders).
- NEXT: presentation items (R9: cut ~1,000-1,500 words, figure labels/numbers, SI table formatting, m/k notation);
+ DONE 16:30: user details (author 1 Bhargav Teja, VIT Vellore, no funding, no COI, code on request; corresponding author,
+ second author, department, e-mail, AI statement = placeholders) ; cover letter rewritten to current claims;
+ Target_Journal_Submission/SUBMISSION_PACKAGE/ assembled (manuscript, SI, cover letter, Figure_1-9, graphical abstract, CHECKLIST.md).
+ Rebuild package: render, then re-run the package steps (see git log 'Submission package').
+ OPTIONAL BEFORE SUBMISSION: presentation items (R9: cut ~1,000-1,500 words, figure labels/numbers, SI table formatting, m/k notation);
  cover letter (manuscript/src_cover: old title/claims); then review cycle 2 (fresh reviewers on the new draft).
 TODO (original list, in order): assemble 3.4-3.8 from manuscript/drafts/ (sec3_4, sec3_5 + E12/SEL paragraph, sec3_6 + E13 noise_corr
  + E7 paragraph, sec3_7 shift (fix per A2/A3, add test-cell counts), sec3_8a_pac + sec3_8b_compute) in place of

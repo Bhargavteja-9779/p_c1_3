@@ -2,11 +2,11 @@
 
 **Running title:** Early cycle-life screening with error control
 
-**Authors:** Bhargav Teja^1,\*^, [Second Author]^1^
+**Authors:** Bhargav Teja^1^, [Second Author]^1^
 
 ^1^ [Department], Vellore Institute of Technology, Vellore 632014, Tamil Nadu, India
 
-\* Correspondence: Bhargav Teja, [e-mail address]
+Correspondence: [Corresponding author name], [e-mail address]
 
 ## Abstract
 
@@ -37,7 +37,7 @@ This paper addresses these three problems for early cycle-life screening. Its co
 1. **Formulation.** Early screening is posed as a sequential decision at checkpoints $k_1<\dots<k_M<L^\ast$ with three outcomes (pass, reject, continue cycling) and two class-conditional error constraints: a cell that will not reach $L^\ast$ ("bad") is passed with probability at most $\alpha$, and a cell that will reach $L^\ast$ ("good") is rejected with probability at most $\beta$.
 2. **Trajectory calibration with a finite-sample guarantee.** Pass and reject thresholds are calibrated on the *maximum over checkpoints* of normalised model scores of held-out calibration cells. The two error constraints then hold on average over calibration sets for any data-dependent stopping time, without distributional assumptions beyond exchangeability of cells, and each calibration cell needs to be cycled only to $\min(T,L^\ast)$ cycles, not to EOL. The guarantee holds for any base predictor, including one trained only on truncated data; a training-conditional variant is also given.
 3. **Evaluation on two laboratories.** On 246 commercial LiFePO~4~/graphite cells from two laboratories (169 MATR/CLO cells [1,2] and 77 HUST cells [8]) and 1,000 random splits per dataset, we compare the procedure with single-checkpoint rules (fixed, or chosen on training cells), naive sequential, Bonferroni, Gaussian/Bayesian (with and without correction for repeated looks), point-prediction and lifetime-interval rules, and report five additional base predictors, checkpoint-grid ablations, robustness and sensitivity analyses, batch and laboratory transfer, and an error analysis, including the conditions under which the sequential rule does not help.
-4. **Open, reproducible code** that regenerates every number, table and figure in this paper from the public raw data.
+4. **A scripted, reproducible pipeline** that regenerates every number, table and figure in this paper from the public raw data; the code is available from the corresponding author on request.
 
 We stress what the paper does *not* claim: it does not propose a more accurate lifetime predictor, and its guarantees are statements about error *rates* over the population of cells exchangeable with the calibration cells, not about any individual cell.
 
@@ -321,7 +321,7 @@ Errors concentrated near the specification (Figure 9): the Spearman correlation 
 
 ## 4 Conclusions
 
-Early cycle-life predictions are routinely used to make go/no-go decisions, but the error rate of those decisions is rarely controlled, and the common practice of re-checking predictions as cycling proceeds silently inflates it. We showed that calibrating pass and reject thresholds on the maximum over checkpoints of normalised model scores gives finite-sample, distribution-free bounds on the false-pass and false-reject probabilities that hold under any stopping time, and that the calibration needs cells cycled only to the specification. On 246 commercial LiFePO~4~/graphite cells from two laboratories, the rule met its error targets with 0.10 nominal levels while cutting cycling by 78.3% (MATR/CLO) and 50.7% (HUST) relative to cycling every cell to the specification, whereas naive sequential use of valid per-checkpoint thresholds exceeded the targets by up to a factor of 2.9. A single checkpoint chosen on training cells was as efficient, so the gain from trajectory calibration is valid error control under repeated looks and flexible stopping, not faster screening; the guarantee holds on average over calibration campaigns and requires recalibration when the cell population changes. The procedure is a thin layer on top of any lifetime predictor, costs milliseconds to run, and is released with code that reproduces every result.
+Early cycle-life predictions are routinely used to make go/no-go decisions, but the error rate of those decisions is rarely controlled, and the common practice of re-checking predictions as cycling proceeds silently inflates it. We showed that calibrating pass and reject thresholds on the maximum over checkpoints of normalised model scores gives finite-sample, distribution-free bounds on the false-pass and false-reject probabilities that hold under any stopping time, and that the calibration needs cells cycled only to the specification. On 246 commercial LiFePO~4~/graphite cells from two laboratories, the rule met its error targets with 0.10 nominal levels while cutting cycling by 78.3% (MATR/CLO) and 50.7% (HUST) relative to cycling every cell to the specification, whereas naive sequential use of valid per-checkpoint thresholds exceeded the targets by up to a factor of 2.9. A single checkpoint chosen on training cells was as efficient, so the gain from trajectory calibration is valid error control under repeated looks and flexible stopping, not faster screening; the guarantee holds on average over calibration campaigns and requires recalibration when the cell population changes. The procedure is a thin layer on top of any lifetime predictor, costs milliseconds to run, and every result is generated by a scripted pipeline whose code is available from the corresponding author on request.
 
 ## Acknowledgments
 
@@ -341,7 +341,7 @@ This research received no specific grant from any funding agency in the public, 
 
 ## Data Availability Statement
 
-The raw data analysed in this study are openly available: MATR/CLO cycling data at https://data.matr.io/1/ (Severson et al. [1]; Attia et al. [2]) and HUST data at Mendeley Data, https://doi.org/10.17632/nsc7hnsg4s.2 (Ma et al. [8]). The checkpoint feature tables derived from them, all split-level results, statistics, tables and figures, and the complete code that regenerates them (`python run_all.py --mode full`) are available at [repository URL / archival DOI to be inserted at submission].
+The raw data analysed in this study are openly available: MATR/CLO cycling data at https://data.matr.io/1/ (Severson et al. [1]; Attia et al. [2]) and HUST data at Mendeley Data, https://doi.org/10.17632/nsc7hnsg4s.2 (Ma et al. [8]). The checkpoint feature tables derived from them, the split-level results, and the code that regenerates every number, table and figure are available from the corresponding author on request.
 
 ## Ethics Statement
 
@@ -349,7 +349,7 @@ This study used only previously published battery cycling data; it involved no h
 
 ## Use of Generative AI
 
-[Required by Wiley policy — to be completed accurately by the authors.] The study design, code, analyses and draft text were produced with the assistance of a generative-AI agent. [State the tool, the tasks it performed, and the human verification of code, results, citations and text.] The authors take full responsibility for the content.
+[To be completed by the authors as required by Wiley policy: name the generative-AI tool(s) used, the tasks they performed (e.g. code, analyses, drafting), and how the authors verified the code, results, citations and text.] The authors take full responsibility for the content.
 
 
 ## References

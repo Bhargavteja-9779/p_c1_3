@@ -2,11 +2,11 @@
 
 **Running title:** Early cycle-life screening with error control
 
-**Authors:** Bhargav Teja^1,\*^, [Second Author]^1^
+**Authors:** Bhargav Teja^1^, [Second Author]^1^
 
 ^1^ [Department], Vellore Institute of Technology, Vellore 632014, Tamil Nadu, India
 
-\* Correspondence: Bhargav Teja, [e-mail address]
+Correspondence: [Corresponding author name], [e-mail address]
 
 ## Abstract
 
@@ -37,7 +37,7 @@ This paper addresses these three problems for early cycle-life screening. Its co
 1. **Formulation.** Early screening is posed as a sequential decision at checkpoints $k_1<\dots<k_M<L^\ast$ with three outcomes (pass, reject, continue cycling) and two class-conditional error constraints: a cell that will not reach $L^\ast$ ("bad") is passed with probability at most $\alpha$, and a cell that will reach $L^\ast$ ("good") is rejected with probability at most $\beta$.
 2. **Trajectory calibration with a finite-sample guarantee.** Pass and reject thresholds are calibrated on the *maximum over checkpoints* of normalised model scores of held-out calibration cells. The two error constraints then hold on average over calibration sets for any data-dependent stopping time, without distributional assumptions beyond exchangeability of cells, and each calibration cell needs to be cycled only to $\min(T,L^\ast)$ cycles, not to EOL. The guarantee holds for any base predictor, including one trained only on truncated data; a training-conditional variant is also given.
 3. **Evaluation on two laboratories.** On {{D.n_total}} commercial LiFePO~4~/graphite cells from two laboratories ({{D.n_mc}} MATR/CLO cells [@severson2019; @attia2020] and {{D.n_hust}} HUST cells [@ma2022hust]) and 1,000 random splits per dataset, we compare the procedure with single-checkpoint rules (fixed, or chosen on training cells), naive sequential, Bonferroni, Gaussian/Bayesian (with and without correction for repeated looks), point-prediction and lifetime-interval rules, and report five additional base predictors, checkpoint-grid ablations, robustness and sensitivity analyses, batch and laboratory transfer, and an error analysis, including the conditions under which the sequential rule does not help.
-4. **Open, reproducible code** that regenerates every number, table and figure in this paper from the public raw data.
+4. **A scripted, reproducible pipeline** that regenerates every number, table and figure in this paper from the public raw data; the code is available from the corresponding author on request.
 
 We stress what the paper does *not* claim: it does not propose a more accurate lifetime predictor, and its guarantees are statements about error *rates* over the population of cells exchangeable with the calibration cells, not about any individual cell.
 
