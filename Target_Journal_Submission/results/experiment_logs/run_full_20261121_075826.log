@@ -85,3 +85,7 @@
 2026-11-21 09:50:29,818 INFO figure fig_decision_time ok
 2026-11-21 09:50:31,412 INFO figure fig_trajectories ok
 2026-11-21 09:50:32,042 INFO figure fig_ablation ok
+2026-11-21 09:50:34,017 INFO figure fig_robustness ok
+2026-11-21 09:50:34,509 INFO figure fig_shift ok
+2026-11-21 09:50:34,966 INFO figure fig_errors ok
+2026-11-21 09:50:36,240 INFO figure fig_confusion ok
