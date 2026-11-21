@@ -137,10 +137,16 @@ def resolve(text, numbers, objs, prefix_map, refs_state, doc="main"):
     """Replace number tokens first, then figure/table/reference tokens."""
     missing = []
     text = resolve_inline(text, numbers, missing)
-    out, last = [], 0
-    for a, b, tok in list(scan_objects(text)):
-        out.append(text[last:a]); out.append(object_token(tok.strip(), objs, prefix_map)); last = b
-    out.append(text[last:])
+    for _ in range(3):  # repeated so that references nested in captions ({{FIG:..|..{{TABREF:..}}..}}) resolve too
+        out, last = [], 0
+        for a, b, tok in list(scan_objects(text)):
+            out.append(text[last:a]); out.append(object_token(tok.strip(), objs, prefix_map)); last = b
+        out.append(text[last:])
+        new = "".join(out)
+        if new == text:
+            break
+        text = new
+    out = [text]
     if missing:
         raise BuildError("missing number keys: " + ", ".join(sorted(set(missing))))
     return "".join(out)
@@ -492,7 +498,8 @@ def build(numbers_path, out_docx, want_pdf, want_si):
         if DRAFT["on"]:
             leftovers = [x for x in leftovers if x != "??"]
         if leftovers:
-            raise BuildError(f"{kind}: unresolved markup {leftovers}")
+            ctx = [text[max(0, text.find(x) - 120):text.find(x) + 80] for x in leftovers]
+            raise BuildError(f"{kind}: unresolved markup {leftovers}: context {ctx}")
         md = out.replace(".docx", ".md"); open(md, "w", encoding="utf-8").write(text)
         subprocess.run(["pandoc", md, "-f", "markdown+tex_math_dollars+superscript+subscript+pipe_tables+implicit_figures",
                         "-o", out, "--resource-path", ROOT], check=True)
