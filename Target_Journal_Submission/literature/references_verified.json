@@ -87,7 +87,15 @@
  "hust_data": {
   "key": "hust_data",
   "id": "doi:10.17632/nsc7hnsg4s.2",
-  "verified": false
+  "verified": true,
+  "doi": "10.17632/nsc7hnsg4s.2",
+  "title": "The Dataset for: Real-time personalized health status prediction of lithium-ion batteries using deep transfer learning",
+  "authors": [
+   "Ma, Guijun"
+  ],
+  "venue": "Mendeley Data, V2",
+  "year": 2022,
+  "source": "datacite"
  },
  "attia2021stat": {
   "key": "attia2021stat",
@@ -112,13 +120,13 @@
   "doi": "10.1016/j.egyai.2020.100006",
   "title": "Identification and machine learning prediction of knee-point and knee-onset in capacity degradation curves of lithium-ion cells",
   "authors": [
-   "Ferm\u00edn-Cueto, Paula",
+   "Fermín-Cueto, Paula",
    "McTurk, Euan",
    "Allerhand, Michael",
    "Medina-Lopez, Encarni",
    "Anjos, Miguel F.",
    "Sylvester, Joel",
-   "dos Reis, Gon\u00e7alo"
+   "dos Reis, Gonçalo"
   ],
   "venue": "Energy and AI",
   "year": 2020,
@@ -325,13 +333,13 @@
  "attia2022knees": {
   "key": "attia2022knees",
   "doi": "10.1149/1945-7111/ac6d13",
-  "title": "Review\u2014\u201cKnees\u201d in Lithium-Ion Battery Aging Trajectories",
+  "title": "Review—“Knees” in Lithium-Ion Battery Aging Trajectories",
   "authors": [
    "Attia, Peter M.",
    "Bills, Alexander",
    "Brosa Planella, Ferran",
    "Dechent, Philipp",
-   "dos Reis, Gon\u00e7alo",
+   "dos Reis, Gonçalo",
    "Dubarry, Matthieu",
    "Gasper, Paul",
    "Gilchrist, Richard",
@@ -381,7 +389,7 @@
   "doi": "10.1016/j.egyai.2021.100081",
   "title": "Lithium-ion battery data and where to find it",
   "authors": [
-   "dos Reis, Gon\u00e7alo",
+   "dos Reis, Gonçalo",
    "Strange, Calum",
    "Yadav, Mohit",
    "Li, Shawn"
@@ -453,7 +461,7 @@
  "bte2024cnnlstm": {
   "key": "bte2024cnnlstm",
   "doi": "10.1002/bte2.20240036",
-  "title": "A CNN\u2010LSTM Method Based on Voltage Deviation for Predicting the State of Health of Lithium\u2010Ion Batteries",
+  "title": "A CNN‐LSTM Method Based on Voltage Deviation for Predicting the State of Health of Lithium‐Ion Batteries",
   "authors": [
    "Xiao, Fen",
    "Yang, Wei",
@@ -474,7 +482,7 @@
  "bte2026piai": {
   "key": "bte2026piai",
   "doi": "10.1002/bte2.70136",
-  "title": "Physics\u2010Informed Artificial Intelligence for Battery Degradation, Aging, and Lifetime Prediction",
+  "title": "Physics‐Informed Artificial Intelligence for Battery Degradation, Aging, and Lifetime Prediction",
   "authors": [
    "Sulaima, Mohamad Fani",
    "Arora, Sunny",
@@ -493,7 +501,7 @@
  "bte2026lfp": {
   "key": "bte2026lfp",
   "doi": "10.1002/bte2.70124",
-  "title": "Degradation\u2010Informed Temperature Analysis for Cycle Life Prediction of LiFePO 4 Batteries",
+  "title": "Degradation‐Informed Temperature Analysis for Cycle Life Prediction of LiFePO 4 Batteries",
   "authors": [
    "Kee, Joonyoung",
    "Lee, Seokhyun",
@@ -514,7 +522,7 @@
  "bte2025transfer": {
   "key": "bte2025transfer",
   "doi": "10.1002/bte2.70011",
-  "title": "Transfer Learning\u2010Based Data\u2010Fusion Model Framework for State of Health Estimation of Power Battery Packs",
+  "title": "Transfer Learning‐Based Data‐Fusion Model Framework for State of Health Estimation of Power Battery Packs",
   "authors": [
    "Lyu, Zhiqiang",
    "Wei, Xinyuan",
@@ -595,7 +603,7 @@
   "title": "Distribution-Free Predictive Inference for Regression",
   "authors": [
    "Lei, Jing",
-   "G\u2019Sell, Max",
+   "G’Sell, Max",
    "Rinaldo, Alessandro",
    "Tibshirani, Ryan J.",
    "Wasserman, Larry"
@@ -616,12 +624,15 @@
   "authors": [
    "Yaniv Romano",
    "Evan Patterson",
-   "Emmanuel J. Cand\u00e8s"
+   "Emmanuel J. Candès"
   ],
-  "venue": "arXiv",
+  "venue": "Advances in Neural Information Processing Systems",
   "year": 2019,
-  "source": "arxiv",
-  "verified": true
+  "source": "arxiv + NeurIPS 2019 proceedings",
+  "verified": true,
+  "volume": "32",
+  "pages": "3543-3553",
+  "formatted": "Y. Romano, E. Patterson, E. J. Candès, Conformalized quantile regression, *Advances in Neural Information Processing Systems* 2019, 32, 3543-3553. arXiv:1905.03222"
  },
  "angelopoulos2023gentle": {
   "key": "angelopoulos2023gentle",
@@ -631,7 +642,7 @@
    "Angelopoulos, Anastasios N.",
    "Bates, Stephen"
   ],
-  "venue": "Foundations and Trends\u00ae in Machine Learning",
+  "venue": "Foundations and Trends® in Machine Learning",
   "year": 2023,
   "volume": "16",
   "issue": "4",
@@ -645,7 +656,7 @@
   "doi": "10.1093/jrsssb/qkac004",
   "title": "Conformalized survival analysis",
   "authors": [
-   "Cand\u00e8s, Emmanuel",
+   "Candès, Emmanuel",
    "Lei, Lihua",
    "Ren, Zhimei"
   ],
@@ -664,7 +675,7 @@
   "title": "Selection by Prediction with Conformal p-values",
   "authors": [
    "Ying Jin",
-   "Emmanuel J. Cand\u00e8s"
+   "Emmanuel J. Candès"
   ],
   "venue": "arXiv",
   "year": 2022,
@@ -729,7 +740,7 @@
   "title": "Early-Exit Neural Networks with Nested Prediction Sets",
   "authors": [
    "Metod Jazbec",
-   "Patrick Forr\u00e9",
+   "Patrick Forré",
    "Stephan Mandt",
    "Dan Zhang",
    "Eric Nalisnick"
@@ -745,7 +756,7 @@
   "title": "Conformal prediction beyond exchangeability",
   "authors": [
    "Barber, Rina Foygel",
-   "Cand\u00e8s, Emmanuel J.",
+   "Candès, Emmanuel J.",
    "Ramdas, Aaditya",
    "Tibshirani, Ryan J."
   ],
@@ -779,7 +790,7 @@
   "title": "Adaptive Conformal Inference Under Distribution Shift",
   "authors": [
    "Isaac Gibbs",
-   "Emmanuel Cand\u00e8s"
+   "Emmanuel Candès"
   ],
   "venue": "arXiv",
   "year": 2021,
@@ -828,13 +839,13 @@
   "title": "Scikit-learn: Machine Learning in Python",
   "authors": [
    "Fabian Pedregosa",
-   "Ga\u00ebl Varoquaux",
+   "Gaël Varoquaux",
    "Alexandre Gramfort",
    "Vincent Michel",
    "Bertrand Thirion",
    "Olivier Grisel",
    "Mathieu Blondel",
-   "Andreas M\u00fcller",
+   "Andreas Müller",
    "Joel Nothman",
    "Gilles Louppe",
    "Peter Prettenhofer",
@@ -845,12 +856,15 @@
    "David Cournapeau",
    "Matthieu Brucher",
    "Matthieu Perrot",
-   "\u00c9douard Duchesnay"
+   "Édouard Duchesnay"
   ],
-  "venue": "arXiv",
-  "year": 2012,
-  "source": "arxiv",
-  "verified": true
+  "venue": "Journal of Machine Learning Research",
+  "year": 2011,
+  "source": "arxiv + JMLR",
+  "verified": true,
+  "volume": "12",
+  "pages": "2825-2830",
+  "formatted": "F. Pedregosa, G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O. Grisel, M. Blondel, P. Prettenhofer, R. Weiss, V. Dubourg, J. Vanderplas, A. Passos, D. Cournapeau, M. Brucher, M. Perrot, É. Duchesnay, Scikit-learn: Machine learning in Python, *Journal of Machine Learning Research* 2011, 12, 2825-2830."
  },
  "efron1979bootstrap": {
   "key": "efron1979bootstrap",
@@ -871,7 +885,18 @@
  "holm1979": {
   "key": "holm1979",
   "id": "doi:10.2307/4615733",
-  "verified": false
+  "verified": true,
+  "title": "A simple sequentially rejective multiple test procedure",
+  "authors": [
+   "Holm, Sture"
+  ],
+  "venue": "Scandinavian Journal of Statistics",
+  "year": 1979,
+  "volume": "6",
+  "issue": "2",
+  "pages": "65-70",
+  "source": "manual: JSTOR stable 4615733 (no Crossref DOI)",
+  "formatted": "S. Holm, A simple sequentially rejective multiple test procedure, *Scandinavian Journal of Statistics* 1979, 6, 65-70. https://www.jstor.org/stable/4615733"
  },
  "wilcoxon1945": {
   "key": "wilcoxon1945",
