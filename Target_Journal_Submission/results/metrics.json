@@ -7225,144 +7225,144 @@
   {
    "dataset": "HUST",
    "model": "calibration_only_n40",
-   "split_seconds": 7.18060000508558e-05,
+   "split_seconds": 7.773000015731668e-05,
    "peak_rss_mb": NaN,
    "n_checkpoints": 17.0,
-   "decide_seconds_per_1000_cells": 0.0250454909992186
+   "decide_seconds_per_1000_cells": 0.0289321549998931
   },
   {
    "dataset": "HUST",
    "model": "calibration_only_n400",
-   "split_seconds": 0.0001393349994032,
+   "split_seconds": 0.0001292249999096,
    "peak_rss_mb": NaN,
    "n_checkpoints": 17.0,
-   "decide_seconds_per_1000_cells": 0.0220455150001726
+   "decide_seconds_per_1000_cells": 0.0279966849993797
   },
   {
    "dataset": "HUST",
    "model": "calibration_only_n4000",
-   "split_seconds": 0.0022194499997567,
+   "split_seconds": 0.0022121430001789,
    "peak_rss_mb": NaN,
    "n_checkpoints": 17.0,
-   "decide_seconds_per_1000_cells": 0.0218209220001881
+   "decide_seconds_per_1000_cells": 0.0268949539995446
   },
   {
    "dataset": "HUST",
    "model": "cnn",
-   "split_seconds": 4.627467221800179,
-   "peak_rss_mb": 881.38671875,
+   "split_seconds": 5.390910042200085,
+   "peak_rss_mb": 880.69140625,
    "n_checkpoints": 17.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "HUST",
    "model": "en",
-   "split_seconds": 2.552281790199777,
-   "peak_rss_mb": 881.38671875,
+   "split_seconds": 2.7722433701996123,
+   "peak_rss_mb": 880.69140625,
    "n_checkpoints": 17.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "HUST",
    "model": "gbr",
-   "split_seconds": 10.717109755399724,
-   "peak_rss_mb": 881.38671875,
+   "split_seconds": 12.273408835800002,
+   "peak_rss_mb": 880.69140625,
    "n_checkpoints": 17.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "HUST",
    "model": "gp",
-   "split_seconds": 1.420260651800163,
-   "peak_rss_mb": 881.38671875,
+   "split_seconds": 1.68720990039983,
+   "peak_rss_mb": 880.69140625,
    "n_checkpoints": 17.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "HUST",
    "model": "logit",
-   "split_seconds": 1.791273693400035,
-   "peak_rss_mb": 881.38671875,
+   "split_seconds": 1.6965005727999596,
+   "peak_rss_mb": 880.69140625,
    "n_checkpoints": 17.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "HUST",
    "model": "rf",
-   "split_seconds": 18.529635993400007,
-   "peak_rss_mb": 881.38671875,
+   "split_seconds": 21.749140079200153,
+   "peak_rss_mb": 880.69140625,
    "n_checkpoints": 17.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "MATR+CLO",
    "model": "calibration_only_n40",
-   "split_seconds": 6.022399975336157e-05,
+   "split_seconds": 6.874300015624613e-05,
    "peak_rss_mb": NaN,
    "n_checkpoints": 16.0,
-   "decide_seconds_per_1000_cells": 0.0237811780007177
+   "decide_seconds_per_1000_cells": 0.0284522349993494
   },
   {
    "dataset": "MATR+CLO",
    "model": "calibration_only_n400",
-   "split_seconds": 0.0001012279999486,
+   "split_seconds": 0.000148550000631,
    "peak_rss_mb": NaN,
    "n_checkpoints": 16.0,
-   "decide_seconds_per_1000_cells": 0.0221654340002714
+   "decide_seconds_per_1000_cells": 0.0278266759996768
   },
   {
    "dataset": "MATR+CLO",
    "model": "calibration_only_n4000",
-   "split_seconds": 0.0006029630003467,
+   "split_seconds": 0.0007351069998549,
    "peak_rss_mb": NaN,
    "n_checkpoints": 16.0,
-   "decide_seconds_per_1000_cells": 0.0226216979999662
+   "decide_seconds_per_1000_cells": 0.033650974000011
   },
   {
    "dataset": "MATR+CLO",
    "model": "cnn",
-   "split_seconds": 6.242431864600076,
-   "peak_rss_mb": 856.28125,
+   "split_seconds": 7.677964693000286,
+   "peak_rss_mb": 855.875,
    "n_checkpoints": 16.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "MATR+CLO",
    "model": "en",
-   "split_seconds": 1.6927169337999657,
-   "peak_rss_mb": 855.5546875,
+   "split_seconds": 1.9592647264000334,
+   "peak_rss_mb": 855.875,
    "n_checkpoints": 16.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "MATR+CLO",
    "model": "gbr",
-   "split_seconds": 11.16436791799988,
-   "peak_rss_mb": 855.5546875,
+   "split_seconds": 13.808310604399958,
+   "peak_rss_mb": 855.875,
    "n_checkpoints": 16.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "MATR+CLO",
    "model": "gp",
-   "split_seconds": 4.467054152399942,
-   "peak_rss_mb": 855.5546875,
+   "split_seconds": 5.026118240600044,
+   "peak_rss_mb": 855.875,
    "n_checkpoints": 16.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "MATR+CLO",
    "model": "logit",
-   "split_seconds": 1.5174013029996787,
-   "peak_rss_mb": 855.5546875,
+   "split_seconds": 1.834675977400002,
+   "peak_rss_mb": 855.875,
    "n_checkpoints": 16.0,
    "decide_seconds_per_1000_cells": NaN
   },
   {
    "dataset": "MATR+CLO",
    "model": "rf",
-   "split_seconds": 19.148896926599992,
-   "peak_rss_mb": 855.5546875,
+   "split_seconds": 22.267859851999855,
+   "peak_rss_mb": 855.875,
    "n_checkpoints": 16.0,
    "decide_seconds_per_1000_cells": NaN
   }

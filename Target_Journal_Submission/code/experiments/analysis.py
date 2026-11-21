@@ -63,7 +63,8 @@ def run(cfg, log):
         T = F["lifetime"].astype(float); Ls = cfg["datasets"][ds]["Lstar"]
         cells = pd.read_csv(os.path.join(R, "raw", f"E1_{ds}_cells.csv.gz"))
         pc = per_cell_times(cells, T, Ls)
-        comp = paired_comparisons(pc, "proposed", n_boot=10000 if cfg["n_splits"]["en"] >= 100 else 500)
+        comp = paired_comparisons(pc, "proposed", n_boot=10000 if cfg["n_splits"]["en"] >= 100 else 500,
+                                  groups=F["policy"] if ds == "matr_clo" else None)
         statsj[f"E1_{ds}_paired"] = comp.to_dict(orient="records")
         statsj[f"E1_{ds}_validity"] = v.to_dict(orient="records")
         # E8 error analysis from per-cell outcomes
@@ -79,8 +80,12 @@ def run(cfg, log):
         order = {str(c): i for i, c in enumerate(cats)}
         err["o"] = err.margin_bin.map(order); err = err.sort_values("o").drop(columns="o")
         _md(err, os.path.join(TB, f"E8_error_by_margin_{ds}.md"))
-        byb = pcp.groupby("batch").agg(n_cells=("cell", "size"), false_pass_freq=("fp", "mean"), false_reject_freq=("fr", "mean"),
-                                       early=("early", "mean")).reset_index()
+        pcp["good"] = pcp["T"] >= Ls
+        byb = pcp.groupby("batch").agg(n_cells=("cell", "size"), n_bad=("good", lambda g: int((~g).sum())),
+                                       n_good=("good", "sum"), early=("early", "mean")).reset_index()
+        # class-conditional error rates per batch (bad cells can only be falsely passed, good only falsely rejected)
+        byb["fpr_among_bad"] = byb.batch.map(pcp[~pcp.good].groupby("batch")["fp"].mean())
+        byb["frr_among_good"] = byb.batch.map(pcp[pcp.good].groupby("batch")["fr"].mean())
         _md(byb, os.path.join(TB, f"E8_error_by_batch_{ds}.md"))
         worst = pcp.assign(err=pcp.fp + pcp.fr).sort_values("err", ascending=False).head(10)[
             ["cell_id", "batch", "policy", "T", "log_ratio", "fp", "fr", "early", "time", "n"]]
@@ -187,6 +192,28 @@ def run(cfg, log):
                              never_pass=float(np.isinf(g.pass_thr).mean()), time_saving_mean=g.time_saving.mean(),
                              n_cal_bad=g.n_cal_bad.mean(), n_cal_good=g.n_cal_good.mean(), n_splits=len(g)))
         v = pd.DataFrame(rows); _md(v, os.path.join(TB, "T12_pac.md")); metrics["E10"] = v.to_dict(orient="records")
+    # ---------------- E12 training-selected grid (added after E3)
+    e12 = _raw(cfg, "E12_selected_grid_splits.csv")
+    if e12 is not None:
+        allraw.append(e12.assign(experiment="E12"))
+        v = validity_summary(e12, a, b, by=("dataset", "method")); v["dataset"] = v["dataset"].map(DS_LABEL)
+        sel = e12.groupby(["dataset", "grid_selected"]).size().rename("n").reset_index()
+        sel["share"] = sel["n"] / sel.groupby("dataset")["n"].transform("sum"); sel["dataset"] = sel["dataset"].map(DS_LABEL)
+        _md(v[["dataset", "method", "fpr_mean", "fpr_ci_hi", "frr_mean", "frr_ci_hi", "early_rate_mean", "time_saving_mean", "n_splits"]],
+            os.path.join(TB, "T14_selected_grid.md"))
+        _md(sel, os.path.join(TB, "T15_selected_grid_choices.md"))
+        metrics["E12"] = v.to_dict(orient="records")
+        if e3 is not None:  # paired with E3 (same split seeds): selected grid vs the pre-registered dense grid
+            from scipy.stats import wilcoxon
+            for ds in ("matr_clo", "hust"):
+                dense = "all16" if ds == "matr_clo" else "all17"
+                x = e12[e12.dataset == ds].set_index("split").time_saving
+                y = e3[(e3.dataset == ds) & (e3.grid == dense) & (e3.method == "proposed")].set_index("split").time_saving
+                j = x.index.intersection(y.index); dlt = (x[j] - y[j])
+                rng = np.random.default_rng(0); bs = [rng.choice(dlt.values, len(dlt)).mean() for _ in range(10000)]
+                statsj[f"E12_{ds}_vs_dense"] = dict(n_splits=int(len(j)), mean_diff=float(dlt.mean()), ci_lo=float(np.percentile(bs, 2.5)),
+                                                   ci_hi=float(np.percentile(bs, 97.5)), wilcoxon_p=float(wilcoxon(dlt).pvalue) if (dlt != 0).any() else 1.0,
+                                                   unit="split (paired by seed)")
     from scipy.stats import beta as _beta
     from batscreen.screening.calibration import pac_rank
     rows = []

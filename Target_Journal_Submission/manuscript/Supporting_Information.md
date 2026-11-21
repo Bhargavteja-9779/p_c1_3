@@ -8,19 +8,16 @@ Table S1 lists every experiment. Split seeds are `seed_base + offset + i` with `
 
 | ID | Purpose | Base model(s) | Splits per configuration | Output file |
 |---|---|---|---|---|
-| E1 | Main comparison of screening rules | Elastic net | 1,000 per data set | results/raw/E1_*_splits.csv |
+| E1 | Main comparison of screening rules | Elastic net | 1,000 per dataset | results/raw/E1_*_splits.csv |
 | E2 | Base predictors | Logistic, GBR, RF, GP, CNN | 1,000 (logistic), 200 (GBR, RF, GP), 30 (CNN) | results/raw/E2_models_splits.csv |
 | E3 | Checkpoint-grid ablation | Elastic net | 200 | results/raw/E3_ablation_grid_splits.csv |
 | E4 | Calibration/training size, feature noise | Elastic net | 200 | results/raw/E4_robustness_splits.csv |
 | E5 | Batch and laboratory shift | Elastic net | 200 | results/raw/E5_shift_splits.csv |
-| E6 | Run time and memory | All | 5 repetitions | results/raw/E6_compute.csv |
+| E6 | Run time and memory | all | 5 repetitions | results/raw/E6_compute.csv |
 | E7 | Sensitivity to alpha, beta and L* | Elastic net | 200 | results/raw/E7_sensitivity_splits.csv |
-| E8 | Error analysis | Elastic net (from E1) | - | results/E8_percell_*.csv |
+| E8 | Error analysis | Elastic net (from E1) | — | results/E8_percell_*.csv |
 | E9 | Protocol-disjoint splits (MATR/CLO) | Elastic net | 200 | results/raw/E9_protocol_grouped_splits.csv |
 | E10 | Training-conditional (PAC) calibration | Elastic net | 200 | results/raw/E10_pac_splits.csv |
-
-: **Table S1.** Experiments, base models, number of random splits per configuration and output files. Splits of different experiments use disjoint seed ranges fixed before running.
-
 
 ## S2 Data cleaning and labels
 
@@ -53,7 +50,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | MATR+CLO | Single checkpoint (cycle 100) conformal | 0.0819 | 0.0872 | 0.0604 | 0.0644 | 0.93 | 0.948 | 0.796 | 133 | 1000 |
 | MATR+CLO | Proposed without score normalisation | 0.0681 | 0.0731 | 0.0818 | 0.0866 | 0.925 | 0.752 | 0.689 | 203 | 1000 |
 
-: **Table S2.** Main results for all screening rules (E1, elastic net). Mean over splits of the false-pass rate (FPR, bad cells), false-reject rate (FRR, good cells) with upper 95% confidence limits, accuracy, share decided by the model, cycling time saved and mean cycles to decision.
+: **Table S1.** Main results for all screening rules (E1, elastic net). Mean over splits of the false-pass rate (FPR, bad cells), false-reject rate (FRR, good cells) with upper 95% confidence limits, accuracy, share decided by the model, cycling time saved and mean cycles to decision.
 
 
 | dataset | comparator | n cells | mean time ref | mean time comp | saving diff | saving diff ci lo | saving diff ci hi | wilcoxon p | p holm | rank biserial |
@@ -73,7 +70,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | HUST | Single checkpoint (cycle 100) conformal | 77 | 854 | 1.07e+03 | 0.124 | 0.0918 | 0.157 | 6.2e-09 | 1.24e-08 | -0.762 |
 | HUST | Proposed without score normalisation | 77 | 854 | 906 | 0.03 | 0.0147 | 0.0451 | 0.000992 | 0.000992 | -0.432 |
 
-: **Table S3.** Cell-level paired comparison of time to decision between the proposed rule and each comparator (E1). Positive saving differences favour the proposed rule. Wilcoxon signed-rank p-values, Holm-adjusted p-values and matched-pairs rank-biserial correlations.
+: **Table S2.** Cell-level paired comparison of time to decision between the proposed rule and each comparator (E1). Positive saving differences favour the proposed rule. Wilcoxon signed-rank p-values, Holm-adjusted p-values and matched-pairs rank-biserial correlations.
 
 
 | dataset | model | method | fpr mean | frr mean | accuracy mean | early rate mean | time saving mean | n splits |
@@ -125,7 +122,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | MATR+CLO | rf | proposed | 0.0659 | 0.0893 | 0.922 | 0.882 | 0.805 | 200 |
 | MATR+CLO | rf | single_k100 | 0.0781 | 0.0711 | 0.925 | 0.896 | 0.749 | 200 |
 
-: **Table S4.** Validity and efficiency with different base predictors (E2 and the elastic net of E1).
+: **Table S3.** Validity and efficiency with different base predictors (E2 and the elastic net of E1).
 
 
 | dataset | model | train cell cycles | train wallclock | cal cell cycles | cal wallclock |
@@ -153,7 +150,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | MATR+CLO | gp (interval, full-lifetime cal.) | – | – | 3.35e+04 | 1.98e+03 |
 | MATR+CLO | rf (interval, full-lifetime cal.) | – | – | 3.35e+04 | 1.98e+03 |
 
-: **Table S5.** Cell-cycles and wall-clock cycles needed for the training and calibration campaigns (mean per split).
+: **Table S4.** Cell-cycles and wall-clock cycles needed for the training and calibration campaigns (mean per split).
 
 
 | dataset | grid | method | fpr mean | frr mean | early rate mean | time saving mean | n splits |
@@ -201,7 +198,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | MATR+CLO | sparse_50_100_200_300 | proposed | 0.0706 | 0.0763 | 0.947 | 0.843 | 200 |
 | MATR+CLO | sparse_50_100_200_300 | traj_unnorm | 0.0689 | 0.0782 | 0.933 | 0.84 | 200 |
 
-: **Table S6.** Checkpoint-grid ablation (E3).
+: **Table S5.** Checkpoint-grid ablation (E3).
 
 
 | dataset | factor | level | method | fpr mean | frr mean | time saving mean | n splits |
@@ -327,7 +324,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | MATR+CLO | train_fraction | 0.5 | proposed | 0.0747 | 0.0761 | 0.802 | 200 |
 | MATR+CLO | train_fraction | 0.5 | single_k100 | 0.0943 | 0.0491 | 0.802 | 200 |
 
-: **Table S7.** Robustness to calibration-set size, training-set size and feature noise (E4).
+: **Table S6.** Robustness to calibration-set size, training-set size and feature noise (E4).
 
 
 | experiment | target | scenario | n target cal | method | fpr mean | fpr ci hi | frr mean | frr ci hi | time saving mean | n splits |
@@ -373,31 +370,31 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | cross_lab | HUST | target_model_target_cal | -1 | proposed | 0.0804 | 0.0959 | 0.0695 | 0.0819 | 0.47 | 200 |
 | cross_lab | HUST | target_model_target_cal | -1 | single_k100 | 0.0792 | 0.0955 | 0.0695 | 0.0823 | 0.414 | 200 |
 
-: **Table S8.** Batch shift and laboratory shift (E5).
+: **Table S7.** Batch shift and laboratory shift (E5).
 
 
 | dataset | model | split seconds | peak rss mb | n checkpoints | decide seconds per 1000 cells |
 |---|---|---|---|---|---|
-| HUST | calibration_only_n40 | 7.18e-05 | – | 17 | 0.025 |
-| HUST | calibration_only_n400 | 0.000139 | – | 17 | 0.022 |
-| HUST | calibration_only_n4000 | 0.00222 | – | 17 | 0.0218 |
-| HUST | cnn | 4.63 | 881 | 17 | – |
-| HUST | en | 2.55 | 881 | 17 | – |
-| HUST | gbr | 10.7 | 881 | 17 | – |
-| HUST | gp | 1.42 | 881 | 17 | – |
-| HUST | logit | 1.79 | 881 | 17 | – |
-| HUST | rf | 18.5 | 881 | 17 | – |
-| MATR+CLO | calibration_only_n40 | 6.02e-05 | – | 16 | 0.0238 |
-| MATR+CLO | calibration_only_n400 | 0.000101 | – | 16 | 0.0222 |
-| MATR+CLO | calibration_only_n4000 | 0.000603 | – | 16 | 0.0226 |
-| MATR+CLO | cnn | 6.24 | 856 | 16 | – |
-| MATR+CLO | en | 1.69 | 856 | 16 | – |
-| MATR+CLO | gbr | 11.2 | 856 | 16 | – |
-| MATR+CLO | gp | 4.47 | 856 | 16 | – |
-| MATR+CLO | logit | 1.52 | 856 | 16 | – |
-| MATR+CLO | rf | 19.1 | 856 | 16 | – |
+| HUST | calibration_only_n40 | 7.77e-05 | – | 17 | 0.0289 |
+| HUST | calibration_only_n400 | 0.000129 | – | 17 | 0.028 |
+| HUST | calibration_only_n4000 | 0.00221 | – | 17 | 0.0269 |
+| HUST | cnn | 5.39 | 881 | 17 | – |
+| HUST | en | 2.77 | 881 | 17 | – |
+| HUST | gbr | 12.3 | 881 | 17 | – |
+| HUST | gp | 1.69 | 881 | 17 | – |
+| HUST | logit | 1.7 | 881 | 17 | – |
+| HUST | rf | 21.7 | 881 | 17 | – |
+| MATR+CLO | calibration_only_n40 | 6.87e-05 | – | 16 | 0.0285 |
+| MATR+CLO | calibration_only_n400 | 0.000149 | – | 16 | 0.0278 |
+| MATR+CLO | calibration_only_n4000 | 0.000735 | – | 16 | 0.0337 |
+| MATR+CLO | cnn | 7.68 | 856 | 16 | – |
+| MATR+CLO | en | 1.96 | 856 | 16 | – |
+| MATR+CLO | gbr | 13.8 | 856 | 16 | – |
+| MATR+CLO | gp | 5.03 | 856 | 16 | – |
+| MATR+CLO | logit | 1.83 | 856 | 16 | – |
+| MATR+CLO | rf | 22.3 | 856 | 16 | – |
 
-: **Table S9.** Computational cost (E6).
+: **Table S8.** Computational cost (E6).
 
 
 | dataset | factor | alpha | beta | Lstar | method | fpr mean | frr mean | fpr le alpha | frr le beta | time saving mean | bad share | n splits |
@@ -459,7 +456,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | MATR+CLO | alpha_beta | 0.2 | 0.2 | 750 | proposed | 0.136 | 0.145 | True | True | 0.942 | 0.478 | 200 |
 | MATR+CLO | alpha_beta | 0.2 | 0.2 | 750 | single_k100 | 0.191 | 0.023 | True | True | 0.847 | 0.478 | 200 |
 
-: **Table S10.** Sensitivity to the error levels and to the specification L* (E7).
+: **Table S9.** Sensitivity to the error levels and to the specification L* (E7).
 
 
 | dataset | method | fpr mean | fpr ci hi | frr mean | frr ci hi | accuracy mean | early rate mean | time saving mean | n splits |
@@ -470,7 +467,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | MATR+CLO (protocol-disjoint) | proposed | 0.0733 | 0.0874 | 0.0877 | 0.101 | 0.924 | 0.833 | 0.751 | 200 |
 | MATR+CLO (protocol-disjoint) | single_k100 | 0.0868 | 0.102 | 0.0597 | 0.0706 | 0.931 | 0.925 | 0.776 | 200 |
 
-: **Table S11.** Protocol-disjoint splits on MATR/CLO (E9).
+: **Table S10.** Protocol-disjoint splits on MATR/CLO (E9).
 
 
 | dataset | cal design | method | fpr mean | frr mean | fpr split above alpha | frr split above beta | never pass | time saving mean | n cal bad | n cal good | n splits |
@@ -488,7 +485,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | MATR+CLO | large_cal | single_k100 | 0.0886 | 0.0633 | 0.41 | 0.26 | 0 | 0.83 | 36.8 | 40.2 | 200 |
 | MATR+CLO | large_cal | traj_pac | 0.0275 | 0.0346 | 0.11 | 0.115 | 0 | 0.563 | 36.8 | 40.2 | 200 |
 
-: **Table S12.** Training-conditional (PAC) calibration (E10).
+: **Table S11.** Training-conditional (PAC) calibration (E10).
 
 
 | n calibration cells in class | marginal rank | P conditional error above alpha | pac rank delta 0 1 | pac rank delta 0 2 |
@@ -503,7 +500,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | 60.0 | 55.0 | 0.437 | 58 | 57 |
 | 100.0 | 91.0 | 0.451 | 95 | 94 |
 
-: **Table S13.** Conditional (training-conditional) error of marginally calibrated thresholds. For $n$ calibration cells of a class and $\alpha=0.10$: the rank used by the marginal rule, the probability that the conditional error probability of the resulting threshold exceeds $\alpha$ (Beta$(r,n+1-r)$ law of conformal coverage for continuous scores), and the rank required for a PAC guarantee with $\delta=0.1$ and $\delta=0.2$ (empty: impossible with $n$ cells).
+: **Table S12.** Conditional (training-conditional) error of marginally calibrated thresholds. For $n$ calibration cells of a class and $\alpha=0.10$: the rank used by the marginal rule, the probability that the conditional error probability of the resulting threshold exceeds $\alpha$ (Beta$(r,n+1-r)$ law of conformal coverage for continuous scores), and the rank required for a PAC guarantee with $\delta=0.1$ and $\delta=0.2$ (empty: impossible with $n$ cells).
 
 
 | margin bin | n cells | false pass freq | false reject freq | early decision | mean cycles |
@@ -517,7 +514,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | (0.2, inf] | 11 | 0 | 0.0874 | 0.987 | 40.8 |
 | (-inf, -0.2] | 20 | 0.0374 | 0 | 0.999 | 34.8 |
 
-: **Table S14.** Error analysis by distance of the true lifetime from the specification, MATR/CLO (proposed rule, E1).
+: **Table S13.** Error analysis by distance of the true lifetime from the specification, MATR/CLO (proposed rule, E1).
 
 
 | margin bin | n cells | false pass freq | false reject freq | early decision | mean cycles |
@@ -530,7 +527,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | (0.1, 0.2] | 10 | 0 | 0.0434 | 0.814 | 495 |
 | (-inf, -0.2] | 2 | 0.103 | 0 | 0.965 | 210 |
 
-: **Table S15.** Error analysis by distance of the true lifetime from the specification, HUST (proposed rule, E1).
+: **Table S14.** Error analysis by distance of the true lifetime from the specification, HUST (proposed rule, E1).
 
 
 | cell id | batch | policy | T | log ratio | fp | fr | early | time | n |
@@ -546,7 +543,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | b1c33 | b1 | 6C(60%)-3C | 757 | 0.00403 | 0 | 0.539 | 0.649 | 298 | 245 |
 | b1c11 | b1 | 5.4C(50%)-3C | 788 | 0.0215 | 0 | 0.494 | 0.894 | 131 | 265 |
 
-: **Table S16.** The ten MATR/CLO cells with the highest error frequency across splits (proposed rule).
+: **Table S15.** The ten MATR/CLO cells with the highest error frequency across splits (proposed rule).
 
 
 | cell id | batch | policy | T | log ratio | fp | fr | early | time | n |
@@ -562,7 +559,7 @@ See Section 3.2 of the main text. All features at checkpoint $k$ use cycles $\le
 | HUST_1-6 | HUST | 1-6 | 1.14e+03 | -0.221 | 0.207 | 0 | 0.969 | 173 | 290 |
 | HUST_6-3 | HUST | 6-3 | 1.8e+03 | -0.0225 | 0.187 | 0 | 0.221 | 1.42e+03 | 321 |
 
-: **Table S17.** The ten HUST cells with the highest error frequency across splits (proposed rule).
+: **Table S16.** The ten HUST cells with the highest error frequency across splits (proposed rule).
 
 
 ![**Figure S1.** Normalised score trajectories of eight randomly chosen test cells in one split, with the calibrated pass and reject thresholds of the proposed rule.](/home/user/p_c1_3/Target_Journal_Submission/figures/Fig6_score_trajectories.png){width=6.3in}

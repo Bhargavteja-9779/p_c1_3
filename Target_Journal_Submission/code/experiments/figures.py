@@ -48,7 +48,7 @@ def fig_workflow(cfg):
     boxes = [(0.05, "Cycling data\n(cycles 1 ... $k$)"),
              (2.05, "Checkpoint features\n$\\Delta Q(V)$, $\\Delta V(q)$,\ncapacity fade"),
              (4.05, "Base predictor $h_k$\n(trained on\ntraining cells)"),
-             (6.05, "Normalised score\n$S_k=(h_k-\\log_{10}L^*)/s_k$"),
+             (6.05, "Normalised score\n$S_k=(h_k-\\log_{10}L^*)\\,/\\,s_k$"),
              (8.05, "Decision at $k$:\npass / reject /\ncontinue cycling")]
     for x, t in boxes:
         ax.add_patch(FancyBboxPatch((x, 1.95), 1.85, 1.2, boxstyle="round,pad=0.02,rounding_size=0.08", fc="#f0efec", ec=INK2, lw=0.8))
@@ -57,7 +57,7 @@ def fig_workflow(cfg):
         ax.annotate("", xy=(x + 0.15, 2.55), xytext=(x, 2.55), arrowprops=dict(arrowstyle="-|>", color=INK2, lw=1))
     ax.add_patch(FancyBboxPatch((0.1, 0.05), 9.8, 1.35, boxstyle="round,pad=0.02,rounding_size=0.08", fc="#cde2fb", ec=BLUE, lw=0.8))
     ax.text(5.0, 0.72, "Trajectory calibration on calibration cells cycled only to $\\min(T, L^*)$\n"
-            "$\\hat\\lambda$ = rank quantile of $\\max_k S_k$ over bad cells;   $\\hat\\mu$ = rank quantile of $\\max_k(-S_k)$ over good cells\n"
+            "$\\hat\\lambda$ = rank quantile of max$_{k}\\,S_k$ over bad cells;   $\\hat\\mu$ = rank quantile of max$_{k}\\,(-S_k)$ over good cells\n"
             "pass if $S_k>\\hat\\lambda$, reject if $S_k<-\\hat\\mu$  $\\Rightarrow$  P(false pass | bad) $\\leq \\alpha$,  P(false reject | good) $\\leq \\beta$ for any stopping time",
             ha="center", va="center", fontsize=7, color=INK, linespacing=1.5)
     ax.annotate("", xy=(8.975, 1.93), xytext=(8.975, 1.42), arrowprops=dict(arrowstyle="-|>", color=BLUE, lw=1))
@@ -180,7 +180,7 @@ def fig_ablation(cfg):
     e3 = _raw(cfg, "E3_ablation_grid_splits.csv")
     if e3 is None:
         return
-    fig, axs = plt.subplots(1, 2, figsize=(7.2, 2.8))
+    fig, axs = plt.subplots(1, 2, figsize=(7.2, 4.0))
     for ax, ds in zip(axs, DS):
         d = e3[e3.dataset == ds]
         g = d.groupby(["grid", "method"]).agg(sav=("time_saving", "mean"), fpr=("fpr", "mean"), frr=("frr", "mean")).reset_index()
@@ -190,11 +190,12 @@ def fig_ablation(cfg):
             ax.barh(y + off, 100 * gg.sav, height=0.18, color=col, label=LBL[m])
             for yy, (gname, r) in zip(y, gg.iterrows()):
                 ax.text(100 * r.sav + 1, yy + off, f"FP {r.fpr:.2f} / FR {r.frr:.2f}", va="center", fontsize=5.6, color=INK2)
-        ax.set_yticks(y); ax.set_yticklabels(grids, fontsize=7); ax.set_xlim(0, 140); ax.set_xlabel("Cycling time saved (%)")
+        ax.set_yticks(y); ax.set_yticklabels(grids, fontsize=7); ax.set_xlim(0, 130); ax.set_xlabel("Cycling time saved (%)")
+        ax.set_xticks([0, 25, 50, 75, 100])
         ax.set_title(DS[ds][0], fontsize=8.5, loc="left", color=INK)
-        if ds == "hust":
-            ax.legend(fontsize=6.5, loc="lower right")
-    fig.tight_layout(); _save(fig, cfg, "Fig7_ablation_checkpoint_grid")
+    h, l = axs[0].get_legend_handles_labels()
+    fig.legend(h, l, fontsize=7, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.0))
+    fig.tight_layout(rect=(0, 0.06, 1, 1)); _save(fig, cfg, "Fig7_ablation_checkpoint_grid")
 
 
 def fig_robustness(cfg):
@@ -330,9 +331,75 @@ def fig_compute(cfg):
     fig.tight_layout(); _save(fig, cfg, "Fig14_compute")
 
 
+FEAT_LBL = {"dq_min": "min ΔQ(V)", "dq_var": "var ΔQ(V)", "dq_skew": "skew ΔQ(V)", "dq_kurt": "kurt ΔQ(V)",
+            "dv_min": "min ΔV(q)", "dv_var": "var ΔV(q)", "dv_skew": "skew ΔV(q)", "dv_kurt": "kurt ΔV(q)", "dv_mean": "mean ΔV(q)",
+            "q2": "Q at cycle 2", "qmax_minus_q2": "Qmax − Q2", "fade_slope": "fade slope", "fade_intercept": "fade intercept",
+            "fade_slope_late": "fade slope (last 10)", "dq_k_10": "Q_k − Q_10", "chargetime5": "charge time", "tmax_mean": "mean Tmax"}
+
+
+def fig_interpretation(cfg):
+    r = _raw(cfg, "E11_correlations.csv"); c = _raw(cfg, "E11_coefficients.csv")
+    if r is None or c is None:
+        return
+    fig, axs = plt.subplots(2, 2, figsize=(7.2, 6.4), gridspec_kw=dict(height_ratios=[1.25, 1], hspace=0.55, wspace=0.55))
+    for j, ds in enumerate(["matr_clo", "hust"]):
+        rr = r[r.dataset == ds].pivot(index="feature", columns="checkpoint", values="spearman")
+        cc = c[c.dataset == ds].groupby(["feature", "checkpoint"]).coef.agg(lambda v: np.mean(np.abs(v))).unstack()
+        order = cc.max(axis=1).sort_values(ascending=False).index.tolist()
+        rr = rr.reindex(order); ax = axs[0, j]
+        im = ax.imshow(rr.values, cmap="RdBu", vmin=-1, vmax=1, aspect="auto")
+        ax.set_yticks(range(len(order))); ax.set_yticklabels([FEAT_LBL.get(f, f) for f in order], fontsize=6.5)
+        ax.set_xticks(range(rr.shape[1])); ax.set_xticklabels(rr.columns, fontsize=6, rotation=90)
+        ax.set_xlabel("Checkpoint (cycle)"); ax.set_title(f"{DS[ds][0]}: Spearman ρ with log cycle life", fontsize=8); ax.grid(False)
+        ax = axs[1, j]
+        for f, col in zip(order[:4], [BLUE, ORANGE, AQUA, YELLOW]):
+            ax.plot(range(cc.shape[1]), cc.loc[f].values, "-o", ms=2.5, color=col, label=FEAT_LBL.get(f, f))
+        others = cc.loc[order[4:]].sum(axis=0)
+        ax.plot(range(cc.shape[1]), others.values, "--", color=GRAY, lw=1.2, label="all other features (sum)")
+        ax.set_xticks(range(cc.shape[1])); ax.set_xticklabels(cc.columns, fontsize=6, rotation=90); ax.set_xlabel("Checkpoint (cycle)"); ax.set_ylabel("Mean |standardised EN coefficient|", fontsize=7)
+        ax.legend(fontsize=6, frameon=True, framealpha=0.9, edgecolor="none")
+    fig.colorbar(im, ax=axs[0, :].tolist(), shrink=0.8, label="ρ", pad=0.02)
+    _save(fig, cfg, "Fig15_interpretation")
+
+
+def fig_graphical_abstract(cfg):
+    """Graphical abstract: real score trajectories of all MATR/CLO test cells of the first E1
+    split, stopped where the proposed rule decided; headline numbers from all E1 splits."""
+    ds = "matr_clo"; sc, sp, ce = _raw(cfg, f"E1_{ds}_scores.csv.gz"), _raw(cfg, f"E1_{ds}_splits.csv"), _raw(cfg, f"E1_{ds}_cells.csv.gz")
+    if sc is None or ce is None:
+        return
+    F = _F(cfg, ds); T = F["lifetime"].astype(float); ck = F["checkpoints"]; Ls = cfg["datasets"][ds]["Lstar"]
+    s0 = sorted(sc.split.unique())[0]; d = sc[sc.split == s0]
+    r = sp[(sp.split == s0) & (sp.method == "proposed")].iloc[0]
+    dec = ce[(ce.split == s0) & (ce.method == "proposed")].set_index("cell")
+    fig, ax = plt.subplots(figsize=(6.0, 3.2))
+    lo, hi = -4.5, 7.5
+    ax.axhspan(r.pass_thr, hi, color=BLUE, alpha=0.10, lw=0); ax.axhspan(lo, r.rej_thr, color=ORANGE, alpha=0.10, lw=0)
+    for cidx, dd in d.groupby("cell"):
+        dd = dd.sort_values("m"); good = T[cidx] >= Ls; col = BLUE if good else ORANGE
+        if cidx in dec.index and bool(dec.loc[cidx, "by_model"]):
+            mi = int(dec.loc[cidx, "m_idx"]); dd = dd[dd.m <= mi]
+            ax.plot(ck[dd.m.values][-1:], np.clip(dd.S.values[-1:], lo, hi), "o", ms=3.5, color=col)
+        ax.plot(ck[dd.m.values], np.clip(dd.S.values, lo, hi), "-", color=col, lw=1.0, alpha=0.8)
+    ax.axhline(r.pass_thr, color=INK, lw=1, ls="--"); ax.axhline(r.rej_thr, color=INK, lw=1, ls="--")
+    ax.text(90, hi - 0.6, "PASS: stop test, cell meets spec", fontsize=7, va="top", color=INK)
+    ax.text(90, lo + 0.6, "REJECT: stop test, cell fails spec", fontsize=7, va="bottom", color=INK)
+    ax.annotate("keep\ncycling", xy=(1.0, (r.pass_thr - lo + r.rej_thr - lo) / 2 / (hi - lo)), xycoords="axes fraction",
+                xytext=(4, 0), textcoords="offset points", fontsize=7, va="center", color=INK2)
+    e1 = sp[sp.method == "proposed"]
+    ax.set_title(f"Stop cycle-life tests early with guaranteed error rates (MATR/CLO, {len(e1):,} splits):\n"
+                 f"false pass {e1.fpr.mean():.3f}, false reject {e1.frr.mean():.3f} (target 0.10); "
+                 f"{100 * e1.time_saving.mean():.0f}% of cycling saved", fontsize=7.5, loc="left", color=INK)
+    ax.plot([], [], color=BLUE, label=f"cell reaching {Ls} cycles"); ax.plot([], [], color=ORANGE, label=f"cell failing before {Ls} cycles")
+    ax.set_xscale("log"); ax.set_ylim(lo, hi); ax.set_xticks([20, 50, 100, 200, 300]); ax.set_xticklabels(["20", "50", "100", "200", "300"])
+    ax.minorticks_off(); ax.set_xlabel("Cycles completed (log scale)"); ax.set_ylabel("Normalised lifetime score")
+    ax.legend(fontsize=6.5, loc="upper left", bbox_to_anchor=(1.0, 1.0))
+    fig.tight_layout(); _save(fig, cfg, "Graphical_Abstract")
+
+
 def run(cfg, log):
     for f in [fig_workflow, fig_lifetimes, fig_accuracy, fig_validity_efficiency, fig_decision_time, fig_trajectories,
-              fig_ablation, fig_robustness, fig_shift, fig_errors, fig_confusion, fig_roc_pr, fig_compute]:
+              fig_ablation, fig_robustness, fig_shift, fig_errors, fig_confusion, fig_roc_pr, fig_compute, fig_interpretation, fig_graphical_abstract]:
         try:
             f(cfg); log.info(f"figure {f.__name__} ok")
         except Exception as e:  # report, never hide

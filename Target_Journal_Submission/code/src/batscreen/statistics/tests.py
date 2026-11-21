@@ -22,6 +22,7 @@ def validity_summary(df, alpha, beta, by=("model", "method")):
             m, s = g[e].mean(), g[e].std(ddof=1) if n > 1 else 0.0
             r[f"{e}_mean"] = m; r[f"{e}_ci_lo"] = m - 1.96 * s / np.sqrt(n); r[f"{e}_ci_hi"] = m + 1.96 * s / np.sqrt(n)
             r[f"{e}_share_above"] = float((g[e] > lvl).mean())
+        r["either_share_above"] = float(((g["fpr"] > alpha) | (g["frr"] > beta)).mean())
         k_fp, n_b = g["false_pass"].sum(), g["n_bad"].sum()
         k_fr, n_g = g["false_reject"].sum(), g["n_good"].sum()
         r["fpr_pooled"] = k_fp / n_b; r["frr_pooled"] = k_fr / n_g
@@ -55,8 +56,12 @@ def holm(pvals):
     return adj
 
 
-def paired_comparisons(pc, reference="proposed", n_boot=10000, seed=0):
-    """Compare reference vs every other method of the same model on per-cell mean time."""
+def paired_comparisons(pc, reference="proposed", n_boot=10000, seed=0, groups=None):
+    """Compare reference vs every other method of the same model on per-cell mean time.
+    groups: optional array indexed by cell id giving a cluster label (e.g. charging protocol).
+    If given, the bootstrap resamples clusters and the Wilcoxon test / rank-biserial correlation
+    use cluster-mean differences (cells sharing a protocol are not independent); the cell-level
+    Wilcoxon p-value is kept as `wilcoxon_p_cell`."""
     rows = []
     rng = np.random.default_rng(seed)
     for model, g in pc.groupby("model"):
@@ -71,24 +76,37 @@ def paired_comparisons(pc, reference="proposed", n_boot=10000, seed=0):
             ok = np.isfinite(a) & np.isfinite(b)
             a, b, c = a[ok], b[ok], cost[ok]
             d = a - b
-            nz = d[d != 0]
+            cells_ok = piv.index.values[ok]
+            if groups is not None:
+                gl = np.asarray(groups)[cells_ok]
+                gid = pd.Series(d).groupby(gl).mean()
+                dt = gid.values
+                members = [np.where(gl == u)[0] for u in gid.index]
+            else:
+                dt = d; members = None
+            p_cell = float(stats.wilcoxon(a, b, zero_method="wilcox").pvalue) if (d != 0).any() else 1.0
+            nz = dt[dt != 0]
             if nz.size == 0:
                 p, rbc = 1.0, 0.0
             else:
-                w = stats.wilcoxon(a, b, zero_method="wilcox")
-                p = float(w.pvalue)
+                p = float(stats.wilcoxon(nz, zero_method="wilcox").pvalue)
                 ranks = stats.rankdata(np.abs(nz))
                 rbc = float((ranks[nz > 0].sum() - ranks[nz < 0].sum()) / ranks.sum())
             # bootstrap CI of difference in fractional time saved (positive = reference saves more)
             sav = lambda x, cc: 1 - x.sum() / cc.sum()
             bs = []
             for _ in range(n_boot):
-                i = rng.integers(0, len(a), len(a))
+                if members is None:
+                    i = rng.integers(0, len(a), len(a))
+                else:
+                    i = np.concatenate([members[j] for j in rng.integers(0, len(members), len(members))])
                 bs.append(sav(a[i], c[i]) - sav(b[i], c[i]))
             rows.append(dict(model=model, reference=reference, comparator=meth, n_cells=int(len(a)),
                              mean_time_ref=a.mean(), mean_time_comp=b.mean(), median_diff=float(np.median(d)),
                              saving_diff=sav(a, c) - sav(b, c), saving_diff_ci_lo=float(np.percentile(bs, 2.5)),
-                             saving_diff_ci_hi=float(np.percentile(bs, 97.5)), wilcoxon_p=p, rank_biserial=rbc))
+                             saving_diff_ci_hi=float(np.percentile(bs, 97.5)), wilcoxon_p=p, rank_biserial=rbc,
+                             wilcoxon_p_cell=p_cell, n_clusters=int(len(dt)),
+                             resampling="cluster" if members is not None else "cell"))
     out = pd.DataFrame(rows)
     if len(out):
         out["p_holm"] = np.concatenate([holm(g["wilcoxon_p"].values) for _, g in out.groupby("model")]) if out["model"].nunique() == 1 else out.groupby("model")["wilcoxon_p"].transform(lambda s: holm(s.values))

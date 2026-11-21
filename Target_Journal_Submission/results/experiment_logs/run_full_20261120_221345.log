@@ -1,0 +1,37 @@
+2026-11-20 22:13:48,054 INFO mode=full stages=['experiments', 'analysis', 'figures'] env={"python": "3.13.18", "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39", "numpy": "2.5.3", "scipy": "1.18.1", "sklearn": "1.9.1", "cpu_count": 4, "device": "cpu", "torch": "2.15.0+cu132"}
+2026-11-20 22:13:53,358 INFO --- E1 start
+2026-11-20 22:13:53,359 INFO E1 matr_clo: outputs exist, skipped (resume)
+2026-11-20 22:13:53,359 INFO E1 hust: outputs exist, skipped (resume)
+2026-11-20 22:13:53,359 INFO --- E1 done in 0s
+2026-11-20 22:13:53,359 INFO --- E2 start
+2026-11-20 22:13:53,371 INFO chunk E2_matr_clo_logit: exists, re-used
+2026-11-20 22:13:53,384 INFO chunk E2_matr_clo_gp: exists, re-used
+2026-11-20 22:13:53,390 INFO chunk E2_matr_clo_cnn: exists, re-used
+2026-11-20 22:13:53,392 INFO chunk E2_matr_clo_gbr: exists, re-used
+2026-11-20 22:13:53,397 INFO chunk E2_matr_clo_rf: exists, re-used
+2026-11-20 22:13:53,408 INFO chunk E2_hust_logit: exists, re-used
+2026-11-20 22:13:53,417 INFO chunk E2_hust_gp: exists, re-used
+2026-11-20 22:13:53,422 INFO chunk E2_hust_cnn: exists, re-used
+2026-11-20 22:25:18,414 INFO chunk E2_hust_gbr: 1600 rows in 685s
+2026-11-20 22:43:43,680 INFO chunk E2_hust_rf: 1600 rows in 1105s
+2026-11-20 22:43:43,963 INFO --- E2 done in 1791s
+2026-11-20 22:43:43,963 INFO --- E3 start
+2026-11-20 22:45:24,477 INFO chunk E3_matr_clo: 4200 rows in 101s
+2026-11-20 22:48:12,631 INFO chunk E3_hust: 4200 rows in 168s
+2026-11-20 22:48:12,758 INFO --- E3 done in 269s
+2026-11-20 22:48:12,759 INFO --- E4 start
+2026-11-20 22:49:53,921 INFO chunk E4_matr_clo_cal_0.1: 800 rows in 101s
+2026-11-20 22:51:32,298 INFO chunk E4_matr_clo_cal_0.15: 800 rows in 98s
+2026-11-20 22:53:09,990 INFO chunk E4_matr_clo_cal_0.2: 800 rows in 98s
+2026-11-20 22:54:47,312 INFO chunk E4_matr_clo_cal_0.25: 800 rows in 97s
+2026-11-20 22:56:27,220 INFO chunk E4_matr_clo_train_0.2: 800 rows in 100s
+2026-11-20 22:58:05,915 INFO chunk E4_matr_clo_train_0.3: 800 rows in 99s
+2026-11-20 22:59:44,873 INFO chunk E4_matr_clo_train_0.4: 800 rows in 99s
+2026-11-20 23:01:20,975 INFO chunk E4_matr_clo_train_0.5: 800 rows in 96s
+2026-11-20 23:03:00,841 INFO chunk E4_matr_clo_noise: 6400 rows in 100s
+2026-11-20 23:03:00,842 INFO E4 matr_clo done
+2026-11-20 23:05:44,189 INFO chunk E4_hust_cal_0.2: 800 rows in 163s
+2026-11-20 23:08:26,290 INFO chunk E4_hust_cal_0.3: 800 rows in 162s
+2026-11-20 23:11:07,856 INFO chunk E4_hust_cal_0.4: 800 rows in 162s
+2026-11-20 23:15:13,287 INFO chunk E4_hust_train_0.2: 800 rows in 245s
+2026-11-20 23:18:27,301 INFO chunk E4_hust_train_0.3: 800 rows in 194s

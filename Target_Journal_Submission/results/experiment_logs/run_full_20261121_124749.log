@@ -1,0 +1,65 @@
+2026-11-21 12:48:39,766 INFO mode=full stages=['experiments', 'analysis', 'figures'] env={"python": "3.13.18", "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39", "numpy": "2.5.3", "scipy": "1.18.1", "sklearn": "1.9.1", "cpu_count": 4, "device": "cpu", "torch": "2.15.0+cu132"}
+2026-11-21 12:48:50,819 INFO --- E1 start
+2026-11-21 12:48:50,819 INFO E1 matr_clo: outputs exist, skipped (resume)
+2026-11-21 12:48:50,819 INFO E1 hust: outputs exist, skipped (resume)
+2026-11-21 12:48:50,819 INFO --- E1 done in 0s
+2026-11-21 12:48:50,819 INFO --- E2 start
+2026-11-21 12:48:50,819 INFO E2_models_splits.csv: exists, skipped (resume)
+2026-11-21 12:48:50,819 INFO --- E2 done in 0s
+2026-11-21 12:48:50,819 INFO --- E3 start
+2026-11-21 12:48:50,819 INFO E3_ablation_grid_splits.csv: exists, skipped (resume)
+2026-11-21 12:48:50,820 INFO --- E3 done in 0s
+2026-11-21 12:48:50,820 INFO --- E4 start
+2026-11-21 12:48:51,040 INFO chunk E4_matr_clo_cal_0.1: exists, re-used
+2026-11-21 12:48:51,358 INFO chunk E4_matr_clo_cal_0.15: exists, re-used
+2026-11-21 12:48:51,364 INFO chunk E4_matr_clo_cal_0.2: exists, re-used
+2026-11-21 12:48:51,514 INFO chunk E4_matr_clo_cal_0.25: exists, re-used
+2026-11-21 12:48:51,522 INFO chunk E4_matr_clo_train_0.2: exists, re-used
+2026-11-21 12:48:51,528 INFO chunk E4_matr_clo_train_0.3: exists, re-used
+2026-11-21 12:48:51,533 INFO chunk E4_matr_clo_train_0.4: exists, re-used
+2026-11-21 12:48:51,543 INFO chunk E4_matr_clo_train_0.5: exists, re-used
+2026-11-21 12:48:51,550 INFO chunk E4_matr_clo_noise: exists, re-used
+2026-11-21 12:48:51,584 INFO E4 matr_clo done
+2026-11-21 12:48:51,911 INFO chunk E4_hust_cal_0.2: exists, re-used
+2026-11-21 12:48:51,916 INFO chunk E4_hust_cal_0.3: exists, re-used
+2026-11-21 12:48:51,920 INFO chunk E4_hust_cal_0.4: exists, re-used
+2026-11-21 12:48:51,923 INFO chunk E4_hust_train_0.2: exists, re-used
+2026-11-21 12:48:51,928 INFO chunk E4_hust_train_0.3: exists, re-used
+2026-11-21 12:53:18,643 INFO chunk E4_hust_train_0.4: 800 rows in 267s
+2026-11-21 12:56:49,959 INFO chunk E4_hust_noise: 6400 rows in 211s
+2026-11-21 12:56:49,960 INFO E4 hust done
+2026-11-21 12:56:50,455 INFO --- E4 done in 480s
+2026-11-21 12:56:50,455 INFO --- E5 start
+2026-11-21 12:58:36,950 INFO chunk E5_batch_b3_source_cal_0: 1000 rows in 106s
+2026-11-21 13:00:18,845 INFO chunk E5_batch_b3_target_cal_20: 1000 rows in 102s
+2026-11-21 13:02:00,463 INFO chunk E5_batch_b3_target_cal_30: 1000 rows in 102s
+2026-11-21 13:03:43,234 INFO chunk E5_batch_b4_source_cal_0: 1000 rows in 103s
+2026-11-21 13:05:30,361 INFO chunk E5_batch_b4_target_cal_20: 1000 rows in 107s
+2026-11-21 13:07:17,331 INFO chunk E5_batch_b4_target_cal_30: 1000 rows in 107s
+2026-11-21 13:10:01,121 INFO chunk E5_xlab_source_model_target_cal: 1000 rows in 164s
+2026-11-21 13:11:26,552 INFO chunk E5_xlab_target_model_target_cal: 1000 rows in 85s
+2026-11-21 13:11:26,701 INFO --- E5 done in 876s
+2026-11-21 13:11:26,702 INFO --- E6 start
+2026-11-21 13:17:21,615 INFO E6 matr_clo done
+2026-11-21 13:22:17,239 INFO E6 hust done
+2026-11-21 13:22:17,241 INFO --- E6 done in 651s
+2026-11-21 13:22:17,241 INFO --- E7 start
+2026-11-21 13:24:13,410 INFO chunk E7_matr_clo_ab: 3200 rows in 116s
+2026-11-21 13:26:06,448 INFO chunk E7_matr_clo_L550: 800 rows in 113s
+2026-11-21 13:27:51,805 INFO chunk E7_matr_clo_L750: 800 rows in 105s
+2026-11-21 13:29:40,654 INFO chunk E7_matr_clo_L900: 800 rows in 109s
+2026-11-21 13:29:40,655 INFO E7 matr_clo done
+2026-11-21 13:32:41,882 INFO chunk E7_hust_ab: 3200 rows in 181s
+2026-11-21 13:36:01,973 INFO chunk E7_hust_L1600: 800 rows in 200s
+2026-11-21 13:39:04,258 INFO chunk E7_hust_L1900: 800 rows in 182s
+2026-11-21 13:42:13,567 INFO chunk E7_hust_L2200: 800 rows in 189s
+2026-11-21 13:42:13,568 INFO E7 hust done
+2026-11-21 13:42:13,787 INFO --- E7 done in 1197s
+2026-11-21 13:42:13,787 INFO --- E9 start
+2026-11-21 13:44:06,877 INFO chunk E9_matr_clo: 1000 rows in 113s
+2026-11-21 13:44:06,901 INFO E9 done (78 protocol groups)
+2026-11-21 13:44:06,902 INFO --- E9 done in 113s
+2026-11-21 13:44:06,902 INFO --- E10 start
+2026-11-21 13:45:54,115 INFO chunk E10_matr_clo_default: 600 rows in 107s
+2026-11-21 13:47:43,803 INFO chunk E10_matr_clo_large_cal: 600 rows in 110s
+2026-11-21 13:47:43,803 INFO E10 matr_clo done

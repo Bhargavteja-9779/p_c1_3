@@ -18,7 +18,7 @@ from batscreen.utils import load_config, get_logger, environment_info, set_seed
 ap = argparse.ArgumentParser()
 ap.add_argument("--mode", choices=["quick", "full"], default="quick")
 ap.add_argument("--stages", nargs="*", default=["data", "features", "experiments", "analysis", "figures"])
-ap.add_argument("--experiments", nargs="*", default=["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E9", "E10"])
+ap.add_argument("--experiments", nargs="*", default=["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E9", "E10", "E11", "E12", "E13"])
 ap.add_argument("--force", action="store_true", help="recompute experiments whose outputs already exist")
 a = ap.parse_args()
 cfg = load_config(f"config/{'default' if a.mode == 'full' else 'quick'}.yaml")
@@ -26,6 +26,10 @@ if a.mode == "quick":
     for k in ("results", "figures", "tables"):
         cfg["paths"][k] = cfg["paths"][k] + "_quick"
 cfg["force"] = a.force
+if not a.force:
+    log_note = ("NOTE: experiment outputs already present in results/ (including those committed to the repository) "
+                "are RE-USED, not recomputed. Pass --force to recompute every experiment from the feature tables.")
+    print(log_note, file=sys.stderr)
 if cfg["n_jobs"] == -1:
     cfg["n_jobs"] = os.cpu_count()
 for k in ("results", "figures", "tables"):
@@ -55,7 +59,10 @@ if "experiments" in a.stages:
     import suite
     fns = dict(E1=suite.e1_main, E2=suite.e2_models, E3=suite.e3_ablation, E4=suite.e4_robustness,
                E5=suite.e5_shift, E6=lambda c, l: suite.e6_compute(c, l, reps=1 if a.mode == "quick" else 5),
-               E7=suite.e7_sensitivity, E9=suite.e9_protocol_grouped, E10=suite.e10_pac)
+               E7=suite.e7_sensitivity, E9=suite.e9_protocol_grouped, E10=suite.e10_pac,
+               E11=suite.e11_interpretation,
+               E12=suite.e12_selected_grid,
+               E13=suite.e13_comparators)
     for e in a.experiments:
         t = time.time(); log.info(f"--- {e} start"); fns[e](cfg, log); log.info(f"--- {e} done in {time.time()-t:.0f}s")
 if "analysis" in a.stages:

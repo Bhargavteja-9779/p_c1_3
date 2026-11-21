@@ -58,12 +58,17 @@ def fit_models(F, T, Lstar, tr, model, seed, feature_mask=None):
     return fitted
 
 
-def predict_models(F, T, fitted, ev, model, seed, feature_mask=None, noise=None, noise_rows=None):
+def predict_models(F, T, fitted, ev, model, seed, feature_mask=None, noise=None, noise_rows=None, noise_corr=False):
     """yhat, scale [len(ev), M] (NaN where dead). noise = SD multiple of training-feature SD
-    added at prediction time to rows `noise_rows` (boolean over ev; default all)."""
+    added at prediction time to rows `noise_rows` (boolean over ev; default all).
+    noise_corr=True: the same standard-normal draw per cell and feature is used at every
+    checkpoint (a persistent per-cell measurement offset) instead of independent draws."""
     M = len(F["checkpoints"])
     yhat = np.full((len(ev), M), np.nan); scale = np.full((len(ev), M), np.nan)
     rng = np.random.default_rng(seed + 104729)
+    G = None
+    if noise and noise_corr:
+        G = np.random.default_rng(seed + 130363).normal(0, 1, (len(ev), _design(F, 0, model, feature_mask).shape[1]))
     for m, k in enumerate(F["checkpoints"]):
         ev_alive = T[ev] > k
         if m not in fitted or ev_alive.sum() == 0:
@@ -72,7 +77,10 @@ def predict_models(F, T, fitted, ev, model, seed, feature_mask=None, noise=None,
         Xe = _design(F, m, model, feature_mask)[ev[ev_alive]].copy()
         if noise:
             rows = np.ones(len(Xe), bool) if noise_rows is None else noise_rows[ev_alive]
-            Xe[rows] += rng.normal(0, 1, Xe[rows].shape) * sd * noise
+            if G is not None:
+                Xe[rows] += G[ev_alive][rows] * sd * noise
+            else:
+                Xe[rows] += rng.normal(0, 1, Xe[rows].shape) * sd * noise
         y, sc = mdl.predict(Xe)
         yhat[ev_alive, m] = y; scale[ev_alive, m] = sc
     return yhat, scale
@@ -123,8 +131,11 @@ def run_split(F, Lstar, fractions, alpha, beta, model, split_seed, strata_key="d
         nz, non = v.get("noise"), v.get("noise_on", "both")
         key = (nz, non)
         if key not in cache:
-            noise_rows = np.r_[np.zeros(nC, bool), np.ones(len(te), bool)] if (nz and non == "test") else None
-            cache[key] = predict_models(F, T, fitted, ev, model, split_seed, feature_mask, nz, noise_rows)
+            # noise_on: "both" | "test" (independent draws per checkpoint) | "both_corr" | "test_corr"
+            # (persistent per-cell offset, identical at every checkpoint)
+            noise_rows = np.r_[np.zeros(nC, bool), np.ones(len(te), bool)] if (nz and non.startswith("test")) else None
+            cache[key] = predict_models(F, T, fitted, ev, model, split_seed, feature_mask, nz, noise_rows,
+                                        noise_corr=bool(nz) and non.endswith("_corr"))
         yhat, scale = cache[key]
         r, c = _evaluate(F, T, Z, Lstar, tr, ca, te, nC, yhat, scale, model, split_seed, v.get("alpha", alpha), v.get("beta", beta),
                          v.get("ck_subset"), v.get("methods"), v.get("tag"), keep_cells, keep_scores and vi == 0)
@@ -147,6 +158,9 @@ def _evaluate(F, T, Z, Lstar, tr, ca, te, nC, yhat, scale, model, split_seed, al
     specs = method_specs(kind, m_ref, alpha, beta)
     if methods is not None and "traj_pac" in methods and kind != "classifier":  # opt-in only
         specs["traj_pac"] = ("norm", "traj_pac")
+    if methods is not None and "gauss_bonf" in methods and kind != "classifier":  # opt-in only (E13)
+        # Gaussian threshold at every look with a Bonferroni correction over the M looks
+        specs["gauss_bonf"] = ("norm", ("fixed", norm.ppf(1 - alpha / M), -norm.ppf(1 - beta / M)))
     if methods is not None:
         specs = {k: v for k, v in specs.items() if k in methods}
     rows, cell_rows = [], []
@@ -187,3 +201,32 @@ def _evaluate(F, T, Z, Lstar, tr, ca, te, nC, yhat, scale, model, split_seed, al
                 cell_rows.append((split_seed, model, name, int(c), int(res["decision"][i]), bool(res["by_model"][i]),
                                   float(res["time"][i]), int(res["m_idx"][i])))
     return rows, cell_rows
+
+
+def select_grid_on_training(F, T, Lstar, tr, model, seed, grids, alpha, beta, n_folds=5, n_halves=20):
+    """Choose a checkpoint grid using TRAINING cells only (so the calibration/test
+    exchangeability required by Proposition 1 is untouched). Out-of-fold normalised scores
+    of the training cells are obtained by K-fold cross-fitting; for each candidate grid the
+    trajectory rule is calibrated on these out-of-fold scores and its cycling saving is measured on
+    the same cells (an in-sample selection criterion that uses no calibration or test cell). Returns (best_grid_name, table)."""
+    rng = np.random.default_rng(seed + 31337)
+    Z = (T >= Lstar).astype(int); M = len(F["checkpoints"])
+    S = np.full((len(tr), M), np.nan)
+    folds = np.zeros(len(tr), int)
+    for z in (0, 1):
+        ii = rng.permutation(np.where(Z[tr] == z)[0]); folds[ii] = np.arange(len(ii)) % n_folds
+    for f in range(n_folds):
+        inner_tr, held = tr[folds != f], tr[folds == f]
+        fitted = fit_models(F, T, Lstar, inner_tr, model, seed + 101 * (f + 1))
+        y, sc = predict_models(F, T, fitted, held, model, seed)
+        S[folds == f] = (y - (0 if MODELS[model].kind == "classifier" else math.log10(Lstar))) / sc
+    table = {}
+    for name, sub in grids.items():
+        # calibrate on all out-of-fold training scores and measure the saving on the same
+        # cells: a selection criterion only (half-splits left too few bad cells on HUST)
+        cols = np.array(sub); ck = F["checkpoints"][cols]
+        pt, rt = calibrate(S[:, cols], Z[tr], alpha, beta, "traj")
+        res = simulate(S[:, cols], T[tr], ck, pt, rt, Lstar)
+        table[name] = float(metrics(res, T[tr], Lstar)["time_saving"])
+    best = max(table, key=lambda g: (round(table[g], 3), -len(grids[g])))
+    return best, table

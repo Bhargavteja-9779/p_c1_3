@@ -1,94 +1,94 @@
-2026-11-21 07:58:28,733 INFO mode=full stages=['experiments', 'analysis', 'figures'] env={"python": "3.13.18", "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39", "numpy": "2.5.3", "scipy": "1.18.1", "sklearn": "1.9.1", "cpu_count": 4, "device": "cpu", "torch": "2.15.0+cu132"}
-2026-11-21 07:58:32,764 INFO --- E1 start
-2026-11-21 07:58:32,764 INFO E1 matr_clo: outputs exist, skipped (resume)
-2026-11-21 07:58:32,764 INFO E1 hust: outputs exist, skipped (resume)
-2026-11-21 07:58:32,764 INFO --- E1 done in 0s
-2026-11-21 07:58:32,764 INFO --- E2 start
-2026-11-21 07:58:32,776 INFO chunk E2_matr_clo_logit: exists, re-used
-2026-11-21 07:58:32,838 INFO chunk E2_matr_clo_gp: exists, re-used
-2026-11-21 07:58:32,842 INFO chunk E2_matr_clo_cnn: exists, re-used
-2026-11-21 07:58:32,844 INFO chunk E2_matr_clo_gbr: exists, re-used
-2026-11-21 07:58:32,853 INFO chunk E2_matr_clo_rf: exists, re-used
-2026-11-21 07:58:32,862 INFO chunk E2_hust_logit: exists, re-used
-2026-11-21 07:58:32,870 INFO chunk E2_hust_gp: exists, re-used
-2026-11-21 07:58:32,874 INFO chunk E2_hust_cnn: exists, re-used
-2026-11-21 08:08:22,410 INFO chunk E2_hust_gbr: 1600 rows in 590s
-2026-11-21 08:25:26,547 INFO chunk E2_hust_rf: 1600 rows in 1024s
-2026-11-21 08:25:26,808 INFO --- E2 done in 1614s
-2026-11-21 08:25:26,808 INFO --- E3 start
-2026-11-21 08:27:00,754 INFO chunk E3_matr_clo: 4200 rows in 94s
-2026-11-21 08:29:38,962 INFO chunk E3_hust: 4200 rows in 158s
-2026-11-21 08:29:39,085 INFO --- E3 done in 252s
-2026-11-21 08:29:39,085 INFO --- E4 start
-2026-11-21 08:31:09,860 INFO chunk E4_matr_clo_cal_0.1: 800 rows in 91s
-2026-11-21 08:32:41,089 INFO chunk E4_matr_clo_cal_0.15: 800 rows in 91s
-2026-11-21 08:34:17,948 INFO chunk E4_matr_clo_cal_0.2: 800 rows in 97s
-2026-11-21 08:35:57,559 INFO chunk E4_matr_clo_cal_0.25: 800 rows in 100s
-2026-11-21 08:37:37,273 INFO chunk E4_matr_clo_train_0.2: 800 rows in 100s
-2026-11-21 08:39:18,805 INFO chunk E4_matr_clo_train_0.3: 800 rows in 102s
-2026-11-21 08:40:51,173 INFO chunk E4_matr_clo_train_0.4: 800 rows in 92s
-2026-11-21 08:42:31,697 INFO chunk E4_matr_clo_train_0.5: 800 rows in 101s
-2026-11-21 08:44:10,190 INFO chunk E4_matr_clo_noise: 6400 rows in 98s
-2026-11-21 08:44:10,190 INFO E4 matr_clo done
-2026-11-21 08:46:54,568 INFO chunk E4_hust_cal_0.2: 800 rows in 164s
-2026-11-21 08:49:33,129 INFO chunk E4_hust_cal_0.3: 800 rows in 159s
-2026-11-21 08:52:11,821 INFO chunk E4_hust_cal_0.4: 800 rows in 159s
-2026-11-21 08:56:12,598 INFO chunk E4_hust_train_0.2: 800 rows in 241s
-2026-11-21 08:59:15,119 INFO chunk E4_hust_train_0.3: 800 rows in 183s
-2026-11-21 09:01:50,951 INFO chunk E4_hust_train_0.4: 800 rows in 156s
-2026-11-21 09:04:30,224 INFO chunk E4_hust_noise: 6400 rows in 159s
-2026-11-21 09:04:30,224 INFO E4 hust done
-2026-11-21 09:04:30,647 INFO --- E4 done in 2092s
-2026-11-21 09:04:30,647 INFO --- E5 start
-2026-11-21 09:05:57,184 INFO chunk E5_batch_b3_source_cal_0: 1000 rows in 87s
-2026-11-21 09:07:21,202 INFO chunk E5_batch_b3_target_cal_20: 1000 rows in 84s
-2026-11-21 09:08:48,050 INFO chunk E5_batch_b3_target_cal_30: 1000 rows in 87s
-2026-11-21 09:10:09,746 INFO chunk E5_batch_b4_source_cal_0: 1000 rows in 82s
-2026-11-21 09:11:30,026 INFO chunk E5_batch_b4_target_cal_20: 1000 rows in 80s
-2026-11-21 09:12:52,341 INFO chunk E5_batch_b4_target_cal_30: 1000 rows in 82s
-2026-11-21 09:15:01,094 INFO chunk E5_xlab_source_model_target_cal: 1000 rows in 129s
-2026-11-21 09:16:07,206 INFO chunk E5_xlab_target_model_target_cal: 1000 rows in 66s
-2026-11-21 09:16:07,312 INFO --- E5 done in 697s
-2026-11-21 09:16:07,312 INFO --- E6 start
-2026-11-21 09:20:45,009 INFO E6 matr_clo done
-2026-11-21 09:24:50,971 INFO E6 hust done
-2026-11-21 09:24:50,973 INFO --- E6 done in 524s
-2026-11-21 09:24:50,973 INFO --- E7 start
-2026-11-21 09:26:23,191 INFO chunk E7_matr_clo_ab: 3200 rows in 92s
-2026-11-21 09:27:52,942 INFO chunk E7_matr_clo_L550: 800 rows in 90s
-2026-11-21 09:29:21,173 INFO chunk E7_matr_clo_L750: 800 rows in 88s
-2026-11-21 09:30:48,247 INFO chunk E7_matr_clo_L900: 800 rows in 87s
-2026-11-21 09:30:48,247 INFO E7 matr_clo done
-2026-11-21 09:33:08,737 INFO chunk E7_hust_ab: 3200 rows in 140s
-2026-11-21 09:35:32,023 INFO chunk E7_hust_L1600: 800 rows in 143s
-2026-11-21 09:37:54,629 INFO chunk E7_hust_L1900: 800 rows in 143s
-2026-11-21 09:40:14,624 INFO chunk E7_hust_L2200: 800 rows in 140s
-2026-11-21 09:40:14,624 INFO E7 hust done
-2026-11-21 09:40:14,779 INFO --- E7 done in 924s
-2026-11-21 09:40:14,780 INFO --- E9 start
-2026-11-21 09:41:43,454 INFO chunk E9_matr_clo: 1000 rows in 89s
-2026-11-21 09:41:43,469 INFO E9 done (78 protocol groups)
-2026-11-21 09:41:43,470 INFO --- E9 done in 89s
-2026-11-21 09:41:43,470 INFO --- E10 start
-2026-11-21 09:43:20,860 INFO chunk E10_matr_clo_default: 600 rows in 97s
-2026-11-21 09:44:51,331 INFO chunk E10_matr_clo_large_cal: 600 rows in 90s
-2026-11-21 09:44:51,331 INFO E10 matr_clo done
-2026-11-21 09:47:21,436 INFO chunk E10_hust_default: 600 rows in 150s
-2026-11-21 09:50:19,843 INFO chunk E10_hust_large_cal: 600 rows in 178s
-2026-11-21 09:50:19,844 INFO E10 hust done
-2026-11-21 09:50:19,877 INFO --- E10 done in 516s
-2026-11-21 09:50:23,679 INFO analysis written
-2026-11-21 09:50:25,743 INFO figure fig_workflow ok
-2026-11-21 09:50:26,409 INFO figure fig_lifetimes ok
-2026-11-21 09:50:27,783 INFO figure fig_accuracy ok
-2026-11-21 09:50:28,932 INFO figure fig_validity_efficiency ok
-2026-11-21 09:50:29,818 INFO figure fig_decision_time ok
-2026-11-21 09:50:31,412 INFO figure fig_trajectories ok
-2026-11-21 09:50:32,042 INFO figure fig_ablation ok
-2026-11-21 09:50:34,017 INFO figure fig_robustness ok
-2026-11-21 09:50:34,509 INFO figure fig_shift ok
-2026-11-21 09:50:34,966 INFO figure fig_errors ok
-2026-11-21 09:50:36,240 INFO figure fig_confusion ok
-2026-11-21 09:50:38,577 INFO figure fig_roc_pr ok
-2026-11-21 09:50:39,163 INFO figure fig_compute ok
-2026-11-21 09:50:39,163 INFO finished
+2026-11-20 23:18:35,840 INFO mode=full stages=['experiments', 'analysis', 'figures'] env={"python": "3.13.18", "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39", "numpy": "2.5.3", "scipy": "1.18.1", "sklearn": "1.9.1", "cpu_count": 4, "device": "cpu", "torch": "2.15.0+cu132"}
+2026-11-20 23:18:40,396 INFO --- E1 start
+2026-11-20 23:18:40,396 INFO E1 matr_clo: outputs exist, skipped (resume)
+2026-11-20 23:18:40,396 INFO E1 hust: outputs exist, skipped (resume)
+2026-11-20 23:18:40,396 INFO --- E1 done in 0s
+2026-11-20 23:18:40,396 INFO --- E2 start
+2026-11-20 23:18:40,408 INFO chunk E2_matr_clo_logit: exists, re-used
+2026-11-20 23:18:40,420 INFO chunk E2_matr_clo_gp: exists, re-used
+2026-11-20 23:18:40,425 INFO chunk E2_matr_clo_cnn: exists, re-used
+2026-11-20 23:18:40,427 INFO chunk E2_matr_clo_gbr: exists, re-used
+2026-11-20 23:18:40,432 INFO chunk E2_matr_clo_rf: exists, re-used
+2026-11-20 23:18:40,444 INFO chunk E2_hust_logit: exists, re-used
+2026-11-20 23:18:40,453 INFO chunk E2_hust_gp: exists, re-used
+2026-11-20 23:18:40,457 INFO chunk E2_hust_cnn: exists, re-used
+2026-11-20 23:30:01,168 INFO chunk E2_hust_gbr: 1600 rows in 681s
+2026-11-20 23:48:10,167 INFO chunk E2_hust_rf: 1600 rows in 1089s
+2026-11-20 23:48:10,454 INFO --- E2 done in 1770s
+2026-11-20 23:48:10,454 INFO --- E3 start
+2026-11-20 23:49:49,859 INFO chunk E3_matr_clo: 4200 rows in 99s
+2026-11-20 23:52:36,080 INFO chunk E3_hust: 4200 rows in 166s
+2026-11-20 23:52:36,239 INFO --- E3 done in 266s
+2026-11-20 23:52:36,239 INFO --- E4 start
+2026-11-20 23:54:15,600 INFO chunk E4_matr_clo_cal_0.1: 800 rows in 99s
+2026-11-20 23:55:55,467 INFO chunk E4_matr_clo_cal_0.15: 800 rows in 100s
+2026-11-20 23:57:34,077 INFO chunk E4_matr_clo_cal_0.2: 800 rows in 99s
+2026-11-20 23:59:12,667 INFO chunk E4_matr_clo_cal_0.25: 800 rows in 99s
+2026-11-21 00:00:53,524 INFO chunk E4_matr_clo_train_0.2: 800 rows in 101s
+2026-11-21 00:02:39,613 INFO chunk E4_matr_clo_train_0.3: 800 rows in 106s
+2026-11-21 00:04:21,378 INFO chunk E4_matr_clo_train_0.4: 800 rows in 102s
+2026-11-21 00:06:00,454 INFO chunk E4_matr_clo_train_0.5: 800 rows in 99s
+2026-11-21 00:07:43,648 INFO chunk E4_matr_clo_noise: 6400 rows in 103s
+2026-11-21 00:07:43,648 INFO E4 matr_clo done
+2026-11-21 00:10:30,892 INFO chunk E4_hust_cal_0.2: 800 rows in 167s
+2026-11-21 00:13:17,170 INFO chunk E4_hust_cal_0.3: 800 rows in 166s
+2026-11-21 00:16:10,742 INFO chunk E4_hust_cal_0.4: 800 rows in 174s
+2026-11-21 00:20:20,325 INFO chunk E4_hust_train_0.2: 800 rows in 250s
+2026-11-21 00:23:35,690 INFO chunk E4_hust_train_0.3: 800 rows in 195s
+2026-11-21 00:26:23,485 INFO chunk E4_hust_train_0.4: 800 rows in 168s
+2026-11-21 00:29:15,972 INFO chunk E4_hust_noise: 6400 rows in 172s
+2026-11-21 00:29:15,972 INFO E4 hust done
+2026-11-21 00:29:16,409 INFO --- E4 done in 2200s
+2026-11-21 00:29:16,409 INFO --- E5 start
+2026-11-21 00:30:55,859 INFO chunk E5_batch_b3_source_cal_0: 1000 rows in 99s
+2026-11-21 00:32:31,232 INFO chunk E5_batch_b3_target_cal_20: 1000 rows in 95s
+2026-11-21 00:34:04,765 INFO chunk E5_batch_b3_target_cal_30: 1000 rows in 94s
+2026-11-21 00:35:38,574 INFO chunk E5_batch_b4_source_cal_0: 1000 rows in 94s
+2026-11-21 00:37:13,834 INFO chunk E5_batch_b4_target_cal_20: 1000 rows in 95s
+2026-11-21 00:38:51,004 INFO chunk E5_batch_b4_target_cal_30: 1000 rows in 97s
+2026-11-21 00:41:15,495 INFO chunk E5_xlab_source_model_target_cal: 1000 rows in 144s
+2026-11-21 00:42:32,123 INFO chunk E5_xlab_target_model_target_cal: 1000 rows in 77s
+2026-11-21 00:42:32,264 INFO --- E5 done in 796s
+2026-11-21 00:42:32,264 INFO --- E6 start
+2026-11-21 00:47:59,815 INFO E6 matr_clo done
+2026-11-21 00:52:42,920 INFO E6 hust done
+2026-11-21 00:52:42,922 INFO --- E6 done in 611s
+2026-11-21 00:52:42,922 INFO --- E7 start
+2026-11-21 00:54:26,703 INFO chunk E7_matr_clo_ab: 3200 rows in 104s
+2026-11-21 00:56:08,759 INFO chunk E7_matr_clo_L550: 800 rows in 102s
+2026-11-21 00:57:51,098 INFO chunk E7_matr_clo_L750: 800 rows in 102s
+2026-11-21 00:59:39,063 INFO chunk E7_matr_clo_L900: 800 rows in 108s
+2026-11-21 00:59:39,063 INFO E7 matr_clo done
+2026-11-21 01:02:29,993 INFO chunk E7_hust_ab: 3200 rows in 171s
+2026-11-21 01:05:20,315 INFO chunk E7_hust_L1600: 800 rows in 170s
+2026-11-21 01:08:09,786 INFO chunk E7_hust_L1900: 800 rows in 169s
+2026-11-21 01:11:02,733 INFO chunk E7_hust_L2200: 800 rows in 173s
+2026-11-21 01:11:02,733 INFO E7 hust done
+2026-11-21 01:11:02,930 INFO --- E7 done in 1100s
+2026-11-21 01:11:02,930 INFO --- E9 start
+2026-11-21 01:12:46,027 INFO chunk E9_matr_clo: 1000 rows in 103s
+2026-11-21 01:12:46,043 INFO E9 done (78 protocol groups)
+2026-11-21 01:12:46,044 INFO --- E9 done in 103s
+2026-11-21 01:12:46,044 INFO --- E10 start
+2026-11-21 01:14:28,312 INFO chunk E10_matr_clo_default: 600 rows in 102s
+2026-11-21 01:16:10,131 INFO chunk E10_matr_clo_large_cal: 600 rows in 102s
+2026-11-21 01:16:10,131 INFO E10 matr_clo done
+2026-11-21 01:18:54,856 INFO chunk E10_hust_default: 600 rows in 165s
+2026-11-21 01:22:07,192 INFO chunk E10_hust_large_cal: 600 rows in 192s
+2026-11-21 01:22:07,192 INFO E10 hust done
+2026-11-21 01:22:07,239 INFO --- E10 done in 561s
+2026-11-21 01:22:11,438 INFO analysis written
+2026-11-21 01:22:14,215 INFO figure fig_workflow ok
+2026-11-21 01:22:14,942 INFO figure fig_lifetimes ok
+2026-11-21 01:22:16,859 INFO figure fig_accuracy ok
+2026-11-21 01:22:17,998 INFO figure fig_validity_efficiency ok
+2026-11-21 01:22:19,053 INFO figure fig_decision_time ok
+2026-11-21 01:22:20,897 INFO figure fig_trajectories ok
+2026-11-21 01:22:22,036 INFO figure fig_ablation ok
+2026-11-21 01:22:23,997 INFO figure fig_robustness ok
+2026-11-21 01:22:24,573 INFO figure fig_shift ok
+2026-11-21 01:22:25,448 INFO figure fig_errors ok
+2026-11-21 01:22:26,660 INFO figure fig_confusion ok
+2026-11-21 01:22:29,352 INFO figure fig_roc_pr ok
+2026-11-21 01:22:30,073 INFO figure fig_compute ok
+2026-11-21 01:22:30,073 INFO finished

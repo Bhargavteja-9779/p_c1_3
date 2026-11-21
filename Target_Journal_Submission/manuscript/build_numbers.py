@@ -38,6 +38,9 @@ def split_stats(prefix, g, alpha=0.1, beta=0.1):
         put(f"{prefix}.{e}", m, ".3f"); put(f"{prefix}.{e}_lo", m - 1.96 * s / np.sqrt(n), ".3f")
         put(f"{prefix}.{e}_hi", m + 1.96 * s / np.sqrt(n), ".3f")
         put(f"{prefix}.{e}_above", float((g[e] > (alpha if e == "fpr" else beta) + 1e-12).mean()), "pct0")
+    put(f"{prefix}.either_above", float(((g["fpr"] > alpha + 1e-12) | (g["frr"] > beta + 1e-12)).mean()), "pct0")
+    if "n_bad" in g:
+        put(f"{prefix}.ntest_bad", g["n_bad"].mean(), ".1f"); put(f"{prefix}.ntest_good", g["n_good"].mean(), ".1f")
     put(f"{prefix}.acc", g["accuracy"].mean(), ".3f"); put(f"{prefix}.early", g["early_rate"].mean(), "pct1")
     put(f"{prefix}.sav", g["time_saving"].mean(), "pct1"); put(f"{prefix}.sav_sd", g["time_saving"].std(ddof=1), "pct1")
     put(f"{prefix}.time", g["mean_time"].mean(), "int"); put(f"{prefix}.nsplits", n, "int")
@@ -190,26 +193,78 @@ def main():
     if e10 is not None:
         for (ds, design, m), g in e10.groupby(["dataset", "cal_design", "method"]):
             split_stats(f"E10.{'mc' if ds == 'matr_clo' else 'h'}.{design}.{m}", g, a, b)
+    # ---- E12 training-selected grid
+    e12 = raw("E12_selected_grid_splits.csv")
+    if e12 is not None:
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            g = e12[e12.dataset == ds]
+            if len(g):
+                split_stats(f"E12.{key}", g, a, b)
+                vc = g.grid_selected.value_counts(normalize=True)
+                put(f"E12.{key}.top_grid", vc.index[0].replace("_", " "), "s"); put(f"E12.{key}.top_share", vc.iloc[0], "pct0")
+            st = S.get(f"E12_{ds}_vs_dense")
+            if st:
+                put(f"E12.{key}.diff", st["mean_diff"], "pct1"); put(f"E12.{key}.diff_lo", st["ci_lo"], "pct1")
+                put(f"E12.{key}.diff_hi", st["ci_hi"], "pct1"); put(f"E12.{key}.diff_p", st["wilcoxon_p"], "p")
+    # ---- Review cycle 1, B1: grids chosen on TRAINING cells only, restricted to single checkpoints or to
+    # multi-checkpoint (sequential) grids. E12 stores the training-only estimate of every candidate grid
+    # (est_<grid>); E3 evaluated every grid on the same split seeds, so the outcome of the chosen grid is
+    # looked up in E3 (identical to re-running it).
+    if e12 is not None and e3 is not None:
+        rng = np.random.default_rng(0)
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            g12 = e12[e12.dataset == ds].set_index("split")
+            ests = [c for c in g12.columns if c.startswith("est_")]
+            e3p = e3[(e3.dataset == ds) & (e3.method == "proposed")].set_index(["split", "grid"])
+            dense = "all16" if ds == "matr_clo" else "all17"
+            picks = {}
+            for fam, cond in (("single_sel", lambda c: "single" in c), ("seq_sel", lambda c: "single" not in c)):
+                cols = [c for c in ests if cond(c[4:])]
+                choice = g12[cols].idxmax(axis=1).str[4:]
+                rows = e3p.loc[list(zip(choice.index, choice.values))].reset_index()
+                split_stats(f"SEL.{key}.{fam}", rows, a, b)
+                vc = choice.value_counts(normalize=True)
+                put(f"SEL.{key}.{fam}.top_grid", vc.index[0].replace("_", " "), "s"); put(f"SEL.{key}.{fam}.top_share", vc.iloc[0], "pct0")
+                picks[fam] = rows.set_index("split").time_saving
+            picks["any_sel"] = g12.time_saving
+            picks["dense"] = e3p.xs(dense, level="grid").time_saving
+            picks["single_100"] = e3p.xs("single_100", level="grid").time_saving
+            for x, y in (("seq_sel", "single_sel"), ("any_sel", "single_sel"), ("dense", "single_sel"), ("single_sel", "single_100"),
+                         ("dense", "single_100")):
+                j = picks[x].index.intersection(picks[y].index); d = (picks[x][j] - picks[y][j]).values
+                bs = [rng.choice(d, len(d)).mean() for _ in range(10000)]
+                put(f"SEL.{key}.{x}_vs_{y}", d.mean(), "pct1"); put(f"SEL.{key}.{x}_vs_{y}_lo", np.percentile(bs, 2.5), "pct1")
+                put(f"SEL.{key}.{x}_vs_{y}_hi", np.percentile(bs, 97.5), "pct1")
+    # ---- E13 comparators (review cycle 1)
+    e13 = raw("E13_comparators_splits.csv")
+    if e13 is not None:
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            g = e13[e13.dataset == ds]
+            for m, gg in g[g.part == "gauss_bonf"].groupby("method"):
+                split_stats(f"E13.{key}.{m}", gg, a, b)
+            for (grid, m), gg in g[g.part == "bonf_sparse"].groupby(["grid", "method"]):
+                split_stats(f"E13.{key}.{grid}.{m}", gg, a, b)
+            for (f, lv, m), gg in g[g.part == "noise_corr"].groupby(["factor", "level", "method"]):
+                split_stats(f"E13.{key}.{f}.{lv:g}.{m}", gg, a, b)
+    # ---- E11 physical interpretation (descriptive)
+    r11, c11 = raw("E11_correlations.csv"), raw("E11_coefficients.csv")
+    if r11 is not None and c11 is not None:
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            r = r11[r11.dataset == ds]
+            for (k, f), g in r.groupby(["checkpoint", "feature"]):
+                put(f"E11.{key}.rho.{f}.k{int(k)}", g.spearman.iloc[0], ".2f")
+            for k, g in r.groupby("checkpoint"):
+                put(f"E11.{key}.maxabs.k{int(k)}", g.spearman.abs().max(), ".2f")
+            c = c11[c11.dataset == ds].groupby(["checkpoint", "feature"]).coef.agg(lambda v: np.mean(np.abs(v))).unstack()
+            share = c.div(c.sum(axis=1), axis=0)
+            for k in c.index:
+                put(f"E11.{key}.top.k{int(k)}", c.loc[k].idxmax(), "s"); put(f"E11.{key}.topshare.k{int(k)}", share.loc[k].max(), "pct0")
+                for f in c.columns:
+                    put(f"E11.{key}.share.{f}.k{int(k)}", share.loc[k, f], "pct0")
     from scipy.stats import beta as _beta
     for n0 in (9, 10, 15, 20, 25, 30, 40, 60):
         r = int(np.ceil((n0 + 1) * (1 - a)))
         put(f"PAC.p_exceed_n{n0}", float(_beta.cdf(1 - a, r, n0 + 1 - r)) if r <= n0 else 0.0, "pct0")
-    # ---- Table S1 (experiment overview), generated so that split counts come from the run config
-    ns, sec = c["n_splits"], c.get("n_splits_secondary", 0)
-    f = lambda v: f"{int(v):,}"
-    rows = [("E1", "Main comparison of screening rules", "Elastic net", f"{f(ns['en'])} per data set", "results/raw/E1_*_splits.csv"),
-            ("E2", "Base predictors", "Logistic, GBR, RF, GP, CNN",
-             f"{f(ns['logit'])} (logistic), {f(ns['gbr'])} (GBR, RF, GP), {f(ns['cnn'])} (CNN)", "results/raw/E2_models_splits.csv"),
-            ("E3", "Checkpoint-grid ablation", "Elastic net", f(sec), "results/raw/E3_ablation_grid_splits.csv"),
-            ("E4", "Calibration/training size, feature noise", "Elastic net", f(sec), "results/raw/E4_robustness_splits.csv"),
-            ("E5", "Batch and laboratory shift", "Elastic net", f(sec), "results/raw/E5_shift_splits.csv"),
-            ("E6", "Run time and memory", "All", "5 repetitions", "results/raw/E6_compute.csv"),
-            ("E7", "Sensitivity to alpha, beta and L*", "Elastic net", f(sec), "results/raw/E7_sensitivity_splits.csv"),
-            ("E8", "Error analysis", "Elastic net (from E1)", "-", "results/E8_percell_*.csv"),
-            ("E9", "Protocol-disjoint splits (MATR/CLO)", "Elastic net", f(sec), "results/raw/E9_protocol_grouped_splits.csv"),
-            ("E10", "Training-conditional (PAC) calibration", "Elastic net", f(sec), "results/raw/E10_pac_splits.csv")]
-    pd.DataFrame(rows, columns=["id", "purpose", "models", "splits", "output"]).to_csv(
-        os.path.join(ROOT, "tables", "S1_experiments.csv"), index=False)
     out = os.path.join(ROOT, "results", "manuscript_numbers.json")
     old = json.load(open(out)) if os.path.exists(out) else {}
     for k in ("ABSTRACT",):  # text blocks written by the authors are kept
