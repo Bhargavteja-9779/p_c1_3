@@ -63,7 +63,8 @@ def run(cfg, log):
         T = F["lifetime"].astype(float); Ls = cfg["datasets"][ds]["Lstar"]
         cells = pd.read_csv(os.path.join(R, "raw", f"E1_{ds}_cells.csv.gz"))
         pc = per_cell_times(cells, T, Ls)
-        comp = paired_comparisons(pc, "proposed", n_boot=10000 if cfg["n_splits"]["en"] >= 100 else 500)
+        comp = paired_comparisons(pc, "proposed", n_boot=10000 if cfg["n_splits"]["en"] >= 100 else 500,
+                                  groups=F["policy"] if ds == "matr_clo" else None)
         statsj[f"E1_{ds}_paired"] = comp.to_dict(orient="records")
         statsj[f"E1_{ds}_validity"] = v.to_dict(orient="records")
         # E8 error analysis from per-cell outcomes
@@ -79,8 +80,12 @@ def run(cfg, log):
         order = {str(c): i for i, c in enumerate(cats)}
         err["o"] = err.margin_bin.map(order); err = err.sort_values("o").drop(columns="o")
         _md(err, os.path.join(TB, f"E8_error_by_margin_{ds}.md"))
-        byb = pcp.groupby("batch").agg(n_cells=("cell", "size"), false_pass_freq=("fp", "mean"), false_reject_freq=("fr", "mean"),
-                                       early=("early", "mean")).reset_index()
+        pcp["good"] = pcp["T"] >= Ls
+        byb = pcp.groupby("batch").agg(n_cells=("cell", "size"), n_bad=("good", lambda g: int((~g).sum())),
+                                       n_good=("good", "sum"), early=("early", "mean")).reset_index()
+        # class-conditional error rates per batch (bad cells can only be falsely passed, good only falsely rejected)
+        byb["fpr_among_bad"] = byb.batch.map(pcp[~pcp.good].groupby("batch")["fp"].mean())
+        byb["frr_among_good"] = byb.batch.map(pcp[pcp.good].groupby("batch")["fr"].mean())
         _md(byb, os.path.join(TB, f"E8_error_by_batch_{ds}.md"))
         worst = pcp.assign(err=pcp.fp + pcp.fr).sort_values("err", ascending=False).head(10)[
             ["cell_id", "batch", "policy", "T", "log_ratio", "fp", "fr", "early", "time", "n"]]
