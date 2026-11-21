@@ -15,7 +15,12 @@ To resume in a fresh container:
   3. python ../manuscript/build_numbers.py
 DONE (laughing-bohr, 15:50): 3.4-3.8 assembled into src/part2_results.md with fixes (3.4 logit exception, 3.6 E7 paragraph +
  test-only-noise wording, 3.7 batch shift rewritten per A3/R1-6 with test-cell counts, E9 = stress test per A16); Fig9 -> SI.
- STILL TODO from that list: E12/SEL paragraph in 3.5 and E13 (gauss_bonf, bonf sparse, noise_corr) once E12/E13 finish.
+ DONE 16:10: E12 paragraph in 3.5 (KEY RESULT: training-selected single checkpoint as efficient as sequential grid;
+ value = valid control under repeated looks); abstract rewritten (A1, A2, A6, A7, E12); 3.2 sub-0.10 explanation fixed
+ with exact attained level E1.*.lvl_* (A5, new keys in build_numbers) and interval-rule claim (R1-5); 3.11 truncated
+ campaigns (A6, A9), one-vs-many (E12), model-based (A8), (iii) shift (A2); 3.12 + Conclusions aligned.
+ STILL TODO: E13 text (gauss_bonf in 3.2/3.11, bonf on sparse grids in 3.5/3.11 'Bonferroni never decided', noise_corr
+ in 3.6) once E13 finishes; then render; then presentation (R9) + cover letter; then review cycle 2.
 TODO (original list, in order): assemble 3.4-3.8 from manuscript/drafts/ (sec3_4, sec3_5 + E12/SEL paragraph, sec3_6 + E13 noise_corr
  + E7 paragraph, sec3_7 shift (fix per A2/A3, add test-cell counts), sec3_8a_pac + sec3_8b_compute) in place of
  {{SECTION_E2_E10}} in src/part2_results.md; add gauss_bonf (E13) to 3.2/3.11 text; rewrite abstract (A1, A6, A7:

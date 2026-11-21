@@ -10,3 +10,4 @@ NOTE: experiment outputs already present in results/ (including those committed 
 2026-11-21 15:56:09,859 INFO E12 hust done
 2026-11-21 15:56:09,870 INFO --- E12 done in 966s
 2026-11-21 15:56:09,871 INFO --- E13 start
+2026-11-21 15:57:54,319 INFO chunk E13_matr_clo_gauss: 800 rows in 104s

@@ -88,6 +88,12 @@ def main():
             continue
         for m, g in df.groupby("method"):
             split_stats(f"E1.{key}.{m}", g, a, b)
+        # exact finite-sample level attained by the rank rule, E[(n0 + 1 - r0)/(n0 + 1)] with r0 = ceil((n0 + 1)(1 - level))
+        # (review cycle 1, R1-1/A5): the bound is nearly tight; realised rates fall below it mainly through competing decisions
+        for lvl_key, ncol, lv in (("lvl_bad", "n_cal_bad", a), ("lvl_good", "n_cal_good", b)):
+            n0 = df[df.method == "proposed"][ncol].to_numpy()
+            r0 = np.ceil((n0 + 1) * (1 - lv)); att = np.where(r0 <= n0, (n0 + 1 - r0) / (n0 + 1), 0.0)
+            put(f"E1.{key}.{lvl_key}", float(att.mean()), ".3f")
         prop = df[df.method == "proposed"]
         put(f"C.{key}.cal_cycles_trunc", prop.cal_cell_cycles.mean(), "int"); put(f"C.{key}.cal_wall_trunc", prop.cal_wallclock.mean(), "int")
         it = df[df.method == "interval_traj"]
