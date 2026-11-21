@@ -1,0 +1,23 @@
+dataset,model,train_cell_cycles,train_wallclock,cal_cell_cycles,cal_wallclock
+HUST,cnn,58924.066666666666,2659.1,40213.0,1900.0
+HUST,en,58828.414,2656.216,40025.377,1900.0
+HUST,gbr,58831.245,2654.36,40060.19,1900.0
+HUST,gp,58831.245,2654.36,40060.19,1900.0
+HUST,logit,53945.519,1900.0,39986.903,1900.0
+HUST,rf,58831.245,2654.36,40060.19,1900.0
+MATR+CLO,cnn,67262.6,2116.5,27577.266666666666,750.0
+MATR+CLO,en,67308.924,2130.204,27470.879,750.0
+MATR+CLO,gbr,67379.455,2123.37,27466.555,750.0
+MATR+CLO,gp,67379.455,2123.37,27466.555,750.0
+MATR+CLO,logit,55463.668,750.0,27447.724,750.0
+MATR+CLO,rf,67379.455,2123.37,27466.555,750.0
+HUST,"cnn (interval, full-lifetime cal.)",,,44145.53333333333,2648.6
+HUST,"en (interval, full-lifetime cal.)",,,43722.134,2630.398
+HUST,"gbr (interval, full-lifetime cal.)",,,43832.055,2638.91
+HUST,"gp (interval, full-lifetime cal.)",,,43832.055,2638.91
+HUST,"rf (interval, full-lifetime cal.)",,,43832.055,2638.91
+MATR+CLO,"cnn (interval, full-lifetime cal.)",,,33826.03333333333,1995.4666666666667
+MATR+CLO,"en (interval, full-lifetime cal.)",,,33546.793,1958.14
+MATR+CLO,"gbr (interval, full-lifetime cal.)",,,33459.745,1975.305
+MATR+CLO,"gp (interval, full-lifetime cal.)",,,33459.745,1975.305
+MATR+CLO,"rf (interval, full-lifetime cal.)",,,33459.745,1975.305

@@ -74,3 +74,7 @@
 2026-11-21 01:16:10,131 INFO chunk E10_matr_clo_large_cal: 600 rows in 102s
 2026-11-21 01:16:10,131 INFO E10 matr_clo done
 2026-11-21 01:18:54,856 INFO chunk E10_hust_default: 600 rows in 165s
+2026-11-21 01:22:07,192 INFO chunk E10_hust_large_cal: 600 rows in 192s
+2026-11-21 01:22:07,192 INFO E10 hust done
+2026-11-21 01:22:07,239 INFO --- E10 done in 561s
+2026-11-21 01:22:11,438 INFO analysis written

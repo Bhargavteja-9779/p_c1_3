@@ -1,0 +1,20 @@
+| dataset   | model                  |   split_seconds |   peak_rss_mb |   n_checkpoints |   decide_seconds_per_1000_cells |
+|:----------|:-----------------------|----------------:|--------------:|----------------:|--------------------------------:|
+| HUST      | calibration_only_n40   |       7.773e-05 |         nan   |              17 |                         0.02893 |
+| HUST      | calibration_only_n400  |       0.0001292 |         nan   |              17 |                         0.028   |
+| HUST      | calibration_only_n4000 |       0.002212  |         nan   |              17 |                         0.02689 |
+| HUST      | cnn                    |       5.391     |         880.7 |              17 |                       nan       |
+| HUST      | en                     |       2.772     |         880.7 |              17 |                       nan       |
+| HUST      | gbr                    |      12.27      |         880.7 |              17 |                       nan       |
+| HUST      | gp                     |       1.687     |         880.7 |              17 |                       nan       |
+| HUST      | logit                  |       1.697     |         880.7 |              17 |                       nan       |
+| HUST      | rf                     |      21.75      |         880.7 |              17 |                       nan       |
+| MATR+CLO  | calibration_only_n40   |       6.874e-05 |         nan   |              16 |                         0.02845 |
+| MATR+CLO  | calibration_only_n400  |       0.0001486 |         nan   |              16 |                         0.02783 |
+| MATR+CLO  | calibration_only_n4000 |       0.0007351 |         nan   |              16 |                         0.03365 |
+| MATR+CLO  | cnn                    |       7.678     |         855.9 |              16 |                       nan       |
+| MATR+CLO  | en                     |       1.959     |         855.9 |              16 |                       nan       |
+| MATR+CLO  | gbr                    |      13.81      |         855.9 |              16 |                       nan       |
+| MATR+CLO  | gp                     |       5.026     |         855.9 |              16 |                       nan       |
+| MATR+CLO  | logit                  |       1.835     |         855.9 |              16 |                       nan       |
+| MATR+CLO  | rf                     |      22.27      |         855.9 |              16 |                       nan       |
