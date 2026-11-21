@@ -46,3 +46,8 @@
 2026-11-21 12:03:53,105 INFO chunk E5_batch_b4_source_cal_0: 1000 rows in 94s
 2026-11-21 12:05:24,930 INFO chunk E5_batch_b4_target_cal_20: 1000 rows in 92s
 2026-11-21 12:07:01,661 INFO chunk E5_batch_b4_target_cal_30: 1000 rows in 97s
+2026-11-21 12:09:15,580 INFO chunk E5_xlab_source_model_target_cal: 1000 rows in 134s
+2026-11-21 12:10:26,065 INFO chunk E5_xlab_target_model_target_cal: 1000 rows in 70s
+2026-11-21 12:10:26,173 INFO --- E5 done in 764s
+2026-11-21 12:10:26,173 INFO --- E6 start
+2026-11-21 12:15:05,704 INFO E6 matr_clo done
