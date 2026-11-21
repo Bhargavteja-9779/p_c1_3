@@ -40,3 +40,13 @@
 2026-11-21 00:29:15,972 INFO E4 hust done
 2026-11-21 00:29:16,409 INFO --- E4 done in 2200s
 2026-11-21 00:29:16,409 INFO --- E5 start
+2026-11-21 00:30:55,859 INFO chunk E5_batch_b3_source_cal_0: 1000 rows in 99s
+2026-11-21 00:32:31,232 INFO chunk E5_batch_b3_target_cal_20: 1000 rows in 95s
+2026-11-21 00:34:04,765 INFO chunk E5_batch_b3_target_cal_30: 1000 rows in 94s
+2026-11-21 00:35:38,574 INFO chunk E5_batch_b4_source_cal_0: 1000 rows in 94s
+2026-11-21 00:37:13,834 INFO chunk E5_batch_b4_target_cal_20: 1000 rows in 95s
+2026-11-21 00:38:51,004 INFO chunk E5_batch_b4_target_cal_30: 1000 rows in 97s
+2026-11-21 00:41:15,495 INFO chunk E5_xlab_source_model_target_cal: 1000 rows in 144s
+2026-11-21 00:42:32,123 INFO chunk E5_xlab_target_model_target_cal: 1000 rows in 77s
+2026-11-21 00:42:32,264 INFO --- E5 done in 796s
+2026-11-21 00:42:32,264 INFO --- E6 start
