@@ -14,3 +14,4 @@
 2026-11-21 16:01:23,421 INFO chunk E13_matr_clo_noise_corr: 4800 rows in 102s
 2026-11-21 16:01:23,421 INFO E13 matr_clo done
 2026-11-21 16:03:52,966 INFO chunk E13_hust_gauss: 800 rows in 150s
+2026-11-21 16:06:36,943 INFO chunk E13_hust_bonf_sparse: 800 rows in 164s
