@@ -1,6 +1,6 @@
-[Corresponding author name]
-[Department, Institution]
-[Address]
+Bhargav Teja
+[Department], Vellore Institute of Technology
+Vellore 632014, Tamil Nadu, India
 [E-mail] · [Telephone]
 
 [Date]
@@ -23,7 +23,7 @@ We believe the work fits *Battery Energy* because it addresses battery testing a
 
 All data are public, and the complete code that regenerates every number, table and figure from the raw data will be made openly available at [repository / archival DOI].
 
-We confirm that this manuscript is original, has not been published previously, and is not under consideration for publication elsewhere. All authors have approved the manuscript and agree with its submission. The study used only previously published battery cycling data and involved no human participants or animals. The authors declare no conflict of interest [to be confirmed]. [Generative-AI use statement as required by Wiley policy, to be completed by the authors.]
+We confirm that this manuscript is original, has not been published previously, and is not under consideration for publication elsewhere. All authors have approved the manuscript and agree with its submission. The study used only previously published battery cycling data and involved no human participants or animals. The authors declare no conflict of interest, and the work received no specific funding. [Generative-AI use statement as required by Wiley policy, to be completed by the authors.]
 
 [Optional: suggested reviewers with institutional e-mail addresses and no conflict of interest; reviewers to exclude.]
 
@@ -31,5 +31,5 @@ Thank you for considering our manuscript.
 
 Sincerely,
 
-[Corresponding author name]
+Bhargav Teja
 on behalf of all authors

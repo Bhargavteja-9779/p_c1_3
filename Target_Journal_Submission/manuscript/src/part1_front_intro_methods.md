@@ -2,11 +2,11 @@
 
 **Running title:** Early cycle-life screening with error control
 
-**Authors:** [Author 1]^1^, [Author 2]^1^, [Corresponding Author]^1,\*^
+**Authors:** Bhargav Teja^1,\*^, [Second Author]^1^
 
-^1^ [Department, Institution, City, Postal code, Country]
+^1^ [Department], Vellore Institute of Technology, Vellore 632014, Tamil Nadu, India
 
-\* Correspondence: [name], [e-mail address]
+\* Correspondence: Bhargav Teja, [e-mail address]
 
 ## Abstract
 

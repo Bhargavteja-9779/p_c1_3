@@ -27,19 +27,19 @@ Early cycle-life predictions are routinely used to make go/no-go decisions, but 
 
 ## Acknowledgments
 
-[To be completed by the authors.] We thank the providers of the public data sets used in this study: the Toyota Research Institute, Massachusetts Institute of Technology and Stanford University teams who released the MATR/CLO data (data.matr.io), and Ma et al. (Huazhong University of Science and Technology) for the HUST data.
+We thank the providers of the public data sets used in this study: the Toyota Research Institute, Massachusetts Institute of Technology and Stanford University teams who released the MATR/CLO data (data.matr.io), and Ma et al. (Huazhong University of Science and Technology) for the HUST data.
 
 ## Author Contributions (CRediT)
 
-[To be completed by the authors, e.g.: Conceptualization; Methodology; Software; Validation; Formal analysis; Investigation; Data curation; Writing – original draft; Writing – review & editing; Visualization.]
+**Bhargav Teja:** Conceptualization; Methodology; Software; Validation; Formal analysis; Investigation; Data curation; Visualization; Writing – original draft; Writing – review & editing. **[Second Author]:** Supervision.
 
 ## Conflict of Interest Statement
 
-[To be confirmed by the authors.] The authors declare no conflicts of interest.
+The authors declare no conflicts of interest.
 
 ## Funding
 
-[To be completed by the authors.]
+This research received no specific grant from any funding agency in the public, commercial or not-for-profit sectors.
 
 ## Data Availability Statement
 
