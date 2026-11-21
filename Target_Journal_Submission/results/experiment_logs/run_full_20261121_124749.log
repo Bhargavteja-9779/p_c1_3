@@ -51,3 +51,15 @@
 2026-11-21 13:29:40,655 INFO E7 matr_clo done
 2026-11-21 13:32:41,882 INFO chunk E7_hust_ab: 3200 rows in 181s
 2026-11-21 13:36:01,973 INFO chunk E7_hust_L1600: 800 rows in 200s
+2026-11-21 13:39:04,258 INFO chunk E7_hust_L1900: 800 rows in 182s
+2026-11-21 13:42:13,567 INFO chunk E7_hust_L2200: 800 rows in 189s
+2026-11-21 13:42:13,568 INFO E7 hust done
+2026-11-21 13:42:13,787 INFO --- E7 done in 1197s
+2026-11-21 13:42:13,787 INFO --- E9 start
+2026-11-21 13:44:06,877 INFO chunk E9_matr_clo: 1000 rows in 113s
+2026-11-21 13:44:06,901 INFO E9 done (78 protocol groups)
+2026-11-21 13:44:06,902 INFO --- E9 done in 113s
+2026-11-21 13:44:06,902 INFO --- E10 start
+2026-11-21 13:45:54,115 INFO chunk E10_matr_clo_default: 600 rows in 107s
+2026-11-21 13:47:43,803 INFO chunk E10_matr_clo_large_cal: 600 rows in 110s
+2026-11-21 13:47:43,803 INFO E10 matr_clo done
