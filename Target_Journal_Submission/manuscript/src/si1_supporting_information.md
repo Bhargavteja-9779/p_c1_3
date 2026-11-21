@@ -4,7 +4,7 @@
 
 ## S1 Experiments, splits and seeds
 
-Table S1 lists every experiment. Split seeds are `seed_base + offset + i` with `seed_base = 20261115` and experiment offsets fixed in `code/experiments/suite.py`; they were fixed before any experiment was run. E9 and E10 were added after the design freeze to answer questions about protocol novelty and training-conditional validity, and E11 was added after the main results to interpret the screening decisions physically; all three are reported as additional analyses.
+Table S1 lists every experiment. Split seeds are `seed_base + offset + i` with `seed_base = 20261115` and experiment offsets fixed in `code/experiments/suite.py`; they were fixed before any experiment was run. E9 and E10 were added after the design freeze to answer questions about protocol novelty and training-conditional validity; E11 (physical interpretation) and E12 (grid selection on training cells, motivated by the E3 result) were added after the main results. All four are reported as additional analyses.
 
 | ID | Purpose | Base model(s) | Splits per configuration | Output file |
 |---|---|---|---|---|
@@ -19,6 +19,7 @@ Table S1 lists every experiment. Split seeds are `seed_base + offset + i` with `
 | E9 | Protocol-disjoint splits (MATR/CLO) | Elastic net | {{CFG.n_secondary}} | results/raw/E9_protocol_grouped_splits.csv |
 | E10 | Training-conditional (PAC) calibration | Elastic net | {{CFG.n_secondary}} | results/raw/E10_pac_splits.csv |
 | E11 | Physical interpretation: feature–lifetime correlations and elastic-net coefficients (descriptive) | Elastic net | {{CFG.n_secondary}} training sets (E1 seeds) | results/raw/E11_*.csv |
+| E12 | Checkpoint grid chosen on training cells only (added after E3) | Elastic net | {{CFG.n_secondary}} (E3 seeds) | results/raw/E12_selected_grid_splits.csv |
 
 ## S2 Data cleaning and labels
 
@@ -53,6 +54,10 @@ See Section 2.3 of the main text. All features at checkpoint $k$ use cycles $\le
 {{STABLE:tables/T11_protocol_grouped.csv|Protocol-disjoint splits on MATR/CLO (E9).|}}
 
 {{STABLE:tables/T12_pac.csv|Training-conditional (PAC) calibration (E10).|}}
+
+{{STABLE:tables/T14_selected_grid.csv|Trajectory rule with the checkpoint grid chosen on training cells only (E12).|}}
+
+{{STABLE:tables/T15_selected_grid_choices.csv|Grids chosen by the training-only selection in E12 (share of splits).|}}
 
 {{STABLE:tables/T13_conditional_error_analytic.csv|Conditional (training-conditional) error of marginally calibrated thresholds. For $n$ calibration cells of a class and $\alpha=0.10$: the rank used by the marginal rule, the probability that the conditional error probability of the resulting threshold exceeds $\alpha$ (Beta$(r,n+1-r)$ law of conformal coverage for continuous scores), and the rank required for a PAC guarantee with $\delta=0.1$ and $\delta=0.2$ (empty: impossible with $n$ cells).|}}
 

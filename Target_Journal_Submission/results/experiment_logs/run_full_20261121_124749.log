@@ -25,3 +25,4 @@
 2026-11-21 12:48:51,920 INFO chunk E4_hust_cal_0.4: exists, re-used
 2026-11-21 12:48:51,923 INFO chunk E4_hust_train_0.2: exists, re-used
 2026-11-21 12:48:51,928 INFO chunk E4_hust_train_0.3: exists, re-used
+2026-11-21 12:53:18,643 INFO chunk E4_hust_train_0.4: 800 rows in 267s
