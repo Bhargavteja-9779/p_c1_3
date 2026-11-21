@@ -70,3 +70,6 @@
 2026-11-21 01:12:46,043 INFO E9 done (78 protocol groups)
 2026-11-21 01:12:46,044 INFO --- E9 done in 103s
 2026-11-21 01:12:46,044 INFO --- E10 start
+2026-11-21 01:14:28,312 INFO chunk E10_matr_clo_default: 600 rows in 102s
+2026-11-21 01:16:10,131 INFO chunk E10_matr_clo_large_cal: 600 rows in 102s
+2026-11-21 01:16:10,131 INFO E10 matr_clo done
