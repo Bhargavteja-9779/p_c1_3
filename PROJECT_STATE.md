@@ -40,8 +40,11 @@ Target_Journal_Submission/code (package batscreen, run_all.py quick/full).
   resumeFromRunId: "wf_15c1a175-b64"}).
 
 ## Next steps (exact)
-1. Monitor relaunched full run (log: Target_Journal_Submission/results_full_stdout2.log).
-2. Parallel agents: citation audit + reference list; manuscript render/DOCX pipeline.
-3. When results complete: build_numbers -> results/discussion sections -> first full manuscript.
+1. Full run (resumed 2026-11-21 07:58, log results_full_stdout5.log): E2 remaining chunks (hust gbr, rf),
+   then E3, E4, E5, E6, E7, E9, E10, analysis, figures. If the container was reset: follow CLAUDE.md step 3
+   (completed chunks in results/raw/chunks are re-used).
+2. When results complete: `python manuscript/build_numbers.py` -> write Results for E2-E10 in
+   manuscript/src/part2_results.md (only E1 written) -> update Discussion (part3) -> render via manuscript/build/render.py.
+3. Redo the lost pre-review/citation audit (prep-audit-build); save outputs to Target_Journal_Submission/REVIEW/ and commit.
 4. Ten-reviewer cycle 1 (agents), consolidate, fix, rerun affected experiments; further cycles.
 5. DOCX/PDF, cover letter, audits, manifest, risk report, decision.
