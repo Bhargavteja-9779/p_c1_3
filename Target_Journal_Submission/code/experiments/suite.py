@@ -364,3 +364,40 @@ def e11_interpretation(cfg, log, n=None):
         coefs.append(_chunk(cfg, log, f"E11_{ds}", job))
     _save(pd.DataFrame(cors), cfg, "E11_correlations.csv"); _save(pd.concat(coefs), cfg, "E11_coefficients.csv")
     log.info("E11 done")
+
+
+OFFSETS.update(E12=1200000)
+
+
+def e12_selected_grid(cfg, log, n=None):
+    """Added 2026-11-21 after E3 showed that the pre-registered dense grids cost efficiency.
+    The checkpoint grid is chosen per split from the E3 candidate grids using training cells
+    only (runner.select_grid_on_training); the trajectory rule is then calibrated and
+    evaluated on the untouched calibration/test cells with that grid. Same split seeds as E3,
+    so results are paired with the fixed grids of E3."""
+    from batscreen.evaluation.runner import select_grid_on_training, fit_models, predict_models, _evaluate
+    from joblib import Parallel, delayed
+    if _exists(cfg, "E12_selected_grid_splits.csv"):
+        log.info("E12 exists, skipped (resume)"); return None
+    n = n or cfg.get("n_splits_secondary", 200)
+    out = []
+    for ds in DS:
+        d = cfg["datasets"][ds]; F = _feat(cfg, ds); T = F["lifetime"].astype(float); Z = (T >= d["Lstar"]).astype(int)
+        grids = _grids(F["checkpoints"])
+        strata = np.array([f"{a}_{b}" for a, b in zip(F["dataset"], Z)])
+        def one(seed, F=F, d=d, T=T, Z=Z, grids=grids, strata=strata, ds=ds):
+            sp = stratified_split(strata, d["split"], seed); tr, ca, te = sp["train"], sp["cal"], sp["test"]
+            best, table = select_grid_on_training(F, T, d["Lstar"], tr, "en", seed, grids, cfg["alpha"], cfg["beta"])
+            fitted = fit_models(F, T, d["Lstar"], tr, "en", seed)
+            ev = np.concatenate([ca, te]); yhat, scale = predict_models(F, T, fitted, ev, "en", seed)
+            rows, _ = _evaluate(F, T, Z, d["Lstar"], tr, ca, te, len(ca), yhat, scale, "en", seed, cfg["alpha"], cfg["beta"],
+                                grids[best], ["proposed"], "selected", False, False)
+            for r in rows:
+                r.update(dataset=ds, grid_selected=best, **{f"est_{g}": v for g, v in table.items()})
+            return rows
+        def job():
+            res = Parallel(n_jobs=cfg["n_jobs"])(delayed(one)(s) for s in _seeds(cfg, "E3", n))
+            return pd.DataFrame([r for rr in res for r in rr])
+        out.append(_chunk(cfg, log, f"E12_{ds}", job))
+        log.info(f"E12 {ds} done")
+    df = pd.concat(out); _save(df, cfg, "E12_selected_grid_splits.csv"); return df

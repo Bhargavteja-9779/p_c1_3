@@ -1,0 +1,27 @@
+2026-11-21 12:48:39,766 INFO mode=full stages=['experiments', 'analysis', 'figures'] env={"python": "3.13.18", "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39", "numpy": "2.5.3", "scipy": "1.18.1", "sklearn": "1.9.1", "cpu_count": 4, "device": "cpu", "torch": "2.15.0+cu132"}
+2026-11-21 12:48:50,819 INFO --- E1 start
+2026-11-21 12:48:50,819 INFO E1 matr_clo: outputs exist, skipped (resume)
+2026-11-21 12:48:50,819 INFO E1 hust: outputs exist, skipped (resume)
+2026-11-21 12:48:50,819 INFO --- E1 done in 0s
+2026-11-21 12:48:50,819 INFO --- E2 start
+2026-11-21 12:48:50,819 INFO E2_models_splits.csv: exists, skipped (resume)
+2026-11-21 12:48:50,819 INFO --- E2 done in 0s
+2026-11-21 12:48:50,819 INFO --- E3 start
+2026-11-21 12:48:50,819 INFO E3_ablation_grid_splits.csv: exists, skipped (resume)
+2026-11-21 12:48:50,820 INFO --- E3 done in 0s
+2026-11-21 12:48:50,820 INFO --- E4 start
+2026-11-21 12:48:51,040 INFO chunk E4_matr_clo_cal_0.1: exists, re-used
+2026-11-21 12:48:51,358 INFO chunk E4_matr_clo_cal_0.15: exists, re-used
+2026-11-21 12:48:51,364 INFO chunk E4_matr_clo_cal_0.2: exists, re-used
+2026-11-21 12:48:51,514 INFO chunk E4_matr_clo_cal_0.25: exists, re-used
+2026-11-21 12:48:51,522 INFO chunk E4_matr_clo_train_0.2: exists, re-used
+2026-11-21 12:48:51,528 INFO chunk E4_matr_clo_train_0.3: exists, re-used
+2026-11-21 12:48:51,533 INFO chunk E4_matr_clo_train_0.4: exists, re-used
+2026-11-21 12:48:51,543 INFO chunk E4_matr_clo_train_0.5: exists, re-used
+2026-11-21 12:48:51,550 INFO chunk E4_matr_clo_noise: exists, re-used
+2026-11-21 12:48:51,584 INFO E4 matr_clo done
+2026-11-21 12:48:51,911 INFO chunk E4_hust_cal_0.2: exists, re-used
+2026-11-21 12:48:51,916 INFO chunk E4_hust_cal_0.3: exists, re-used
+2026-11-21 12:48:51,920 INFO chunk E4_hust_cal_0.4: exists, re-used
+2026-11-21 12:48:51,923 INFO chunk E4_hust_train_0.2: exists, re-used
+2026-11-21 12:48:51,928 INFO chunk E4_hust_train_0.3: exists, re-used

@@ -187,6 +187,28 @@ def run(cfg, log):
                              never_pass=float(np.isinf(g.pass_thr).mean()), time_saving_mean=g.time_saving.mean(),
                              n_cal_bad=g.n_cal_bad.mean(), n_cal_good=g.n_cal_good.mean(), n_splits=len(g)))
         v = pd.DataFrame(rows); _md(v, os.path.join(TB, "T12_pac.md")); metrics["E10"] = v.to_dict(orient="records")
+    # ---------------- E12 training-selected grid (added after E3)
+    e12 = _raw(cfg, "E12_selected_grid_splits.csv")
+    if e12 is not None:
+        allraw.append(e12.assign(experiment="E12"))
+        v = validity_summary(e12, a, b, by=("dataset", "method")); v["dataset"] = v["dataset"].map(DS_LABEL)
+        sel = e12.groupby(["dataset", "grid_selected"]).size().rename("n").reset_index()
+        sel["share"] = sel["n"] / sel.groupby("dataset")["n"].transform("sum"); sel["dataset"] = sel["dataset"].map(DS_LABEL)
+        _md(v[["dataset", "method", "fpr_mean", "fpr_ci_hi", "frr_mean", "frr_ci_hi", "early_rate_mean", "time_saving_mean", "n_splits"]],
+            os.path.join(TB, "T14_selected_grid.md"))
+        _md(sel, os.path.join(TB, "T15_selected_grid_choices.md"))
+        metrics["E12"] = v.to_dict(orient="records")
+        if e3 is not None:  # paired with E3 (same split seeds): selected grid vs the pre-registered dense grid
+            from scipy.stats import wilcoxon
+            for ds in ("matr_clo", "hust"):
+                dense = "all16" if ds == "matr_clo" else "all17"
+                x = e12[e12.dataset == ds].set_index("split").time_saving
+                y = e3[(e3.dataset == ds) & (e3.grid == dense) & (e3.method == "proposed")].set_index("split").time_saving
+                j = x.index.intersection(y.index); dlt = (x[j] - y[j])
+                rng = np.random.default_rng(0); bs = [rng.choice(dlt.values, len(dlt)).mean() for _ in range(10000)]
+                statsj[f"E12_{ds}_vs_dense"] = dict(n_splits=int(len(j)), mean_diff=float(dlt.mean()), ci_lo=float(np.percentile(bs, 2.5)),
+                                                   ci_hi=float(np.percentile(bs, 97.5)), wilcoxon_p=float(wilcoxon(dlt).pvalue) if (dlt != 0).any() else 1.0,
+                                                   unit="split (paired by seed)")
     from scipy.stats import beta as _beta
     from batscreen.screening.calibration import pac_rank
     rows = []

@@ -190,6 +190,19 @@ def main():
     if e10 is not None:
         for (ds, design, m), g in e10.groupby(["dataset", "cal_design", "method"]):
             split_stats(f"E10.{'mc' if ds == 'matr_clo' else 'h'}.{design}.{m}", g, a, b)
+    # ---- E12 training-selected grid
+    e12 = raw("E12_selected_grid_splits.csv")
+    if e12 is not None:
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            g = e12[e12.dataset == ds]
+            if len(g):
+                split_stats(f"E12.{key}", g, a, b)
+                vc = g.grid_selected.value_counts(normalize=True)
+                put(f"E12.{key}.top_grid", vc.index[0].replace("_", " "), "s"); put(f"E12.{key}.top_share", vc.iloc[0], "pct0")
+            st = S.get(f"E12_{ds}_vs_dense")
+            if st:
+                put(f"E12.{key}.diff", st["mean_diff"], "pct1"); put(f"E12.{key}.diff_lo", st["ci_lo"], "pct1")
+                put(f"E12.{key}.diff_hi", st["ci_hi"], "pct1"); put(f"E12.{key}.diff_p", st["wilcoxon_p"], "p")
     # ---- E11 physical interpretation (descriptive)
     r11, c11 = raw("E11_correlations.csv"), raw("E11_coefficients.csv")
     if r11 is not None and c11 is not None:
