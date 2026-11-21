@@ -77,3 +77,11 @@
 2026-11-21 09:50:19,843 INFO chunk E10_hust_large_cal: 600 rows in 178s
 2026-11-21 09:50:19,844 INFO E10 hust done
 2026-11-21 09:50:19,877 INFO --- E10 done in 516s
+2026-11-21 09:50:23,679 INFO analysis written
+2026-11-21 09:50:25,743 INFO figure fig_workflow ok
+2026-11-21 09:50:26,409 INFO figure fig_lifetimes ok
+2026-11-21 09:50:27,783 INFO figure fig_accuracy ok
+2026-11-21 09:50:28,932 INFO figure fig_validity_efficiency ok
+2026-11-21 09:50:29,818 INFO figure fig_decision_time ok
+2026-11-21 09:50:31,412 INFO figure fig_trajectories ok
+2026-11-21 09:50:32,042 INFO figure fig_ablation ok
