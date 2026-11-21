@@ -19,8 +19,11 @@ DONE (laughing-bohr, 15:50): 3.4-3.8 assembled into src/part2_results.md with fi
  value = valid control under repeated looks); abstract rewritten (A1, A2, A6, A7, E12); 3.2 sub-0.10 explanation fixed
  with exact attained level E1.*.lvl_* (A5, new keys in build_numbers) and interval-rule claim (R1-5); 3.11 truncated
  campaigns (A6, A9), one-vs-many (E12), model-based (A8), (iii) shift (A2); 3.12 + Conclusions aligned.
- STILL TODO: E13 text (gauss_bonf in 3.2/3.11, bonf on sparse grids in 3.5/3.11 'Bonferroni never decided', noise_corr
- in 3.6) once E13 finishes; then render; then presentation (R9) + cover letter; then review cycle 2.
+ DONE 16:25: E11-E13 complete (+analysis, figures); E13 text in 3.5 (bonf sparse), 3.6 (persistent noise), 3.11 (gauss_bonf);
+ render.py resolves references nested in captions; Table S1 generated (tables/S1_experiments.csv, incl. E11-E13).
+ Draft_Manuscript.{md,docx,pdf} (43 pp) + SI (21 pp) render and pass check_docx (only author placeholders).
+ NEXT: presentation items (R9: cut ~1,000-1,500 words, figure labels/numbers, SI table formatting, m/k notation);
+ cover letter (manuscript/src_cover: old title/claims); then review cycle 2 (fresh reviewers on the new draft).
 TODO (original list, in order): assemble 3.4-3.8 from manuscript/drafts/ (sec3_4, sec3_5 + E12/SEL paragraph, sec3_6 + E13 noise_corr
  + E7 paragraph, sec3_7 shift (fix per A2/A3, add test-cell counts), sec3_8a_pac + sec3_8b_compute) in place of
  {{SECTION_E2_E10}} in src/part2_results.md; add gauss_bonf (E13) to 3.2/3.11 text; rewrite abstract (A1, A6, A7:
