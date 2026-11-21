@@ -47,3 +47,7 @@
 2026-11-21 13:24:13,410 INFO chunk E7_matr_clo_ab: 3200 rows in 116s
 2026-11-21 13:26:06,448 INFO chunk E7_matr_clo_L550: 800 rows in 113s
 2026-11-21 13:27:51,805 INFO chunk E7_matr_clo_L750: 800 rows in 105s
+2026-11-21 13:29:40,654 INFO chunk E7_matr_clo_L900: 800 rows in 109s
+2026-11-21 13:29:40,655 INFO E7 matr_clo done
+2026-11-21 13:32:41,882 INFO chunk E7_hust_ab: 3200 rows in 181s
+2026-11-21 13:36:01,973 INFO chunk E7_hust_L1600: 800 rows in 200s
