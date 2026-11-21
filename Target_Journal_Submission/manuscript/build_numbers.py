@@ -38,6 +38,9 @@ def split_stats(prefix, g, alpha=0.1, beta=0.1):
         put(f"{prefix}.{e}", m, ".3f"); put(f"{prefix}.{e}_lo", m - 1.96 * s / np.sqrt(n), ".3f")
         put(f"{prefix}.{e}_hi", m + 1.96 * s / np.sqrt(n), ".3f")
         put(f"{prefix}.{e}_above", float((g[e] > (alpha if e == "fpr" else beta) + 1e-12).mean()), "pct0")
+    put(f"{prefix}.either_above", float(((g["fpr"] > alpha + 1e-12) | (g["frr"] > beta + 1e-12)).mean()), "pct0")
+    if "n_bad" in g:
+        put(f"{prefix}.ntest_bad", g["n_bad"].mean(), ".1f"); put(f"{prefix}.ntest_good", g["n_good"].mean(), ".1f")
     put(f"{prefix}.acc", g["accuracy"].mean(), ".3f"); put(f"{prefix}.early", g["early_rate"].mean(), "pct1")
     put(f"{prefix}.sav", g["time_saving"].mean(), "pct1"); put(f"{prefix}.sav_sd", g["time_saving"].std(ddof=1), "pct1")
     put(f"{prefix}.time", g["mean_time"].mean(), "int"); put(f"{prefix}.nsplits", n, "int")
@@ -203,6 +206,46 @@ def main():
             if st:
                 put(f"E12.{key}.diff", st["mean_diff"], "pct1"); put(f"E12.{key}.diff_lo", st["ci_lo"], "pct1")
                 put(f"E12.{key}.diff_hi", st["ci_hi"], "pct1"); put(f"E12.{key}.diff_p", st["wilcoxon_p"], "p")
+    # ---- Review cycle 1, B1: grids chosen on TRAINING cells only, restricted to single checkpoints or to
+    # multi-checkpoint (sequential) grids. E12 stores the training-only estimate of every candidate grid
+    # (est_<grid>); E3 evaluated every grid on the same split seeds, so the outcome of the chosen grid is
+    # looked up in E3 (identical to re-running it).
+    if e12 is not None and e3 is not None:
+        rng = np.random.default_rng(0)
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            g12 = e12[e12.dataset == ds].set_index("split")
+            ests = [c for c in g12.columns if c.startswith("est_")]
+            e3p = e3[(e3.dataset == ds) & (e3.method == "proposed")].set_index(["split", "grid"])
+            dense = "all16" if ds == "matr_clo" else "all17"
+            picks = {}
+            for fam, cond in (("single_sel", lambda c: "single" in c), ("seq_sel", lambda c: "single" not in c)):
+                cols = [c for c in ests if cond(c[4:])]
+                choice = g12[cols].idxmax(axis=1).str[4:]
+                rows = e3p.loc[list(zip(choice.index, choice.values))].reset_index()
+                split_stats(f"SEL.{key}.{fam}", rows, a, b)
+                vc = choice.value_counts(normalize=True)
+                put(f"SEL.{key}.{fam}.top_grid", vc.index[0].replace("_", " "), "s"); put(f"SEL.{key}.{fam}.top_share", vc.iloc[0], "pct0")
+                picks[fam] = rows.set_index("split").time_saving
+            picks["any_sel"] = g12.time_saving
+            picks["dense"] = e3p.xs(dense, level="grid").time_saving
+            picks["single_100"] = e3p.xs("single_100", level="grid").time_saving
+            for x, y in (("seq_sel", "single_sel"), ("any_sel", "single_sel"), ("dense", "single_sel"), ("single_sel", "single_100"),
+                         ("dense", "single_100")):
+                j = picks[x].index.intersection(picks[y].index); d = (picks[x][j] - picks[y][j]).values
+                bs = [rng.choice(d, len(d)).mean() for _ in range(10000)]
+                put(f"SEL.{key}.{x}_vs_{y}", d.mean(), "pct1"); put(f"SEL.{key}.{x}_vs_{y}_lo", np.percentile(bs, 2.5), "pct1")
+                put(f"SEL.{key}.{x}_vs_{y}_hi", np.percentile(bs, 97.5), "pct1")
+    # ---- E13 comparators (review cycle 1)
+    e13 = raw("E13_comparators_splits.csv")
+    if e13 is not None:
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            g = e13[e13.dataset == ds]
+            for m, gg in g[g.part == "gauss_bonf"].groupby("method"):
+                split_stats(f"E13.{key}.{m}", gg, a, b)
+            for (grid, m), gg in g[g.part == "bonf_sparse"].groupby(["grid", "method"]):
+                split_stats(f"E13.{key}.{grid}.{m}", gg, a, b)
+            for (f, lv, m), gg in g[g.part == "noise_corr"].groupby(["factor", "level", "method"]):
+                split_stats(f"E13.{key}.{f}.{lv:g}.{m}", gg, a, b)
     # ---- E11 physical interpretation (descriptive)
     r11, c11 = raw("E11_correlations.csv"), raw("E11_coefficients.csv")
     if r11 is not None and c11 is not None:

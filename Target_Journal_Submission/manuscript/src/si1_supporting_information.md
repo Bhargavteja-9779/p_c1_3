@@ -1,6 +1,6 @@
 # Supporting Information
 
-**Stopping Cycle-Life Tests Early With Guaranteed Error Rates: Distribution-Free Sequential Screening of Lithium-Ion Cells From Truncated Test Campaigns**
+**Stopping Cycle-Life Tests Early With Distribution-Free Error Control: Sequential Screening of Lithium-Ion Cells Calibrated on Truncated Test Campaigns**
 
 ## S1 Experiments, splits and seeds
 

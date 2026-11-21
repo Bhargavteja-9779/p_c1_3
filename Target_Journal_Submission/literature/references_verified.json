@@ -75,7 +75,7 @@
    "Ding, Han",
    "Yuan, Ye"
   ],
-  "venue": "Energy &amp; Environmental Science",
+  "venue": "Energy & Environmental Science",
   "year": 2022,
   "volume": "15",
   "issue": "10",
@@ -171,7 +171,7 @@
  "zhang2024batteryml": {
   "key": "zhang2024batteryml",
   "arxiv": "2310.14714",
-  "title": "BatteryML:An Open-source platform for Machine Learning on Battery Degradation",
+  "title": "BatteryML: An Open-source Platform for Machine Learning on Battery Degradation",
   "authors": [
    "Han Zhang",
    "Xiaofan Gui",
@@ -180,10 +180,12 @@
    "Yuqi Li",
    "Jiang Bian"
   ],
-  "venue": "arXiv",
-  "year": 2023,
+  "venue": "International Conference on Learning Representations (ICLR 2024)",
+  "year": 2024,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "type": "proceedings-article",
+  "note": "verified: ICLR 2024 proceedings (proceedings.iclr.cc) and ICLR virtual site; arXiv 2310.14714"
  },
  "sulzer2021field": {
   "key": "sulzer2021field",
@@ -413,14 +415,15 @@
    "Li, Wenjie",
    "Li, Tao"
   ],
-  "venue": "Springer Science and Business Media LLC",
+  "venue": "Research Square (preprint)",
   "year": 2026,
   "volume": null,
   "issue": null,
   "pages": null,
   "type": "posted-content",
   "source": "crossref",
-  "verified": true
+  "verified": true,
+  "note": "Existence, title, DOI and content confirmed via Research Square listing in web search (v1, 2026; 220-cell seven-source registry; capacity-reference/endpoint choice changes event counts, e.g. HUST 0 -> 77 at 80%). Author list (Li, Li, Li) comes from the Crossref record only; could not be independently confirmed (researchsquare.com not reachable). Not peer reviewed."
  },
  "tte2024ensemble": {
   "key": "tte2024ensemble",
@@ -497,12 +500,13 @@
   "pages": "e70136",
   "type": "journal-article",
   "source": "crossref",
-  "verified": true
+  "verified": true,
+  "note": "Confirmed via Wiley listing in web search: Battery Energy 5(4) e70136, 2026 (VoR 9 July 2026), authors Sulaima, Arora, Frischer, Namazi. Review; abstract stresses uncertainty awareness and proposes a five-layer trustworthy-prediction framework incl. uncertainty quantification. Full text not read, so the specific wording \"identify uncertainty-aware lifetime prediction as an open need\" is supported by the abstract only."
  },
  "bte2026lfp": {
   "key": "bte2026lfp",
   "doi": "10.1002/bte2.70124",
-  "title": "Degradation‐Informed Temperature Analysis for Cycle Life Prediction of LiFePO 4 Batteries",
+  "title": "Degradation-Informed Temperature Analysis for Cycle Life Prediction of LiFePO4 Batteries",
   "authors": [
    "Kee, Joonyoung",
    "Lee, Seokhyun",
@@ -518,7 +522,8 @@
   "pages": "e70124",
   "type": "journal-article",
   "source": "crossref",
-  "verified": true
+  "verified": true,
+  "note": "title subscript artefact fixed (journal.hep.com.cn listing)"
  },
  "bte2025transfer": {
   "key": "bte2025transfer",
@@ -588,15 +593,20 @@
   "key": "vovk2005alrw",
   "doi": "10.1007/b106715",
   "title": "Algorithmic Learning in a Random World",
-  "authors": [],
-  "venue": "Springer-Verlag",
+  "authors": [
+   "Vovk, Vladimir",
+   "Gammerman, Alexander",
+   "Shafer, Glenn"
+  ],
+  "venue": "Springer",
   "year": 2005,
   "volume": null,
   "issue": null,
   "pages": null,
   "type": "book",
   "source": "crossref",
-  "verified": true
+  "verified": true,
+  "note": "authors verified: Springer book page (doi 10.1007/b106715, ISBN 978-0-387-00152-4). A 2nd edition exists (Springer, Cham 2022, doi 10.1007/978-3-031-06649-8)."
  },
  "lei2018dfpi": {
   "key": "lei2018dfpi",
@@ -752,10 +762,14 @@
    "Dan Zhang",
    "Eric Nalisnick"
   ],
-  "venue": "arXiv",
-  "year": 2023,
+  "venue": "Proceedings of the 40th Conference on Uncertainty in Artificial Intelligence (UAI 2024), PMLR",
+  "year": 2024,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "244",
+  "pages": "1780-1796",
+  "type": "proceedings-article",
+  "note": "verified: proceedings.mlr.press/v244/jazbec24a"
  },
  "barber2023beyond": {
   "key": "barber2023beyond",
@@ -925,10 +939,11 @@
   "year": 1945,
   "volume": "1",
   "issue": "6",
-  "pages": "80",
+  "pages": "80-83",
   "type": "journal-article",
   "source": "crossref",
-  "verified": true
+  "verified": true,
+  "note": "pages verified: multiple bibliographic records (Biometrics Bulletin 1(6):80-83)"
  },
  "benjamini1995fdr": {
   "key": "benjamini1995fdr",
@@ -955,14 +970,15 @@
    "Rasmussen, Carl Edward",
    "Williams, Christopher K. I."
   ],
-  "venue": "The MIT Press",
-  "year": 2005,
+  "venue": "MIT Press",
+  "year": 2006,
   "volume": null,
   "issue": null,
   "pages": null,
   "type": "monograph",
   "source": "crossref",
-  "verified": true
+  "verified": true,
+  "note": "year verified: MIT Press 2006 (library catalogue, gaussianprocess.org); Crossref/DOAB give 2005"
  },
  "clopper1934": {
   "key": "clopper1934",
@@ -1010,10 +1026,14 @@
    "Matteo Sesia",
    "Vladimir Svetnik"
   ],
-  "venue": "arXiv",
-  "year": 2024,
+  "venue": "Proceedings of the 42nd International Conference on Machine Learning (ICML 2025), PMLR",
+  "year": 2025,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "267",
+  "pages": "53989-54029",
+  "type": "proceedings-article",
+  "note": "verified: proceedings.mlr.press/v267/sesia25a"
  },
  "deblasio2024calisol": {
   "key": "deblasio2024calisol",
@@ -1131,5 +1151,301 @@
   "source": "crossref",
   "verified": true,
   "key": "diquigiovanni2022bands"
+ },
+ "pocock1977group": {
+  "key": "pocock1977group",
+  "title": "Group sequential methods in the design and analysis of clinical trials",
+  "authors": [
+   "Pocock, Stuart J."
+  ],
+  "venue": "Biometrika",
+  "year": 1977,
+  "volume": "64",
+  "issue": "2",
+  "pages": "191-199",
+  "doi": "10.1093/biomet/64.2.191",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: DeepDyve/aggregator records; some list pp. 191-200"
+ },
+ "obrien1979multiple": {
+  "key": "obrien1979multiple",
+  "title": "A multiple testing procedure for clinical trials",
+  "authors": [
+   "O'Brien, Peter C.",
+   "Fleming, Thomas R."
+  ],
+  "venue": "Biometrics",
+  "year": 1979,
+  "volume": "35",
+  "issue": "3",
+  "pages": "549-556",
+  "doi": "10.2307/2530245",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: scilit, PMC reference lists"
+ },
+ "lan1983discrete": {
+  "key": "lan1983discrete",
+  "title": "Discrete sequential boundaries for clinical trials",
+  "authors": [
+   "Lan, K. K. Gordon",
+   "DeMets, David L."
+  ],
+  "venue": "Biometrika",
+  "year": 1983,
+  "volume": "70",
+  "issue": "3",
+  "pages": "659-663",
+  "doi": "10.2307/2336502",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: JSTOR 2336502 and course PDF"
+ },
+ "jennison2000group": {
+  "key": "jennison2000group",
+  "title": "Group Sequential Methods with Applications to Clinical Trials",
+  "authors": [
+   "Jennison, Christopher",
+   "Turnbull, Bruce W."
+  ],
+  "venue": "Chapman & Hall/CRC, Boca Raton",
+  "year": 2000,
+  "type": "book",
+  "verified": true,
+  "note": "verified: WorldCat/Routledge (ISBN 9780849303166; hardback dated Sept 1999, catalogued 2000). DOI not confirmed, so none given"
+ },
+ "stankeviciute2021conformal": {
+  "key": "stankeviciute2021conformal",
+  "title": "Conformal Time-series Forecasting",
+  "authors": [
+   "Stankeviciute, Kamile",
+   "Alaa, Ahmed M.",
+   "van der Schaar, Mihaela"
+  ],
+  "venue": "Advances in Neural Information Processing Systems",
+  "year": 2021,
+  "volume": "34",
+  "type": "proceedings-article",
+  "verified": true,
+  "note": "verified: proceedings.neurips.cc (NeurIPS 2021). Page range not confirmed, so omitted"
+ },
+ "angelopoulos2025ltt": {
+  "key": "angelopoulos2025ltt",
+  "title": "Learn then test: Calibrating predictive algorithms to achieve risk control",
+  "authors": [
+   "Angelopoulos, Anastasios N.",
+   "Bates, Stephen",
+   "Candès, Emmanuel J.",
+   "Jordan, Michael I.",
+   "Lei, Lihua"
+  ],
+  "venue": "The Annals of Applied Statistics",
+  "year": 2025,
+  "volume": "19",
+  "issue": "2",
+  "pages": "1641-1662",
+  "doi": "10.1214/24-AOAS1998",
+  "arxiv": "2110.01052",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: IMS AOAS 19(2) table of contents; pages from SUFE index record"
+ },
+ "bates2023outliers": {
+  "key": "bates2023outliers",
+  "title": "Testing for outliers with conformal p-values",
+  "authors": [
+   "Bates, Stephen",
+   "Candès, Emmanuel",
+   "Lei, Lihua",
+   "Romano, Yaniv",
+   "Sesia, Matteo"
+  ],
+  "venue": "The Annals of Statistics",
+  "year": 2023,
+  "volume": "51",
+  "issue": "1",
+  "pages": "149-178",
+  "doi": "10.1214/22-AOS2244",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: Project Euclid"
+ },
+ "ramdas2023game": {
+  "key": "ramdas2023game",
+  "title": "Game-theoretic statistics and safe anytime-valid inference",
+  "authors": [
+   "Ramdas, Aaditya",
+   "Grünwald, Peter",
+   "Vovk, Vladimir",
+   "Shafer, Glenn"
+  ],
+  "venue": "Statistical Science",
+  "year": 2023,
+  "volume": "38",
+  "issue": "4",
+  "pages": "576-601",
+  "doi": "10.1214/23-STS894",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: Project Euclid"
+ },
+ "cleaveland2024conformal": {
+  "key": "cleaveland2024conformal",
+  "title": "Conformal prediction regions for time series using linear complementarity programming",
+  "authors": [
+   "Cleaveland, Matthew",
+   "Lee, Insup",
+   "Pappas, George J.",
+   "Lindemann, Lars"
+  ],
+  "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+  "year": 2024,
+  "volume": "38",
+  "issue": "19",
+  "pages": "20984-20992",
+  "doi": "10.1609/aaai.v38i19.30089",
+  "type": "proceedings-article",
+  "verified": true,
+  "note": "verified: ojs.aaai.org article 30089"
+ },
+ "lindemann2023conformal": {
+  "key": "lindemann2023conformal",
+  "title": "Conformal prediction for STL runtime verification",
+  "authors": [
+   "Lindemann, Lars",
+   "Qin, Xin",
+   "Deshmukh, Jyotirmoy V.",
+   "Pappas, George J."
+  ],
+  "venue": "Proceedings of the ACM/IEEE 14th International Conference on Cyber-Physical Systems (ICCPS 2023)",
+  "year": 2023,
+  "pages": "142-153",
+  "doi": "10.1145/3576841.3585927",
+  "type": "proceedings-article",
+  "verified": true,
+  "note": "verified: ACM block of paper (par.nsf.gov), researchr"
+ },
+ "ringel2024early": {
+  "key": "ringel2024early",
+  "title": "Early time classification with accumulated accuracy gap control",
+  "authors": [
+   "Ringel, Liran",
+   "Cohen, Regev",
+   "Freedman, Daniel",
+   "Elad, Michael",
+   "Romano, Yaniv"
+  ],
+  "venue": "Proceedings of the 41st International Conference on Machine Learning (ICML 2024), PMLR",
+  "year": 2024,
+  "volume": "235",
+  "pages": "42584-42600",
+  "type": "proceedings-article",
+  "arxiv": "2402.00857",
+  "verified": true,
+  "note": "verified: proceedings.mlr.press/v235/ringel24a"
+ },
+ "chen2025knowing": {
+  "key": "chen2025knowing",
+  "title": "Knowing when to stop: Delay-adaptive spiking neural network classifiers with reliability guarantees",
+  "authors": [
+   "Chen, Jiechen",
+   "Park, Sangwoo",
+   "Simeone, Osvaldo"
+  ],
+  "venue": "IEEE Journal of Selected Topics in Signal Processing",
+  "year": 2025,
+  "volume": "19",
+  "pages": "88-102",
+  "doi": "10.1109/JSTSP.2024.3431996",
+  "type": "journal-article",
+  "verified": true,
+  "note": "SpikeCP. verified: IEEE Xplore doc 10606014, dblp JSTSP vol 19, ADS (Jan 2025 issue; online 2024). R8 cites it as JSTSP 2024"
+ },
+ "li2026coins": {
+  "key": "li2026coins",
+  "title": "COINS: Any-stage-valid and utility-oriented sequential conformal prediction",
+  "authors": [
+   "Li, Wangcheng",
+   "Qiao, Nan",
+   "Guo, Xu",
+   "Sun, Wenguang"
+  ],
+  "venue": "arXiv",
+  "year": 2026,
+  "arxiv": "2609.07112",
+  "type": "preprint",
+  "verified": true,
+  "note": "verified: arXiv abs page 2609.07112 (v1 Sep 2026, v2 exists); preprint, not peer reviewed"
+ },
+ "liu2026reliable": {
+  "key": "liu2026reliable",
+  "title": "Toward reliable battery life prediction: A hybrid data-driven framework with uncertainty quantification",
+  "authors": [
+   "Liu, Mingqi",
+   "Wang, Ying",
+   "Li, Wujiang",
+   "Cao, Juyong",
+   "Yang, Fuyong"
+  ],
+  "venue": "Energy Engineering",
+  "year": 2026,
+  "volume": "123",
+  "issue": "8",
+  "doi": "10.32604/ee.2026.074783",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: Tech Science Press EE vol 123 no 8 listing and online-first PDF; random forest + conformal prediction. Page/article number not confirmed"
+ },
+ "li2026early": {
+  "key": "li2026early",
+  "title": "Early detection of short-term performance degradation in electric vehicle lithium-ion batteries via physics-guided multi-sensor fusion and deep learning",
+  "authors": [
+   "Li, David Chunhu"
+  ],
+  "venue": "Batteries",
+  "year": 2026,
+  "volume": "12",
+  "issue": "4",
+  "pages": "116",
+  "doi": "10.3390/batteries12040116",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: MDPI listing (search). Decision layer uses weighted conformal calibration; false-alarm-risk claim from R8 not confirmed beyond abstract"
+ },
+ "richardson2017gaussian": {
+  "key": "richardson2017gaussian",
+  "title": "Gaussian process regression for forecasting battery state of health",
+  "authors": [
+   "Richardson, Robert R.",
+   "Osborne, Michael A.",
+   "Howey, David A."
+  ],
+  "venue": "Journal of Power Sources",
+  "year": 2017,
+  "volume": "357",
+  "pages": "209-219",
+  "doi": "10.1016/j.jpowsour.2017.05.004",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: Oxford repository record, arXiv 1703.05687"
+ },
+ "baumhofer2014production": {
+  "key": "baumhofer2014production",
+  "title": "Production caused variation in capacity aging trend and correlation to initial cell performance",
+  "authors": [
+   "Baumhöfer, Thomas",
+   "Brühl, Manuel",
+   "Rothgang, Susanne",
+   "Sauer, Dirk Uwe"
+  ],
+  "venue": "Journal of Power Sources",
+  "year": 2014,
+  "volume": "247",
+  "pages": "332-338",
+  "doi": "10.1016/j.jpowsour.2013.08.108",
+  "type": "journal-article",
+  "verified": true,
+  "note": "verified: FAU CRIS record; 48 mass-production cells"
  }
 }

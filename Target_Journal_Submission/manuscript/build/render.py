@@ -19,6 +19,7 @@ colspec: comma-separated "column:Header:format", format in {.Nf, .Ng, pctN, int,
 """
 from __future__ import annotations
 import argparse, copy, json, math, os, re, subprocess, sys
+import numpy as np
 import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -419,6 +420,39 @@ def postprocess(docx_path, kind="main"):
                         run.font.size = Pt(9); run.font.name = "Times New Roman"
                         if ri == 0:
                             run.font.bold = True
+    # column widths proportional to content (pandoc gives every pipe-table column the same width, which
+    # made long rule names wrap letter by letter): weight = longest word / typical cell length, header words
+    # may wrap. Layout fixed so LibreOffice and Word honour the widths.
+    tw = int((doc.sections[0].page_width - doc.sections[0].left_margin - doc.sections[0].right_margin) / 635)  # EMU->twips
+    for tbl in doc.tables:
+        ncol = len(tbl.columns)
+        need = []
+        for ci in range(ncol):
+            body = [tbl.rows[ri].cells[ci].text.strip() for ri in range(1, len(tbl.rows))]
+            head = tbl.rows[0].cells[ci].text.strip()
+            longest_word = max([len(w) for t in body + [head] for w in t.split()] + [1])
+            typical = np.percentile([len(t) for t in body], 90) if body else len(head)
+            need.append(max(longest_word, min(typical, 28), 4))
+        tot = float(sum(need))
+        widths = [max(int(tw * n / tot), 500) for n in need]
+        tblPr = tbl._tbl.tblPr
+        for tag in ("w:tblW", "w:tblLayout"):
+            old = tblPr.find(qn(tag))
+            if old is not None:
+                tblPr.remove(old)
+        w = OxmlElement("w:tblW"); w.set(qn("w:w"), str(sum(widths))); w.set(qn("w:type"), "dxa"); tblPr.append(w)
+        lay = OxmlElement("w:tblLayout"); lay.set(qn("w:type"), "fixed"); tblPr.append(lay)
+        grid = tbl._tbl.tblGrid
+        for gi, gc in enumerate(grid.findall(qn("w:gridCol"))):
+            if gi < ncol:
+                gc.set(qn("w:w"), str(widths[gi]))
+        for row in tbl.rows:
+            for ci, cell in enumerate(row.cells):
+                tcPr = cell._tc.get_or_add_tcPr()
+                old = tcPr.find(qn("w:tcW"))
+                if old is not None:
+                    tcPr.remove(old)
+                cw = OxmlElement("w:tcW"); cw.set(qn("w:w"), str(widths[ci])); cw.set(qn("w:type"), "dxa"); tcPr.insert(0, cw)
     # first heading -> Title style; references hanging indent
     in_refs = False
     for p in doc.paragraphs:

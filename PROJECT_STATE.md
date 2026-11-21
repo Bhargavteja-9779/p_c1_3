@@ -2,6 +2,25 @@
 
 Last update: 2026-11-20 22:55 UTC (handover to new account). Branch: `claude/gifted-euler-vaa8g2`; keep committing and pushing to it.
 
+## RESUME HERE (2026-11-21 15:25 UTC, branch claude/fervent-keller-rfty5a)
+State: review cycle 1 consolidated (Target_Journal_Submission/REVIEW/cycle01/CONSOLIDATED.md = the plan).
+DONE: Methods revised (PAC defined, comparators, designs), title/intro/gap revised, 17 new verified refs cited
+(REVIEW/cycle01/REFS_REVISION.md), R5 repro fixes (LICENSE, DATA_NOTICE, requirements-lock), cluster bootstrap +
+either-rate exceedance + per-batch rates in analysis, new tests, table column widths in render.py,
+build_numbers: SEL.* (training-selected single vs sequential grid, from E12 est_* + E3) and E13.* keys.
+RUNNING when saved (may be lost): E12 (log results_full_stdout7.log), then E13 queued (results_full_stdout8.log).
+To resume in a fresh container:
+  1. cd Target_Journal_Submission/code && pip install -r requirements-lock.txt (torch CPU) ; apt-get install -y libreoffice-math
+  2. python run_all.py --mode full --stages experiments analysis figures --experiments E11 E12 E13   (resumes chunks)
+  3. python ../manuscript/build_numbers.py
+TODO (in order): assemble 3.4-3.8 from manuscript/drafts/ (sec3_4, sec3_5 + E12/SEL paragraph, sec3_6 + E13 noise_corr
+ + E7 paragraph, sec3_7 shift (fix per A2/A3, add test-cell counts), sec3_8a_pac + sec3_8b_compute) in place of
+ {{SECTION_E2_E10}} in src/part2_results.md; add gauss_bonf (E13) to 3.2/3.11 text; rewrite abstract (A1, A6, A7:
+ both calibration ratios, no 'guaranteed', state single-checkpoint comparison); fix discussion/limitations (A5 sub-0.10
+ explanation, A8, A12 per-batch, A14); presentation items (R9: SI tables, figure labels/numbers, Fig9 caption, m/k,
+ cut ~1,000 words); cover letter (src_cover) still has old title/claims; render with
+ python manuscript/build/render.py --pdf --si --out $PWD/manuscript/Draft_Manuscript.docx ; then review cycle 2.
+
 ## MERGE 2026-11-21 15:15 UTC (session on branch claude/fervent-keller-rfty5a)
 * Merged claude/gifted-euler-vaa8g2 (this file, manuscript structure, E11, E12, drafts) into
   claude/fervent-keller-rfty5a, which had the COMPLETE full run E1-E10 (+analysis, figures; E10 was missing on
