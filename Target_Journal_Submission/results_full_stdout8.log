@@ -14,3 +14,4 @@ NOTE: experiment outputs already present in results/ (including those committed 
 2026-11-21 15:59:41,074 INFO chunk E13_matr_clo_bonf_sparse: 800 rows in 107s
 2026-11-21 16:01:23,421 INFO chunk E13_matr_clo_noise_corr: 4800 rows in 102s
 2026-11-21 16:01:23,421 INFO E13 matr_clo done
+2026-11-21 16:03:52,966 INFO chunk E13_hust_gauss: 800 rows in 150s
