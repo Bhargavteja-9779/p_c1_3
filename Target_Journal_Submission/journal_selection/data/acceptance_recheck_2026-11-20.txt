@@ -1,0 +1,10 @@
+BatteryEnergy                       2768-1696 2025 total=108 n=93 median=85 q1=52.5 q3=107.0 le72=0.45
+BatteryEnergy                       2768-1696 2026 total=84 n=79 median=86 q1=40.0 q3=136.0 le72=0.41
+EEM                                 2575-0356 2025 total=235 n=223 median=61 q1=43.0 q3=86.0 le72=0.63
+EEM                                 2575-0356 2026 total=320 n=314 median=69.0 q1=47.0 q3=96.0 le72=0.55
+CarbonEnergy                        2637-9368 2025 total=216 n=180 median=88.0 q1=66.0 q3=118.0 le72=0.32
+CarbonEnergy                        2637-9368 2026 total=213 n=182 median=104.0 q1=68.75 q3=146.25 le72=0.28
+InfoMat                             2567-3165 2025 total=143 n=108 median=79.5 q1=58.5 q3=112.75 le72=0.40
+InfoMat                             2567-3165 2026 total=102 n=73 median=93 q1=59.0 q3=116.0 le72=0.36
+AdvSci                              2198-3844 2025 total=5401 n=17 median=83 q1=51.0 q3=126.5 le72=0.47
+AdvSci                              2198-3844 2026 total=5308 n=902 median=115.0 q1=79.0 q3=161.0 le72=0.20

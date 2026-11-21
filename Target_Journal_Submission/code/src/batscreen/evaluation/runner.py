@@ -187,3 +187,32 @@ def _evaluate(F, T, Z, Lstar, tr, ca, te, nC, yhat, scale, model, split_seed, al
                 cell_rows.append((split_seed, model, name, int(c), int(res["decision"][i]), bool(res["by_model"][i]),
                                   float(res["time"][i]), int(res["m_idx"][i])))
     return rows, cell_rows
+
+
+def select_grid_on_training(F, T, Lstar, tr, model, seed, grids, alpha, beta, n_folds=5, n_halves=20):
+    """Choose a checkpoint grid using TRAINING cells only (so the calibration/test
+    exchangeability required by Proposition 1 is untouched). Out-of-fold normalised scores
+    of the training cells are obtained by K-fold cross-fitting; for each candidate grid the
+    trajectory rule is calibrated on these out-of-fold scores and its cycling saving is measured on
+    the same cells (an in-sample selection criterion that uses no calibration or test cell). Returns (best_grid_name, table)."""
+    rng = np.random.default_rng(seed + 31337)
+    Z = (T >= Lstar).astype(int); M = len(F["checkpoints"])
+    S = np.full((len(tr), M), np.nan)
+    folds = np.zeros(len(tr), int)
+    for z in (0, 1):
+        ii = rng.permutation(np.where(Z[tr] == z)[0]); folds[ii] = np.arange(len(ii)) % n_folds
+    for f in range(n_folds):
+        inner_tr, held = tr[folds != f], tr[folds == f]
+        fitted = fit_models(F, T, Lstar, inner_tr, model, seed + 101 * (f + 1))
+        y, sc = predict_models(F, T, fitted, held, model, seed)
+        S[folds == f] = (y - (0 if MODELS[model].kind == "classifier" else math.log10(Lstar))) / sc
+    table = {}
+    for name, sub in grids.items():
+        # calibrate on all out-of-fold training scores and measure the saving on the same
+        # cells: a selection criterion only (half-splits left too few bad cells on HUST)
+        cols = np.array(sub); ck = F["checkpoints"][cols]
+        pt, rt = calibrate(S[:, cols], Z[tr], alpha, beta, "traj")
+        res = simulate(S[:, cols], T[tr], ck, pt, rt, Lstar)
+        table[name] = float(metrics(res, T[tr], Lstar)["time_saving"])
+    best = max(table, key=lambda g: (round(table[g], 3), -len(grids[g])))
+    return best, table

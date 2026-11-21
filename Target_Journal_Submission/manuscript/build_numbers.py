@@ -190,6 +190,34 @@ def main():
     if e10 is not None:
         for (ds, design, m), g in e10.groupby(["dataset", "cal_design", "method"]):
             split_stats(f"E10.{'mc' if ds == 'matr_clo' else 'h'}.{design}.{m}", g, a, b)
+    # ---- E12 training-selected grid
+    e12 = raw("E12_selected_grid_splits.csv")
+    if e12 is not None:
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            g = e12[e12.dataset == ds]
+            if len(g):
+                split_stats(f"E12.{key}", g, a, b)
+                vc = g.grid_selected.value_counts(normalize=True)
+                put(f"E12.{key}.top_grid", vc.index[0].replace("_", " "), "s"); put(f"E12.{key}.top_share", vc.iloc[0], "pct0")
+            st = S.get(f"E12_{ds}_vs_dense")
+            if st:
+                put(f"E12.{key}.diff", st["mean_diff"], "pct1"); put(f"E12.{key}.diff_lo", st["ci_lo"], "pct1")
+                put(f"E12.{key}.diff_hi", st["ci_hi"], "pct1"); put(f"E12.{key}.diff_p", st["wilcoxon_p"], "p")
+    # ---- E11 physical interpretation (descriptive)
+    r11, c11 = raw("E11_correlations.csv"), raw("E11_coefficients.csv")
+    if r11 is not None and c11 is not None:
+        for ds, key in (("matr_clo", "mc"), ("hust", "h")):
+            r = r11[r11.dataset == ds]
+            for (k, f), g in r.groupby(["checkpoint", "feature"]):
+                put(f"E11.{key}.rho.{f}.k{int(k)}", g.spearman.iloc[0], ".2f")
+            for k, g in r.groupby("checkpoint"):
+                put(f"E11.{key}.maxabs.k{int(k)}", g.spearman.abs().max(), ".2f")
+            c = c11[c11.dataset == ds].groupby(["checkpoint", "feature"]).coef.agg(lambda v: np.mean(np.abs(v))).unstack()
+            share = c.div(c.sum(axis=1), axis=0)
+            for k in c.index:
+                put(f"E11.{key}.top.k{int(k)}", c.loc[k].idxmax(), "s"); put(f"E11.{key}.topshare.k{int(k)}", share.loc[k].max(), "pct0")
+                for f in c.columns:
+                    put(f"E11.{key}.share.{f}.k{int(k)}", share.loc[k, f], "pct0")
     from scipy.stats import beta as _beta
     for n0 in (9, 10, 15, 20, 25, 30, 40, 60):
         r = int(np.ceil((n0 + 1) * (1 - a)))

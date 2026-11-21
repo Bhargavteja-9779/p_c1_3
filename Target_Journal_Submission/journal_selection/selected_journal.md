@@ -22,3 +22,24 @@ only Q1 journal whose scope contains data-driven battery prognostics and whose p
 papers include comparable work. Full comparison: `journal_comparison.md`;
 verification details: `journal_verification.md`; journal-paper benchmark:
 `journal_benchmark.md`.
+
+## Update 2026-11-20: 72-day acceptance constraint (user requirement)
+
+The user set a maximum of 72 days from submission to final acceptance. A re-check against Crossref
+article-history dates (`scripts/acceptance_recheck_2026.py`, output in `data/acceptance_recheck_2026-11-20.txt`)
+gives these Battery Energy medians: **85 d (2025, n = 93)** and **86 d (2026, n = 79)**. Only 45% (2025) and
+41% (2026) of papers were accepted within 72 days. Battery Energy therefore does **not** meet the 72-day constraint
+on its recent median; only its 2024 median (66.5 d, n = 48) was below 72 d.
+
+The extra candidates screened on 2026-11-20 did no better:
+* Wiley journals: Advanced Science 115 d, Advanced Intelligent Systems 125 d, EcoMat 97 d, Batteries & Supercaps 78 d,
+  Energy Technology 117 d, Int. J. Energy Research 162 d, Carbon Neutralization 90 d, Advanced Energy Materials 88 d
+  (all 2026 medians).
+* Energy & Environmental Materials met the constraint (69 d), but its scope fit for data-driven prognostics was poor.
+* Elsevier journals: acceptance times could not be measured, because sciencedirect.com and elsevier.com returned
+  HTTP 403 and Elsevier deposits no history dates in Crossref.
+* IOP, OUP and RSC journals: no acceptance times found, because they deposit no history dates in Crossref.
+
+**Decision: the user confirmed Battery Energy on 2026-11-20 ("Battery Energy is fine").** The 72-day target is
+recorded as NOT met by the journal's recent median. Faster acceptance is possible but not guaranteed (about 41-45% of
+recent papers were accepted within 72 days).

@@ -86,8 +86,17 @@
  },
  "hust_data": {
   "key": "hust_data",
-  "id": "doi:10.17632/nsc7hnsg4s.2",
-  "verified": false
+  "verified": true,
+  "title": "The dataset for: Real-time personalized health status prediction of lithium-ion batteries using deep transfer learning",
+  "authors": [
+   "Ma, Guijun"
+  ],
+  "venue": "Mendeley Data",
+  "year": 2022,
+  "version": "2",
+  "doi": "10.17632/nsc7hnsg4s.2",
+  "type": "dataset",
+  "note": "verified via DataCite"
  },
  "attia2021stat": {
   "key": "attia2021stat",
@@ -112,13 +121,13 @@
   "doi": "10.1016/j.egyai.2020.100006",
   "title": "Identification and machine learning prediction of knee-point and knee-onset in capacity degradation curves of lithium-ion cells",
   "authors": [
-   "Ferm\u00edn-Cueto, Paula",
+   "Fermín-Cueto, Paula",
    "McTurk, Euan",
    "Allerhand, Michael",
    "Medina-Lopez, Encarni",
    "Anjos, Miguel F.",
    "Sylvester, Joel",
-   "dos Reis, Gon\u00e7alo"
+   "dos Reis, Gonçalo"
   ],
   "venue": "Energy and AI",
   "year": 2020,
@@ -325,13 +334,13 @@
  "attia2022knees": {
   "key": "attia2022knees",
   "doi": "10.1149/1945-7111/ac6d13",
-  "title": "Review\u2014\u201cKnees\u201d in Lithium-Ion Battery Aging Trajectories",
+  "title": "Review—“Knees” in Lithium-Ion Battery Aging Trajectories",
   "authors": [
    "Attia, Peter M.",
    "Bills, Alexander",
    "Brosa Planella, Ferran",
    "Dechent, Philipp",
-   "dos Reis, Gon\u00e7alo",
+   "dos Reis, Gonçalo",
    "Dubarry, Matthieu",
    "Gasper, Paul",
    "Gilchrist, Richard",
@@ -381,7 +390,7 @@
   "doi": "10.1016/j.egyai.2021.100081",
   "title": "Lithium-ion battery data and where to find it",
   "authors": [
-   "dos Reis, Gon\u00e7alo",
+   "dos Reis, Gonçalo",
    "Strange, Calum",
    "Yadav, Mohit",
    "Li, Shawn"
@@ -453,7 +462,7 @@
  "bte2024cnnlstm": {
   "key": "bte2024cnnlstm",
   "doi": "10.1002/bte2.20240036",
-  "title": "A CNN\u2010LSTM Method Based on Voltage Deviation for Predicting the State of Health of Lithium\u2010Ion Batteries",
+  "title": "A CNN‐LSTM Method Based on Voltage Deviation for Predicting the State of Health of Lithium‐Ion Batteries",
   "authors": [
    "Xiao, Fen",
    "Yang, Wei",
@@ -463,7 +472,7 @@
    "Liu, Jiaxiong"
   ],
   "venue": "Battery Energy",
-  "year": 2024,
+  "year": 2025,
   "volume": "4",
   "issue": "3",
   "pages": "e20240036",
@@ -474,7 +483,7 @@
  "bte2026piai": {
   "key": "bte2026piai",
   "doi": "10.1002/bte2.70136",
-  "title": "Physics\u2010Informed Artificial Intelligence for Battery Degradation, Aging, and Lifetime Prediction",
+  "title": "Physics‐Informed Artificial Intelligence for Battery Degradation, Aging, and Lifetime Prediction",
   "authors": [
    "Sulaima, Mohamad Fani",
    "Arora, Sunny",
@@ -493,7 +502,7 @@
  "bte2026lfp": {
   "key": "bte2026lfp",
   "doi": "10.1002/bte2.70124",
-  "title": "Degradation\u2010Informed Temperature Analysis for Cycle Life Prediction of LiFePO 4 Batteries",
+  "title": "Degradation‐Informed Temperature Analysis for Cycle Life Prediction of LiFePO 4 Batteries",
   "authors": [
    "Kee, Joonyoung",
    "Lee, Seokhyun",
@@ -514,7 +523,7 @@
  "bte2025transfer": {
   "key": "bte2025transfer",
   "doi": "10.1002/bte2.70011",
-  "title": "Transfer Learning\u2010Based Data\u2010Fusion Model Framework for State of Health Estimation of Power Battery Packs",
+  "title": "Transfer Learning‐Based Data‐Fusion Model Framework for State of Health Estimation of Power Battery Packs",
   "authors": [
    "Lyu, Zhiqiang",
    "Wei, Xinyuan",
@@ -595,7 +604,7 @@
   "title": "Distribution-Free Predictive Inference for Regression",
   "authors": [
    "Lei, Jing",
-   "G\u2019Sell, Max",
+   "G’Sell, Max",
    "Rinaldo, Alessandro",
    "Tibshirani, Ryan J.",
    "Wasserman, Larry"
@@ -616,12 +625,16 @@
   "authors": [
    "Yaniv Romano",
    "Evan Patterson",
-   "Emmanuel J. Cand\u00e8s"
+   "Emmanuel J. Candès"
   ],
-  "venue": "arXiv",
+  "venue": "Advances in Neural Information Processing Systems",
   "year": 2019,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "32",
+  "pages": "3538-3548",
+  "type": "proceedings-article",
+  "note": "verified: Semantic Scholar (NeurIPS 2019, pp. 3538-3548)"
  },
  "angelopoulos2023gentle": {
   "key": "angelopoulos2023gentle",
@@ -631,7 +644,7 @@
    "Angelopoulos, Anastasios N.",
    "Bates, Stephen"
   ],
-  "venue": "Foundations and Trends\u00ae in Machine Learning",
+  "venue": "Foundations and Trends® in Machine Learning",
   "year": 2023,
   "volume": "16",
   "issue": "4",
@@ -645,7 +658,7 @@
   "doi": "10.1093/jrsssb/qkac004",
   "title": "Conformalized survival analysis",
   "authors": [
-   "Cand\u00e8s, Emmanuel",
+   "Candès, Emmanuel",
    "Lei, Lihua",
    "Ren, Zhimei"
   ],
@@ -664,12 +677,17 @@
   "title": "Selection by Prediction with Conformal p-values",
   "authors": [
    "Ying Jin",
-   "Emmanuel J. Cand\u00e8s"
+   "Emmanuel J. Candès"
   ],
-  "venue": "arXiv",
-  "year": 2022,
+  "venue": "Journal of Machine Learning Research",
+  "year": 2023,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "24",
+  "issue": "244",
+  "pages": "1-41",
+  "type": "journal-article",
+  "note": "verified: Semantic Scholar record (JMLR 24:244:1-41)"
  },
  "tong2018np": {
   "key": "tong2018np",
@@ -699,7 +717,7 @@
    "Wasserman, Larry"
   ],
   "venue": "Journal of the American Statistical Association",
-  "year": 2018,
+  "year": 2019,
   "volume": "114",
   "issue": "525",
   "pages": "223-234",
@@ -729,7 +747,7 @@
   "title": "Early-Exit Neural Networks with Nested Prediction Sets",
   "authors": [
    "Metod Jazbec",
-   "Patrick Forr\u00e9",
+   "Patrick Forré",
    "Stephan Mandt",
    "Dan Zhang",
    "Eric Nalisnick"
@@ -745,7 +763,7 @@
   "title": "Conformal prediction beyond exchangeability",
   "authors": [
    "Barber, Rina Foygel",
-   "Cand\u00e8s, Emmanuel J.",
+   "Candès, Emmanuel J.",
    "Ramdas, Aaditya",
    "Tibshirani, Ryan J."
   ],
@@ -768,10 +786,14 @@
    "Emmanuel J. Candes",
    "Aaditya Ramdas"
   ],
-  "venue": "arXiv",
+  "venue": "Advances in Neural Information Processing Systems",
   "year": 2019,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "32",
+  "pages": "2526-2536",
+  "type": "proceedings-article",
+  "note": "verified: Semantic Scholar (NeurIPS 2019)"
  },
  "gibbs2021aci": {
   "key": "gibbs2021aci",
@@ -779,12 +801,16 @@
   "title": "Adaptive Conformal Inference Under Distribution Shift",
   "authors": [
    "Isaac Gibbs",
-   "Emmanuel Cand\u00e8s"
+   "Emmanuel Candès"
   ],
-  "venue": "arXiv",
+  "venue": "Advances in Neural Information Processing Systems",
   "year": 2021,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "34",
+  "pages": null,
+  "type": "proceedings-article",
+  "note": "verified: Semantic Scholar (NeurIPS 2021)"
  },
  "howard2021cs": {
   "key": "howard2021cs",
@@ -828,13 +854,13 @@
   "title": "Scikit-learn: Machine Learning in Python",
   "authors": [
    "Fabian Pedregosa",
-   "Ga\u00ebl Varoquaux",
+   "Gaël Varoquaux",
    "Alexandre Gramfort",
    "Vincent Michel",
    "Bertrand Thirion",
    "Olivier Grisel",
    "Mathieu Blondel",
-   "Andreas M\u00fcller",
+   "Andreas Müller",
    "Joel Nothman",
    "Gilles Louppe",
    "Peter Prettenhofer",
@@ -845,12 +871,16 @@
    "David Cournapeau",
    "Matthieu Brucher",
    "Matthieu Perrot",
-   "\u00c9douard Duchesnay"
+   "Édouard Duchesnay"
   ],
-  "venue": "arXiv",
-  "year": 2012,
+  "venue": "Journal of Machine Learning Research",
+  "year": 2011,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "volume": "12",
+  "pages": "2825-2830",
+  "type": "journal-article",
+  "note": "verified: Semantic Scholar (JMLR 2011)"
  },
  "efron1979bootstrap": {
   "key": "efron1979bootstrap",
@@ -870,8 +900,19 @@
  },
  "holm1979": {
   "key": "holm1979",
-  "id": "doi:10.2307/4615733",
-  "verified": false
+  "verified": true,
+  "title": "A simple sequentially rejective multiple test procedure",
+  "authors": [
+   "Holm, Sture"
+  ],
+  "venue": "Scandinavian Journal of Statistics",
+  "year": 1979,
+  "volume": "6",
+  "issue": "2",
+  "pages": "65-70",
+  "type": "journal-article",
+  "url": "https://www.jstor.org/stable/4615733",
+  "note": "verified via web search (JSTOR 4615733); DOI does not resolve, so no DOI is printed"
  },
  "wilcoxon1945": {
   "key": "wilcoxon1945",
@@ -950,10 +991,16 @@
    "Zhimei Ren",
    "Rina Foygel Barber"
   ],
-  "venue": "arXiv",
-  "year": 2022,
+  "venue": "Biometrika",
+  "year": 2024,
   "source": "arxiv",
-  "verified": true
+  "verified": true,
+  "doi": "10.1093/biomet/asad076",
+  "volume": "111",
+  "issue": "2",
+  "pages": "459-477",
+  "type": "journal-article",
+  "note": "verified: Crossref"
  },
  "sesia2025dr": {
   "key": "sesia2025dr",
@@ -1009,5 +1056,80 @@
   "type": "journal-article",
   "source": "crossref",
   "verified": true
+ },
+ "wu2026cai": {
+  "doi": "10.3390/a19070535",
+  "title": "Uncertainty-Aware Early Battery Life Prediction with Composite-Kernel Gaussian Process Regression and Conformalized Adaptive Intervals",
+  "authors": [
+   "Wu, Kunchang",
+   "Wu, Xiaomin",
+   "Shi, Hua",
+   "He, Miao"
+  ],
+  "venue": "Algorithms",
+  "year": 2026,
+  "volume": "19",
+  "issue": "7",
+  "pages": "535",
+  "type": "journal-article",
+  "source": "crossref",
+  "verified": true,
+  "key": "wu2026cai"
+ },
+ "zhang2023range": {
+  "doi": "10.1109/tte.2022.3226683",
+  "title": "Interpretable Battery Cycle Life Range Prediction Using Early Cell Degradation Data",
+  "authors": [
+   "Zhang, Huang",
+   "Su, Yang",
+   "Altaf, Faisal",
+   "Wik, Torsten",
+   "Gros, Sébastien"
+  ],
+  "venue": "IEEE Transactions on Transportation Electrification",
+  "year": 2023,
+  "volume": "9",
+  "issue": "2",
+  "pages": "2669-2682",
+  "type": "journal-article",
+  "source": "crossref",
+  "verified": true,
+  "key": "zhang2023range"
+ },
+ "lei2015functional": {
+  "doi": "10.1007/s10472-013-9366-6",
+  "title": "A conformal prediction approach to explore functional data",
+  "authors": [
+   "Lei, Jing",
+   "Rinaldo, Alessandro",
+   "Wasserman, Larry"
+  ],
+  "venue": "Annals of Mathematics and Artificial Intelligence",
+  "year": 2015,
+  "volume": "74",
+  "issue": "1-2",
+  "pages": "29-43",
+  "type": "journal-article",
+  "source": "crossref",
+  "verified": true,
+  "key": "lei2015functional"
+ },
+ "diquigiovanni2022bands": {
+  "doi": "10.1016/j.jmva.2021.104879",
+  "title": "Conformal prediction bands for multivariate functional data",
+  "authors": [
+   "Diquigiovanni, Jacopo",
+   "Fontana, Matteo",
+   "Vantini, Simone"
+  ],
+  "venue": "Journal of Multivariate Analysis",
+  "year": 2022,
+  "volume": "189",
+  "issue": null,
+  "pages": "104879",
+  "type": "journal-article",
+  "source": "crossref",
+  "verified": true,
+  "key": "diquigiovanni2022bands"
  }
 }
