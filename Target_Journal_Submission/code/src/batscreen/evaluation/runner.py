@@ -58,12 +58,17 @@ def fit_models(F, T, Lstar, tr, model, seed, feature_mask=None):
     return fitted
 
 
-def predict_models(F, T, fitted, ev, model, seed, feature_mask=None, noise=None, noise_rows=None):
+def predict_models(F, T, fitted, ev, model, seed, feature_mask=None, noise=None, noise_rows=None, noise_corr=False):
     """yhat, scale [len(ev), M] (NaN where dead). noise = SD multiple of training-feature SD
-    added at prediction time to rows `noise_rows` (boolean over ev; default all)."""
+    added at prediction time to rows `noise_rows` (boolean over ev; default all).
+    noise_corr=True: the same standard-normal draw per cell and feature is used at every
+    checkpoint (a persistent per-cell measurement offset) instead of independent draws."""
     M = len(F["checkpoints"])
     yhat = np.full((len(ev), M), np.nan); scale = np.full((len(ev), M), np.nan)
     rng = np.random.default_rng(seed + 104729)
+    G = None
+    if noise and noise_corr:
+        G = np.random.default_rng(seed + 130363).normal(0, 1, (len(ev), _design(F, 0, model, feature_mask).shape[1]))
     for m, k in enumerate(F["checkpoints"]):
         ev_alive = T[ev] > k
         if m not in fitted or ev_alive.sum() == 0:
@@ -72,7 +77,10 @@ def predict_models(F, T, fitted, ev, model, seed, feature_mask=None, noise=None,
         Xe = _design(F, m, model, feature_mask)[ev[ev_alive]].copy()
         if noise:
             rows = np.ones(len(Xe), bool) if noise_rows is None else noise_rows[ev_alive]
-            Xe[rows] += rng.normal(0, 1, Xe[rows].shape) * sd * noise
+            if G is not None:
+                Xe[rows] += G[ev_alive][rows] * sd * noise
+            else:
+                Xe[rows] += rng.normal(0, 1, Xe[rows].shape) * sd * noise
         y, sc = mdl.predict(Xe)
         yhat[ev_alive, m] = y; scale[ev_alive, m] = sc
     return yhat, scale
@@ -123,8 +131,11 @@ def run_split(F, Lstar, fractions, alpha, beta, model, split_seed, strata_key="d
         nz, non = v.get("noise"), v.get("noise_on", "both")
         key = (nz, non)
         if key not in cache:
-            noise_rows = np.r_[np.zeros(nC, bool), np.ones(len(te), bool)] if (nz and non == "test") else None
-            cache[key] = predict_models(F, T, fitted, ev, model, split_seed, feature_mask, nz, noise_rows)
+            # noise_on: "both" | "test" (independent draws per checkpoint) | "both_corr" | "test_corr"
+            # (persistent per-cell offset, identical at every checkpoint)
+            noise_rows = np.r_[np.zeros(nC, bool), np.ones(len(te), bool)] if (nz and non.startswith("test")) else None
+            cache[key] = predict_models(F, T, fitted, ev, model, split_seed, feature_mask, nz, noise_rows,
+                                        noise_corr=bool(nz) and non.endswith("_corr"))
         yhat, scale = cache[key]
         r, c = _evaluate(F, T, Z, Lstar, tr, ca, te, nC, yhat, scale, model, split_seed, v.get("alpha", alpha), v.get("beta", beta),
                          v.get("ck_subset"), v.get("methods"), v.get("tag"), keep_cells, keep_scores and vi == 0)
@@ -147,6 +158,9 @@ def _evaluate(F, T, Z, Lstar, tr, ca, te, nC, yhat, scale, model, split_seed, al
     specs = method_specs(kind, m_ref, alpha, beta)
     if methods is not None and "traj_pac" in methods and kind != "classifier":  # opt-in only
         specs["traj_pac"] = ("norm", "traj_pac")
+    if methods is not None and "gauss_bonf" in methods and kind != "classifier":  # opt-in only (E13)
+        # Gaussian threshold at every look with a Bonferroni correction over the M looks
+        specs["gauss_bonf"] = ("norm", ("fixed", norm.ppf(1 - alpha / M), -norm.ppf(1 - beta / M)))
     if methods is not None:
         specs = {k: v for k, v in specs.items() if k in methods}
     rows, cell_rows = [], []

@@ -18,7 +18,7 @@ from batscreen.utils import load_config, get_logger, environment_info, set_seed
 ap = argparse.ArgumentParser()
 ap.add_argument("--mode", choices=["quick", "full"], default="quick")
 ap.add_argument("--stages", nargs="*", default=["data", "features", "experiments", "analysis", "figures"])
-ap.add_argument("--experiments", nargs="*", default=["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E9", "E10", "E11", "E12"])
+ap.add_argument("--experiments", nargs="*", default=["E1", "E2", "E3", "E4", "E5", "E6", "E7", "E9", "E10", "E11", "E12", "E13"])
 ap.add_argument("--force", action="store_true", help="recompute experiments whose outputs already exist")
 a = ap.parse_args()
 cfg = load_config(f"config/{'default' if a.mode == 'full' else 'quick'}.yaml")
@@ -57,7 +57,8 @@ if "experiments" in a.stages:
                E5=suite.e5_shift, E6=lambda c, l: suite.e6_compute(c, l, reps=1 if a.mode == "quick" else 5),
                E7=suite.e7_sensitivity, E9=suite.e9_protocol_grouped, E10=suite.e10_pac,
                E11=suite.e11_interpretation,
-               E12=suite.e12_selected_grid)
+               E12=suite.e12_selected_grid,
+               E13=suite.e13_comparators)
     for e in a.experiments:
         t = time.time(); log.info(f"--- {e} start"); fns[e](cfg, log); log.info(f"--- {e} done in {time.time()-t:.0f}s")
 if "analysis" in a.stages:

@@ -401,3 +401,43 @@ def e12_selected_grid(cfg, log, n=None):
         out.append(_chunk(cfg, log, f"E12_{ds}", job))
         log.info(f"E12 {ds} done")
     df = pd.concat(out); _save(df, cfg, "E12_selected_grid_splits.csv"); return df
+
+
+def e13_comparators(cfg, log, n=None):
+    """Added 2026-11-21 after review cycle 1 (R3-04, R3-08, R10-03, R8-05): fairer comparators.
+    (a) Gaussian threshold with a Bonferroni correction over the M looks ('gauss_bonf') next to the
+        uncorrected one, on the first n E1 split seeds (paired with E1);
+    (b) Bonferroni sequential conformal on the sparse 2-4-checkpoint grids of E3 (E3 seeds, paired);
+    (c) test-only feature noise that is a persistent per-cell offset (identical at every checkpoint),
+        next to the independent-draw noise of E4 (E4 seeds, paired)."""
+    if _exists(cfg, "E13_comparators_splits.csv"):
+        log.info("E13 exists, skipped (resume)"); return None
+    n = n or cfg.get("n_splits_secondary", 200)
+    out = []
+    for ds in DS:
+        d = cfg["datasets"][ds]; F = _feat(cfg, ds); g = _grids(F["checkpoints"])
+
+        def job_a(F=F, d=d, ds=ds):
+            df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E1", n),
+                             n_jobs=cfg["n_jobs"], methods=["proposed", "single_k100", "gauss", "gauss_bonf"])
+            df["dataset"] = ds; df["part"] = "gauss_bonf"; return df
+        out.append(_chunk(cfg, log, f"E13_{ds}_gauss", job_a))
+
+        sparse = {k: v for k, v in g.items() if k.startswith(("sparse", "pair"))}
+        variants = [dict(tag=k, grid=k, ck_subset=v, methods=["proposed", "bonf"]) for k, v in sparse.items()]
+        def job_b(F=F, d=d, ds=ds, variants=variants):
+            df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E3", n),
+                             n_jobs=cfg["n_jobs"], variants=variants)
+            df["dataset"] = ds; df["part"] = "bonf_sparse"; return df
+        out.append(_chunk(cfg, log, f"E13_{ds}_bonf_sparse", job_b))
+
+        meths = ["proposed", "single_k100", "gauss"]
+        variants = [dict(tag=f"noise_{w}_{lv}", factor=f"noise_{w}", level=lv, noise=lv, noise_on=w, methods=meths)
+                    for w in ["test_corr", "both_corr"] for lv in [0.1, 0.25, 0.5, 1.0]]
+        def job_c(F=F, d=d, ds=ds, variants=variants):
+            df, _ = run_many(F, d["Lstar"], d["split"], cfg["alpha"], cfg["beta"], "en", _seeds(cfg, "E4", n),
+                             n_jobs=cfg["n_jobs"], variants=variants)
+            df["dataset"] = ds; df["part"] = "noise_corr"; return df
+        out.append(_chunk(cfg, log, f"E13_{ds}_noise_corr", job_c))
+        log.info(f"E13 {ds} done")
+    df = pd.concat(out); _save(df, cfg, "E13_comparators_splits.csv"); return df
