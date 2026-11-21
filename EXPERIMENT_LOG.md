@@ -20,3 +20,4 @@
 | 22:2x-09:03 | Container restarted (usage-limit pause); E2 lost; the three helper agents stopped by the usage limit before producing output. |
 | 09:05 (Nov 16) | All long experiments now checkpoint per (dataset x configuration) chunk in results/raw/chunks/; quick-mode smoke test of E1-E10 + analysis passed. |
 | 09:11 | Full run relaunched (E1 reused; E2, E3, E4, E5, E6, E7, E9, E10, analysis, figures). Secondary experiments use 200 splits (n_splits_secondary). E9 (protocol-disjoint splits) and E10 (PAC calibration) added after the design freeze. |
+| 07:58-09:50 (Nov 21) | New container; full run resumed from chunks: E2 1614 s, E3 252 s, E4 2092 s, E5 697 s, E6 524 s, E7 924 s, E9 89 s, E10 516 s; analysis + all figures OK. build_numbers: 6915 values. |
