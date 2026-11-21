@@ -79,3 +79,16 @@ Last update: 2026-11-20 22:55 UTC (handover to new account). Branch: `claude/gif
   a sparse grid. Optional extra experiment (E12): choose the grid by inner CV on training cells only, which keeps the
   guarantee.
 * The background auto-commit script was in /tmp and is gone after a restart. Commit manually.
+
+## Status 2026-11-21 13:00 UTC
+* Run relaunched (log: Target_Journal_Submission/results_full_stdout6.log). It was at E4 HUST noise when this note was
+  written.
+* NEW E12 (grid chosen on training cells only; runner.select_grid_on_training; suite.e12_selected_grid; analysis
+  T14/T15; build_numbers E12.*). It runs after the main run:
+  `python3 run_all.py --mode full --stages experiments analysis figures --experiments E12` (log results_full_stdout7.log).
+  If the session dies, relaunch the main command first (it resumes), then this one.
+* Drafts ready in manuscript/drafts/: sec3_4_base_predictors.md, sec3_5_grid.md, sec3_6_robustness.md (E4 part
+  written; E7 sensitivity still to add). Still to write: 3.7 shift (E5, E9), 3.8 PAC (E10) + compute (E6), the E12
+  paragraph in 3.5, and the E7 paragraph in 3.6. Then assemble them in place of {{SECTION_E2_E10}}.
+* E4 finding: noise on test cells only breaks validity for every rule (exchangeability violated). Report it as a
+  limitation: calibrate on the same tester and protocol.
