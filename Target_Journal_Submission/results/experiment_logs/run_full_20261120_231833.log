@@ -33,3 +33,10 @@
 2026-11-21 00:10:30,892 INFO chunk E4_hust_cal_0.2: 800 rows in 167s
 2026-11-21 00:13:17,170 INFO chunk E4_hust_cal_0.3: 800 rows in 166s
 2026-11-21 00:16:10,742 INFO chunk E4_hust_cal_0.4: 800 rows in 174s
+2026-11-21 00:20:20,325 INFO chunk E4_hust_train_0.2: 800 rows in 250s
+2026-11-21 00:23:35,690 INFO chunk E4_hust_train_0.3: 800 rows in 195s
+2026-11-21 00:26:23,485 INFO chunk E4_hust_train_0.4: 800 rows in 168s
+2026-11-21 00:29:15,972 INFO chunk E4_hust_noise: 6400 rows in 172s
+2026-11-21 00:29:15,972 INFO E4 hust done
+2026-11-21 00:29:16,409 INFO --- E4 done in 2200s
+2026-11-21 00:29:16,409 INFO --- E5 start
