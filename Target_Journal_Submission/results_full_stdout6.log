@@ -30,3 +30,9 @@
 2026-11-21 12:56:49,960 INFO E4 hust done
 2026-11-21 12:56:50,455 INFO --- E4 done in 480s
 2026-11-21 12:56:50,455 INFO --- E5 start
+2026-11-21 12:58:36,950 INFO chunk E5_batch_b3_source_cal_0: 1000 rows in 106s
+2026-11-21 13:00:18,845 INFO chunk E5_batch_b3_target_cal_20: 1000 rows in 102s
+2026-11-21 13:02:00,463 INFO chunk E5_batch_b3_target_cal_30: 1000 rows in 102s
+2026-11-21 13:03:43,234 INFO chunk E5_batch_b4_source_cal_0: 1000 rows in 103s
+2026-11-21 13:05:30,361 INFO chunk E5_batch_b4_target_cal_20: 1000 rows in 107s
+2026-11-21 13:07:17,331 INFO chunk E5_batch_b4_target_cal_30: 1000 rows in 107s
