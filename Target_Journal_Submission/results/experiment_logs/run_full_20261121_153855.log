@@ -5,3 +5,7 @@
 2026-11-21 15:40:03,996 INFO --- E12 start
 2026-11-21 15:40:04,172 INFO chunk E12_matr_clo: exists, re-used
 2026-11-21 15:40:04,176 INFO E12 matr_clo done
+2026-11-21 15:56:09,859 INFO chunk E12_hust: 200 rows in 966s
+2026-11-21 15:56:09,859 INFO E12 hust done
+2026-11-21 15:56:09,870 INFO --- E12 done in 966s
+2026-11-21 15:56:09,871 INFO --- E13 start
