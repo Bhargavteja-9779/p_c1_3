@@ -32,3 +32,6 @@
 2026-11-21 08:44:10,190 INFO E4 matr_clo done
 2026-11-21 08:46:54,568 INFO chunk E4_hust_cal_0.2: 800 rows in 164s
 2026-11-21 08:49:33,129 INFO chunk E4_hust_cal_0.3: 800 rows in 159s
+2026-11-21 08:52:11,821 INFO chunk E4_hust_cal_0.4: 800 rows in 159s
+2026-11-21 08:56:12,598 INFO chunk E4_hust_train_0.2: 800 rows in 241s
+2026-11-21 08:59:15,119 INFO chunk E4_hust_train_0.3: 800 rows in 183s
