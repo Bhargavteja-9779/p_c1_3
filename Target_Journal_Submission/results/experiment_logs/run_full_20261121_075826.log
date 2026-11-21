@@ -26,3 +26,9 @@
 2026-11-21 08:35:57,559 INFO chunk E4_matr_clo_cal_0.25: 800 rows in 100s
 2026-11-21 08:37:37,273 INFO chunk E4_matr_clo_train_0.2: 800 rows in 100s
 2026-11-21 08:39:18,805 INFO chunk E4_matr_clo_train_0.3: 800 rows in 102s
+2026-11-21 08:40:51,173 INFO chunk E4_matr_clo_train_0.4: 800 rows in 92s
+2026-11-21 08:42:31,697 INFO chunk E4_matr_clo_train_0.5: 800 rows in 101s
+2026-11-21 08:44:10,190 INFO chunk E4_matr_clo_noise: 6400 rows in 98s
+2026-11-21 08:44:10,190 INFO E4 matr_clo done
+2026-11-21 08:46:54,568 INFO chunk E4_hust_cal_0.2: 800 rows in 164s
+2026-11-21 08:49:33,129 INFO chunk E4_hust_cal_0.3: 800 rows in 159s
