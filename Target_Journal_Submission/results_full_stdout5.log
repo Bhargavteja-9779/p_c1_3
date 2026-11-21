@@ -16,3 +16,4 @@
 2026-11-21 08:25:26,547 INFO chunk E2_hust_rf: 1600 rows in 1024s
 2026-11-21 08:25:26,808 INFO --- E2 done in 1614s
 2026-11-21 08:25:26,808 INFO --- E3 start
+2026-11-21 08:27:00,754 INFO chunk E3_matr_clo: 4200 rows in 94s
