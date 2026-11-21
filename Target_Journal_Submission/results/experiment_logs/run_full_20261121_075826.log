@@ -54,3 +54,6 @@
 2026-11-21 09:24:50,971 INFO E6 hust done
 2026-11-21 09:24:50,973 INFO --- E6 done in 524s
 2026-11-21 09:24:50,973 INFO --- E7 start
+2026-11-21 09:26:23,191 INFO chunk E7_matr_clo_ab: 3200 rows in 92s
+2026-11-21 09:27:52,942 INFO chunk E7_matr_clo_L550: 800 rows in 90s
+2026-11-21 09:29:21,173 INFO chunk E7_matr_clo_L750: 800 rows in 88s
