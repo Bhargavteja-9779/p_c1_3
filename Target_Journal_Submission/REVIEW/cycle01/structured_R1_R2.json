@@ -1,0 +1,266 @@
+[
+ {
+  "recommendation": "major_revision",
+  "summary": "The statistical method is sound, and the naive-sequential warning is useful for practice. But the practical claims go beyond what the data support. (1) In MATR/CLO and HUST, lifetime varies mostly between protocols: within-protocol variance is about 17% of the log-lifetime variance in MATR/CLO, and every HUST cell has its own protocol. The task is therefore protocol discrimination, not production screening. (2) In the realistic new-batch case, the method needs recalibration with cells cycled to L* first, and the saving drops to 10\u201327%, below the single-checkpoint rule's 42.5%. (3) The cost accounting leaves out the calibration and training campaigns, channel-hours and campaign wall-clock time. Break-even is about 51 (MATR/CLO) and 44 (HUST) screened cells, more than each split's test set, and the '2.61 times sooner' figure is a max-lifetime artefact. (4) L* at the median is unrealistic; tail specifications would need about 9/\u03c0_bad calibration cells. (5) The escape rate is not reported. (6) EOL labels depend on rate and protocol. (7) Censored cells were removed, against the paper's own truncation logic. (8) Batch is confounded with class (b2 is 100% bad, b3 8%). Full review: /home/user/p_c1_3/Target_Journal_Submission/REVIEW/cycle01/R2_battery_domain.md",
+  "issues": [
+   {
+    "id": "R2-1",
+    "severity": "critical",
+    "location": "Title; Abstract; Sec 3.2 features chargetime5/tmax_mean (features.py l.82-85); Sec 3.5; Sec 5 (iii) 'same production lot'",
+    "issue": "Lifetime variance is mostly between protocols, so the evaluated task is protocol discrimination, not cell screening; within-protocol (production-relevant) screening performance is unknown.",
+    "evidence": "E8_percell_matr_clo.csv: the pooled within-policy variance of log10 T (35 multi-cell policies, 126 cells) is 0.0048 versus a total of 0.029, i.e. about 17%. HUST has 77 cells with 77 distinct protocols. chargetime5 and tmax_mean are protocol fingerprints available from cycle 6, and half of the MATR/CLO cells are decided within 40 cycles, before any capacity fade.",
+    "fix": "Reframe as protocol/design screening, or show cell-level screening. Rerun E1 without protocol-identifying features, and/or define L* relative to each protocol's median (e.g. CLO, 9 protocols x 5 cells). Report the features driving decisions at 20-40 cycles. Remove the production-lot plausibility claim unless supported.",
+    "requires_rerun": true
+   },
+   {
+    "id": "R2-2",
+    "severity": "critical",
+    "location": "Abstract last sentences; Sec 4.6; Sec 5 workflow step 5; Sec 7",
+    "issue": "The realistic deployment case (a new batch) needs recalibration, which saves far less and delays all decisions on the new batch by L* cycles; the abstract reports only the pooled 78.3%.",
+    "evidence": "T8_shift.md: proposed rule recalibrated with 30 b4 cells saves 26.8%, with 20 b4 cells 9.4%, and on b3 6.0-9.9%. single_k100 with 30 b4 cells saves 42.5% (FPR/FRR 0.060/0.055). Thresholds exist only after the good calibration cells reach L*, so cells started together with them gain nothing.",
+    "fix": "Report the recalibrated savings and the single-checkpoint comparison in the abstract and conclusions. Add a timeline analysis. State that savings require staggered starts or a continuous flow of cells from a stable process.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R2-3",
+    "severity": "major",
+    "location": "Abstract ('2.61 times sooner'); Sec 4.3 Truncated calibration; Sec 5; Limitations 'Cost model'",
+    "issue": "The cost model leaves out the calibration and training campaigns, campaign wall-clock time and channel-hours; the 2.61 factor is max(T_cal)/L*.",
+    "evidence": "E1 splits: MATR/CLO calibration 27,471 cell-cycles vs 21,497 saved on 42 test cells (break-even median about 51 cells), plus 67,309 training cell-cycles. HUST calibration 40,025 vs 20,230 saved (break-even about 44 vs 23 test cells). The last test decision falls at L* in 73% (MATR/CLO) and 90% (HUST) of splits. Total calibration cell-cycles fell only by factors of 1.22 and 1.09. Cycle duration depends on the protocol.",
+    "fix": "Report net cost vs number of screened cells, break-even, campaign wall-clock time, and channel-hours from the recorded cycle times. Replace or complement the 2.61 figure with the cell-cycle factor. Discuss RPT scheduling.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R2-4",
+    "severity": "major",
+    "location": "Sec 3.5 (L* near median); Sec 4.5 E7; Remark (iii); workflow step 3",
+    "issue": "Real specifications sit in the lower tail. Class-conditional calibration needs at least 9 bad calibration cells, i.e. about 9/pi_bad calibration cells cycled to L*, which the paper does not state.",
+    "evidence": "E7 bad shares are 29/48/73% (MATR/CLO) and 25/52/74% (HUST). At 25% bad (HUST, L*=1,600), no cell was passed in 98% of splits. At 5% prevalence, about 180 calibration cells (440 for PAC) would be needed.",
+    "fix": "Run L* at the 10th and 20th percentiles and asymmetric alpha<beta. State the calibration size as a function of prevalence. Discuss one-sided or enriched calibration.",
+    "requires_rerun": true
+   },
+   {
+    "id": "R2-5",
+    "severity": "major",
+    "location": "Sec 3.6 metrics; Table 2; Sec 5",
+    "issue": "The escape rate (bad cells among passed cells), which QA cares about, is not reported, and alpha does not control it.",
+    "evidence": "From E1_*_cells.csv.gz joined with T: bad among model-passed cells is 6.1% per split (7.5% pooled) on MATR/CLO and 9.5% (12.0% pooled) on HUST, at about 50% prevalence.",
+    "fix": "Report the escape rate and its prevalence dependence. Clarify what alpha bounds. Point to FDR/conformal selection for a defect-rate target.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R2-6",
+    "severity": "major",
+    "location": "Sec 3.1, 3.5; data/hust.py; Limitations last bullet",
+    "issue": "EOL labels use 4C (MATR) or protocol-specific multi-stage (HUST) discharge capacity, not reference RPT capacity. Labels are therefore rate- and protocol-dependent, and label noise near L* drives errors.",
+    "evidence": "Worst false passes: b4c20 (T=748, 80% of its test splits) and b4c8 (678). Worst false rejects: b1c19 (788, 83%) and b4c3 (778) (E8_percell_matr_clo.csv).",
+    "fix": "Discuss the rate dependence. Add sensitivity to the EOL definition (85%/90% or knee-onset labels recomputed from the capacity trajectories). Require L* to be defined on the lab's own capacity measurement.",
+    "requires_rerun": true
+   },
+   {
+    "id": "R2-7",
+    "severity": "major",
+    "location": "Sec 3.5; SI S2 (b1 cells 8,10,12,13,22 removed)",
+    "issue": "Right-censored cells are removed rather than labelled with truncated data, contradicting the paper's truncation argument and biasing the class balance; the anomalous 148-cycle cell is not discussed.",
+    "evidence": "SI S2: removed cells ended at 0.91-0.97 Ah (EOL not reached). If they ran 750 or more cycles, they are known good at L*=750.",
+    "fix": "Report the removed cells' cycle counts. Include censored cells with known class and rerun E1, or justify the exclusion. Discuss b2c1.",
+    "requires_rerun": true
+   },
+   {
+    "id": "R2-8",
+    "severity": "major",
+    "location": "Sec 3.5-3.6 pooled random splits; Sec 4.2-4.3",
+    "issue": "Batch is strongly confounded with class in pooled MATR/CLO, so the pooled results partly reflect batch identification.",
+    "evidence": "Bad share at L*=750: b1 41%, b2 100% (max T 713), b3 8%, b4 40%. E5 shows the guarantee fails across batches (FRR 0.48/0.60).",
+    "fix": "Report per-batch savings and errors. Add a leave-one-batch-out analysis in the main text. Ablate tmax_mean and chargetime5.",
+    "requires_rerun": true
+   },
+   {
+    "id": "R2-9",
+    "severity": "minor",
+    "location": "Sec 4.7 Noise (E4); Fig 6",
+    "issue": "Noise is injected in feature-SD units, which have no physical meaning; real measurement-chain differences are systematic.",
+    "evidence": "Levels of 0.1-1 SD per feature. Six noisy b3 channels were removed in SI S2, which shows channel effects are real.",
+    "fix": "Inject raw-signal perturbations (voltage, current gain, temperature offset, single-channel bias), or express the levels physically and call it an exchangeability stress test.",
+    "requires_rerun": true
+   },
+   {
+    "id": "R2-10",
+    "severity": "minor",
+    "location": "Sec 3.5 HUST checkpoints; Sec 4.3",
+    "issue": "The HUST 'early' checkpoints reach 1,000 cycles (53% of L*).",
+    "evidence": "Mean time to decision 857 cycles; the best single checkpoint is 300.",
+    "fix": "Report the shares decided by cycle 100 and by cycle 300, and qualify the 'early' wording.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R2-11",
+    "severity": "minor",
+    "location": "Sec 4.6 Laboratory shift; Sec 5 (iii)",
+    "issue": "The cross-lab result uses the same A123 cell type, so cross-manufacturer and cross-design generality is not shown.",
+    "evidence": "Both data sets are APR18650M1A cells; the cross-lab proposed rule saved only 23.9%.",
+    "fix": "Rename to cross-laboratory, same cell type, and state the untested transfers.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R2-12",
+    "severity": "minor",
+    "location": "Sec 6 first bullet",
+    "issue": "The chemistry limitation is justified by data access errors (HTTP 403, browser challenge), and the chemistry-specific feature assumptions are not discussed.",
+    "evidence": "The \u0394Q(V)/\u0394V(q) features rely on the LFP plateau and fast-charge degradation; NMC, NCA and Si anodes differ.",
+    "fix": "Remove the access wording, give the scientific rationale, and discuss the expected changes for other chemistries.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R2-13",
+    "severity": "minor",
+    "location": "Sec 5 Recommended workflow",
+    "issue": "The workflow ignores the cost of out-of-population training, prevalence, alpha/beta cost asymmetry and RPT alignment.",
+    "evidence": "Cross-lab training saves 23.9% vs 47.0% with in-population training. Issue 4 shows the dependence on prevalence.",
+    "fix": "Expand the workflow with these points and a worked example including break-even.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R2-14",
+    "severity": "minor",
+    "location": "Sec 3.5, Table 1, Tables 2-3, Sec 4.3, Sec 1, ref [19]",
+    "issue": "Small inconsistencies.",
+    "evidence": "72 policies (text) vs 69 (Table 1). HUST median '1875' unformatted. 857 vs 854 and 1,737 vs 1,739 cycles between Tables 2 and 3, mixed in Sec 4.3. Ref [19] has no authors.",
+    "fix": "Harmonise, explain the averaging, add the per-cycle duration in the introduction, and fix ref [19] (Vovk, Gammerman, Shafer).",
+    "requires_rerun": false
+   }
+  ]
+ },
+ {
+  "recommendation": "minor_revision",
+  "summary": "Proposition 1 and its proof are correct. The containment {passed} \u2286 {P_new > P_(r0)} holds, the rank bound is right, and ties and the -inf case are handled conservatively. The code in code/src matches the Methods: the rank is ceil((n+1)(1-alpha)) with no floating-point errors, decisions use strict inequalities, a cell is alive when T > k, and a missing order statistic gives +/-inf so the rule never decides. Recomputing from the stored E1 scores, the empirical P(P_new > lambda) is 0.082/0.072 (MATR/CLO / HUST), close to the exact finite-sample levels of 0.081/0.076. So the implementation is exact. The problems are in interpretation and reporting. (1) The manuscript says the realised error rates are below 0.10 because the trajectory maximum is conservative; in fact the gap comes from order-statistic discreteness plus competing rejection. (2) The comparison of E10 with Table S13 ignores test-set binomial noise, and the HUST PAC result is vacuous. (3) The confidence intervals cover only Monte-Carlo (split) error but are used for population claims. (4) In Table 3 the Wilcoxon/rank-biserial test and the ratio-of-sums bootstrap measure different things and disagree in direction, and the cells are not independent. (5) The lifetime-interval rule is called class-conditionally valid \"by conformal theory\", which the theory does not give. (6) The batch-shift \"restored validity\" claim relies on cases with 1\u20132 bad cells where passing is impossible. No reruns are needed. The full review is at /home/user/p_c1_3/Target_Journal_Submission/REVIEW/cycle01/R1_statistics.md.",
+  "issues": [
+   {
+    "id": "R1-1",
+    "severity": "major",
+    "location": "Draft_Manuscript.md Sec 4.2 line 152; Sec 4.5 line 204",
+    "issue": "The manuscript explains below-nominal error rates as 'the maximum statistic is conservative'. This is incorrect: for continuous scores the max statistic attains (n0+1-r0)/(n0+1) exactly. The gap comes from order-statistic discreteness at small n0 plus competing early rejection.",
+    "evidence": "Over the realised n_cal_bad and n_cal_good, the exact level E[(n0+1-r0)/(n0+1)] is 0.081/0.084 (MATR/CLO) and 0.076/0.078 (HUST). From E1_*_scores.csv.gz and pass_thr, the empirical P(P_new > lambda | bad) is 0.082 (MATR/CLO) and 0.072 (HUST), and P(R_new > mu | good) is 0.086 and 0.078. The realised FPR of 0.068 is lower than these because some bad cells are rejected before their maximum crosses lambda.",
+    "fix": "Replace both sentences with this decomposition. Report the exact finite-sample level next to the realised rates. Add a remark that the bound is attained (>= alpha - 1/(n0+1)) for continuous scores, so the maximum is tight.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-2",
+    "severity": "major",
+    "location": "Sec 4.5 line 204 (E10); Tables S12, S13; Discussion line 237",
+    "issue": "The realised per-split exceedance shares are compared with the analytic P(conditional error > alpha), but the realised share also contains test-set binomial noise. The PAC 0% on HUST is vacuous because the rule never decides. The Table S13 caption says 'training-conditional' where 'calibration-conditional' is meant.",
+    "evidence": "Table S13 gives 0.392 for n0 = 20. Simulating 1-Beta(19,2) followed by Binomial(20,.) gives a realised share of 0.30; observed shares are 0.285 (E10) and 0.257 (E1). HUST default traj_pac has never_pass = 1.0 and FPR = FRR = 0. MATR large_cal PAC has realised shares of 0.11/0.115, above delta = 0.1, which is not discussed.",
+    "fix": "Compare with a Beta-Binomial reference that uses the actual class sizes, or estimate the calibration-conditional error per split from the stored scores. State that the HUST PAC result is vacuous. Correct the caption.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-3",
+    "severity": "major",
+    "location": "Sec 3.6 line 113; Table 2 'upper' columns; Secs 4.2, 4.4, 4.5; statistics/tests.py validity_summary",
+    "issue": "The normal-approximation CIs over splits reuse the same 169/77 cells and so measure only Monte-Carlo partition error. They are nevertheless used for population-level claims ('violated', 'consistent with nominal', E7 fpr_le_alpha). The code's pooled Clopper-Pearson bound treats dependent decisions as independent.",
+    "evidence": "Text uses: 'violated the false-reject target on HUST (0.136, upper confidence limit 0.143)'; 'CNN on HUST 0.113 (0.060-0.166) ... consistent with the nominal level'. tests.py computes fpr_pooled_cp_hi from about 20,000 dependent decisions.",
+    "fix": "Label the intervals as Monte-Carlo (split-resampling) intervals. Define one validity criterion relative to the exact finite-sample level. Add cell-level uncertainty (a cell-cluster bootstrap of the per-cell error frequencies) for invalidity claims about the comparators. Remove or caveat the Clopper-Pearson code.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-4",
+    "severity": "major",
+    "location": "Table 3 (lines 162-179) and line 182; statistics/tests.py paired_comparisons",
+    "issue": "The Wilcoxon test and rank-biserial r use per-cell absolute cycles; the 'Saved diff.' bootstrap CI uses a ratio of sums dominated by long-lived cells. They disagree in sign or significance and the disagreement is not explained. Per-cell averages are dependent because cells share splits and thresholds, so tiny p-values (1e-28) are overstated. Table 2 and Table 3 cycle means differ.",
+    "evidence": "MATR/CLO parametric rule: saved diff +0.8 (favours the proposed rule), mean time 141.7 vs 146.9, yet median difference +7.5 cycles, r = +0.31 and Holm p = 0.0015 (favours the parametric rule). MATR/CLO point prediction: CI -9.3 to -3.5 excludes 0 but p = 0.16. HUST Bonferroni 1737 (Table 2) vs 1739 (Table 3); proposed 857 vs 854.",
+    "fix": "Use one estimand for both test and CI: test the per-cell fractional time t/min(T,L*) with a Hodges-Lehmann estimate and CI, or bootstrap the ratio-of-sums difference. Report p < 1e-10. State the dependence among cells and that the tests are descriptive. Discuss the parametric case. Use one averaging scheme.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-5",
+    "severity": "major",
+    "location": "Sec 4.2 line 152",
+    "issue": "The lifetime-interval rule is called valid 'as conformal theory implies'. Marginal interval coverage bounds only P(pass and bad) <= alpha, i.e. P(pass | bad) <= alpha/P(bad), about 0.2, not the class-conditional FPR.",
+    "evidence": "interval_calibrate pools all cells into one residual quantile. Section 3.4 itself says the rule controls error 'marginally rather than per class'. The observed 0.017/0.010 are empirical results.",
+    "fix": "Say that the class-conditional rates were below target empirically and that the guarantee covers only the joint (marginal) probability.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-6",
+    "severity": "major",
+    "location": "Abstract line 13; Sec 4.6 line 210; Discussion line 237; Table S8",
+    "issue": "The batch-shift 'validity restored by recalibration' claim includes degenerate cases where passing is impossible, and the source-calibration FPR on batch 3 rests on 3 cells. Only CLO with 30 recalibration cells is informative, and it uses 15 test cells from a pool of 45.",
+    "evidence": "In E5_shift_splits.csv (proposed rule), b3 target_cal 20/30 has n_cal_bad = 2 in every split, pass_thr = inf in 100% of splits and n_bad test = 1, so FPR = 0 trivially. b3 source_cal has n_bad test = 3 in every split. b4 target_cal 20 has 8 bad calibration cells and never passes. b4 target_cal 30 has 12 bad calibration cells and 6 bad / 9 good test cells per split.",
+    "fix": "Report per-class counts in Table S8. State that the batch-3 and n = 20 cases cannot pass by construction. Restrict the abstract and Discussion to the CLO n = 30 case and note the small sample.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-7",
+    "severity": "minor",
+    "location": "Eq. 1 and Proposition 1 / proof, lines ~48 and 86-90",
+    "issue": "The probability space and conditioning are not stated: joint draw of calibration and test cells, given the training set and given n0. The finite-population randomisation interpretation of the experiments is not stated. 'Ties broken at random' is unnecessary. The attained (lower) bound is missing.",
+    "evidence": "stratified_split draws calibration and test cells from one pool, so the guarantee is over random partitions of a fixed pool. The strict inequality gives rank >= r0+1 under any tie-breaking.",
+    "fix": "State the conditioning explicitly. Assume exchangeability of all calibration and test cells, which implies within-class exchangeability given the labels. Simplify the tie step. Add the tightness remark.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-8",
+    "severity": "minor",
+    "location": "Sec 3 (missing); Sec 4.5 line 204; calibration.py pac_rank",
+    "issue": "The PAC variant is used in the Results but not defined in the Methods. It needs the rank formula, delta, the i.i.d. assumption (not just exchangeability), the n >= 22 condition, and the link to the Neyman-Pearson umbrella order statistic (ref. 32).",
+    "evidence": "pac_rank selects min r with BetaCDF(1-alpha; r, n+1-r) <= delta, with delta = 0.1 hard-coded; 0.9^22 = 0.098 gives the 22-cell minimum.",
+    "fix": "Add a Methods paragraph covering the definition and assumptions.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-9",
+    "severity": "minor",
+    "location": "Sec 4.6 line 212 (E9)",
+    "issue": "Protocol-grouped splits make cells exchangeable only in clusters, so Proposition 1's cell-level rank argument does not directly apply. The text says the guarantee held 'because exchangeability holds at the level of protocols'.",
+    "evidence": "suite.py e9_protocol_grouped assigns whole protocol groups (several cells each in MATR) to calibration or test.",
+    "fix": "Present the E9 validity as empirical. Note that a formal guarantee needs a group-level argument (one statistic per group).",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-10",
+    "severity": "minor",
+    "location": "Sec 3.6 line 113; Sec 4.4 line 188; Table S1",
+    "issue": "The Methods say other experiments use 200-333 splits, but the CNN uses 30 and logistic regression 1,000. The claim that the CNN's HUST FRR of 0.113 is 'consistent with nominal' rests on 30 splits.",
+    "evidence": "config/default.yaml n_splits cnn: 30; E2_models_splits.csv has 30 unique CNN splits per data set.",
+    "fix": "Correct the Methods sentence. Call the CNN result inconclusive, or add CNN splits if the claim is kept.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-11",
+    "severity": "minor",
+    "location": "Sec 4.7 line ~219; runner.py predict_models",
+    "issue": "Test-only noise is drawn independently at each checkpoint, which makes it as likely as possible that the maximum crosses a threshold; real measurement-chain differences are persistent in time.",
+    "evidence": "rng.normal is redrawn at each checkpoint m inside the loop.",
+    "fix": "State this assumption. Optionally add a persistent per-cell noise variant.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-12",
+    "severity": "minor",
+    "location": "Lines 152, 204; Tables 2/3; reference [19]",
+    "issue": "The E1 (26%/21%) and E10 (28%/24%) exceedance shares are not identified as coming from different experiments. The phrase 'test sets' companion calibration sets' is unclear. Reference [19] has no authors.",
+    "evidence": "See the tables and reference list.",
+    "fix": "Clarify the source of each number, rephrase the sentence, and add Vovk, Gammerman, Shafer to [19].",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-13",
+    "severity": "minor",
+    "location": "code/src/batscreen/screening/calibration.py conformal_upper/pac_upper; procedure.py metrics; models/base.py ENModel; Sec 3.2",
+    "issue": "conformal_upper silently drops +inf (anti-conservative if it ever occurs) and NaN, and pac_upper does not filter the same way. metrics() counts FPR = 0 when a test set has no bad cells. The elastic-net scale is the CV-minimised fold MSE with preprocessing fitted before the CV, not a strict out-of-fold RMSE.",
+    "evidence": "v = v[np.isfinite(v) | (v == -np.inf)]; fpr = fp.sum()/max(bad.sum(),1). n_bad > 0 was verified for all E1/E5 splits, so the reported results are not affected.",
+    "fix": "Raise an error on +inf/NaN, apply consistent filtering, return NaN for empty classes, and describe s_m accurately.",
+    "requires_rerun": false
+   },
+   {
+    "id": "R1-14",
+    "severity": "minor",
+    "location": "Sec 2 line ~40; Remark (ii)",
+    "issue": "Calibrating a max/sup nonconformity score over a trajectory for simultaneous validity has precedent that is not cited.",
+    "evidence": "Functional conformal bands (Lei, Rinaldo and Wasserman 2015; Diquigiovanni, Fontana and Vantini 2022) and multi-horizon conformal forecasting (Stankeviciute et al. 2021) are not cited.",
+    "fix": "Cite these after verifying them, and frame the novelty as class-conditional sequential screening with truncated calibration.",
+    "requires_rerun": false
+   }
+  ]
+ }
+]
