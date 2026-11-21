@@ -1,0 +1,15 @@
+# Exact versions of the environment that produced every reported result (Python 3.13.18, Linux x86-64, 4 CPU cores).
+# Use this file for bit-exact reproduction; requirements.txt lists compatible lower bounds only.
+# torch: the CPU build was used (pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu).
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.5
+scikit-learn==1.9.1
+h5py==3.16.0
+PyYAML==6.0.3
+joblib==1.6.0
+matplotlib==3.11.2
+tabulate==0.10.0
+torch==2.15.0
+python-docx==1.2.0
+pytest==9.1.1

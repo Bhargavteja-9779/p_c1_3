@@ -20,7 +20,8 @@ or
 ```bash
 pip install -r requirements.txt
 ```
-Python >= 3.10. CPU is sufficient (all paper results were produced on 4 CPU cores);
+Python 3.13 (results were produced with Python 3.13.18; `requirements-lock.txt` lists the exact package
+versions, `requirements.txt` compatible lower bounds). CPU is sufficient (all paper results were produced on 4 CPU cores);
 `batscreen.utils.detect_device()` uses CUDA or Apple-Silicon MPS for the CNN baseline if
 available.
 
@@ -55,8 +56,12 @@ CLO batch has no IR records. HUST pickles are read with an allow-listed unpickle
 
 ```bash
 python run_all.py --mode quick    # pipeline check, ~10 min, writes ../results_quick etc.
-python run_all.py --mode full     # all reported experiments, ~1.5-2 h on 4 cores
+python run_all.py --mode full --force   # recompute all reported experiments, ~3-4 h on 4 cores
 ```
+Without `--force`, experiment outputs that already exist in `../results/` (the repository ships the authors'
+results) are re-used, so a plain `--mode full` only re-runs the analysis, tables and figures. Long experiments are
+checkpointed per (data set x configuration) chunk in `../results/raw/chunks/`; an interrupted `--force` run can be
+resumed by re-running without `--force`.
 Outputs: `../results/` (raw split-level CSVs in `raw/`, `metrics.json`, `statistics.json`,
 `raw_results.csv`, logs in `experiment_logs/`), `../tables/` (Markdown + CSV),
 `../figures/` (PNG 300 dpi + PDF). The manuscript numbers are produced by
@@ -111,4 +116,12 @@ code/
 ```
 
 ## 7. License and citation
-Code: MIT. Data: see the original licences of the dataset providers.
+Code: MIT (`../../LICENSE`). Derived data (feature tables in `../data/features`, per-cell and per-split results in
+`../results`) are derived from the MATR/CLO and HUST data sets (CC BY 4.0) and are distributed under CC BY 4.0 with
+attribution to Severson et al. (2019), Attia et al. (2020) and Ma et al. (2022); see `../../DATA_NOTICE.md`.
+
+## 8. Building the manuscript
+`python ../manuscript/build_numbers.py` then `python ../manuscript/build/render.py --pdf --si --out $PWD/../manuscript/Draft_Manuscript.docx`
+(run from `Target_Journal_Submission/code` or adjust paths). System dependencies: pandoc (>= 3) and LibreOffice with the
+Math component (Debian/Ubuntu: `apt-get install pandoc libreoffice-writer libreoffice-math`); without LibreOffice Math
+the PDF would silently lose every equation, so `render.py` refuses to build it.

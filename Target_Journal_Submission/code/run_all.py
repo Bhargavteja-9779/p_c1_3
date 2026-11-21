@@ -26,6 +26,10 @@ if a.mode == "quick":
     for k in ("results", "figures", "tables"):
         cfg["paths"][k] = cfg["paths"][k] + "_quick"
 cfg["force"] = a.force
+if not a.force:
+    log_note = ("NOTE: experiment outputs already present in results/ (including those committed to the repository) "
+                "are RE-USED, not recomputed. Pass --force to recompute every experiment from the feature tables.")
+    print(log_note, file=sys.stderr)
 if cfg["n_jobs"] == -1:
     cfg["n_jobs"] = os.cpu_count()
 for k in ("results", "figures", "tables"):
