@@ -57,3 +57,12 @@
 2026-11-21 09:26:23,191 INFO chunk E7_matr_clo_ab: 3200 rows in 92s
 2026-11-21 09:27:52,942 INFO chunk E7_matr_clo_L550: 800 rows in 90s
 2026-11-21 09:29:21,173 INFO chunk E7_matr_clo_L750: 800 rows in 88s
+2026-11-21 09:30:48,247 INFO chunk E7_matr_clo_L900: 800 rows in 87s
+2026-11-21 09:30:48,247 INFO E7 matr_clo done
+2026-11-21 09:33:08,737 INFO chunk E7_hust_ab: 3200 rows in 140s
+2026-11-21 09:35:32,023 INFO chunk E7_hust_L1600: 800 rows in 143s
+2026-11-21 09:37:54,629 INFO chunk E7_hust_L1900: 800 rows in 143s
+2026-11-21 09:40:14,624 INFO chunk E7_hust_L2200: 800 rows in 140s
+2026-11-21 09:40:14,624 INFO E7 hust done
+2026-11-21 09:40:14,779 INFO --- E7 done in 924s
+2026-11-21 09:40:14,780 INFO --- E9 start
