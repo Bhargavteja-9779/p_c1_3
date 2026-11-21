@@ -69,6 +69,8 @@ See Section 2.3 of the main text. All features at checkpoint $k$ use cycles $\le
 
 {{STABLE:tables/E8_worst_cells_hust.csv|The ten HUST cells with the highest error frequency across splits (proposed rule).|}}
 
+{{SFIG:Fig9_sensitivity_Lstar|Sensitivity to the specification (E7, trajectory-calibrated rule, $\alpha=\beta=0.10$, {{CFG.n_secondary}} splits): mean false-pass and false-reject rates and cycling saved for three values of $L^\ast$ per data set. Dashed line: nominal level 0.10.}}
+
 {{SFIG:Fig6_score_trajectories|Normalised score trajectories of eight randomly chosen test cells in one split, with the calibrated pass and reject thresholds of the proposed rule.}}
 
 {{SFIG:Fig12_confusion_matrices|Row-normalised decision matrices (true class versus decision) pooled over all splits of E1.}}

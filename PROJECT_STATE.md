@@ -13,7 +13,10 @@ To resume in a fresh container:
   1. cd Target_Journal_Submission/code && pip install -r requirements-lock.txt (torch CPU) ; apt-get install -y libreoffice-math
   2. python run_all.py --mode full --stages experiments analysis figures --experiments E11 E12 E13   (resumes chunks)
   3. python ../manuscript/build_numbers.py
-TODO (in order): assemble 3.4-3.8 from manuscript/drafts/ (sec3_4, sec3_5 + E12/SEL paragraph, sec3_6 + E13 noise_corr
+DONE (laughing-bohr, 15:50): 3.4-3.8 assembled into src/part2_results.md with fixes (3.4 logit exception, 3.6 E7 paragraph +
+ test-only-noise wording, 3.7 batch shift rewritten per A3/R1-6 with test-cell counts, E9 = stress test per A16); Fig9 -> SI.
+ STILL TODO from that list: E12/SEL paragraph in 3.5 and E13 (gauss_bonf, bonf sparse, noise_corr) once E12/E13 finish.
+TODO (original list, in order): assemble 3.4-3.8 from manuscript/drafts/ (sec3_4, sec3_5 + E12/SEL paragraph, sec3_6 + E13 noise_corr
  + E7 paragraph, sec3_7 shift (fix per A2/A3, add test-cell counts), sec3_8a_pac + sec3_8b_compute) in place of
  {{SECTION_E2_E10}} in src/part2_results.md; add gauss_bonf (E13) to 3.2/3.11 text; rewrite abstract (A1, A6, A7:
  both calibration ratios, no 'guaranteed', state single-checkpoint comparison); fix discussion/limitations (A5 sub-0.10

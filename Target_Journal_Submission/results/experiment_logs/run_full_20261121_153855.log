@@ -1,0 +1,7 @@
+2026-11-21 15:39:54,725 INFO mode=full stages=['experiments', 'analysis', 'figures'] env={"python": "3.13.18", "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39", "numpy": "2.5.3", "scipy": "1.18.1", "sklearn": "1.9.1", "cpu_count": 4, "device": "cpu", "torch": "2.15.0+cu132"}
+2026-11-21 15:40:03,996 INFO --- E11 start
+2026-11-21 15:40:03,996 INFO E11 exists, skipped (resume)
+2026-11-21 15:40:03,996 INFO --- E11 done in 0s
+2026-11-21 15:40:03,996 INFO --- E12 start
+2026-11-21 15:40:04,172 INFO chunk E12_matr_clo: exists, re-used
+2026-11-21 15:40:04,176 INFO E12 matr_clo done
