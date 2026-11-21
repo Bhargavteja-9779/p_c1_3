@@ -1,0 +1,7 @@
+| dataset                      | method      |   fpr_mean |   fpr_ci_hi |   frr_mean |   frr_ci_hi |   accuracy_mean |   early_rate_mean |   time_saving_mean |   n_splits |
+|:-----------------------------|:------------|-----------:|------------:|-----------:|------------:|----------------:|------------------:|-------------------:|-----------:|
+| MATR+CLO (protocol-disjoint) | gauss       |      0.056 |       0.064 |      0.063 |       0.072 |           0.941 |             0.879 |              0.786 |        200 |
+| MATR+CLO (protocol-disjoint) | naive       |      0.168 |       0.185 |      0.182 |       0.201 |           0.833 |             0.988 |              0.945 |        200 |
+| MATR+CLO (protocol-disjoint) | point_k100  |      0.077 |       0.088 |      0.086 |       0.095 |           0.920 |             1.000 |              0.846 |        200 |
+| MATR+CLO (protocol-disjoint) | proposed    |      0.073 |       0.087 |      0.088 |       0.101 |           0.924 |             0.833 |              0.751 |        200 |
+| MATR+CLO (protocol-disjoint) | single_k100 |      0.087 |       0.102 |      0.060 |       0.071 |           0.931 |             0.925 |              0.776 |        200 |
