@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-Last update: 2026-11-21 11:30 UTC (session 3)
+Last update: 2026-11-21 12:08 UTC (session 3)
 
 ## HOW TO RESUME IN A NEW SESSION / ACCOUNT (read first)
 1. `git checkout claude/awesome-cori-k15frg && git pull`
@@ -15,7 +15,7 @@ Last update: 2026-11-21 11:30 UTC (session 3)
 ## Run status (session 3, 2026-11-21)
 * Container was reset; packages reinstalled at the versions of the earlier run.
 * Relaunched 10:52 UTC (log results_full_stdout5.log). E1 reused; E2 completed 11:18 (all models);
-  E3 completed ~11:25; E4-E7, E9, E10, analysis, figures pending at time of writing.
+  E3, E4 completed; E5 in progress at 12:08; E6, E7, E9, E10, analysis, figures pending.
 * Reference fixes (holm1979, hust_data, romano2019cqr, pedregosa2011sklearn) and Fig. 1 placed in Methods 3.3.
 * Note: REVIEW/ outputs of the session-2 workflow (prep-audit-build) were lost with the container; not in git.
 
