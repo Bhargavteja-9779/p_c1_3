@@ -48,6 +48,9 @@ Target_Journal_Submission/code (package batscreen, run_all.py quick/full).
    (only author-detail placeholders remain -> need real author info from the user).
    Rebuild: `python manuscript/build_numbers.py && python manuscript/build/render.py --pdf --si --out $PWD/manuscript/Draft_Manuscript.docx`
    (run from Target_Journal_Submission; without --out it writes Final_Manuscript.*).
-3. NEXT: redo the lost pre-review/citation audit (prep-audit-build); save to Target_Journal_Submission/REVIEW/ and commit.
-4. Ten-reviewer cycle 1 (agents) -> REVIEW/cycle01/, consolidate, fix, rerun affected experiments; further cycles.
+3+4. RUNNING (started 2026-11-21, user said CONTINUE): review cycle 1 = Workflow tools/review_cycle01.workflow.js
+   (7 reviewer lenses R1-R7 + citation audit A1, merged with the lost pre-review; 8 agents to respect usage limits).
+   Each agent writes Target_Journal_Submission/REVIEW/cycle01/<lens>.md. If interrupted: re-run only lenses whose .md
+   is missing (Workflow tool with that script, editing LENSES). Then: consolidate into REVIEW/cycle01/CONSOLIDATED.md,
+   fix manuscript/code, rerun affected experiments, re-render, log in REVIEW_HISTORY.md; cycle 2 if major issues remain.
 5. Final DOCX/PDF, cover letter, audits, manifest, risk report, decision. Ask user for author names/affiliations/ORCID/funding.
