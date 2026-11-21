@@ -66,3 +66,7 @@
 2026-11-21 09:40:14,624 INFO E7 hust done
 2026-11-21 09:40:14,779 INFO --- E7 done in 924s
 2026-11-21 09:40:14,780 INFO --- E9 start
+2026-11-21 09:41:43,454 INFO chunk E9_matr_clo: 1000 rows in 89s
+2026-11-21 09:41:43,469 INFO E9 done (78 protocol groups)
+2026-11-21 09:41:43,470 INFO --- E9 done in 89s
+2026-11-21 09:41:43,470 INFO --- E10 start
