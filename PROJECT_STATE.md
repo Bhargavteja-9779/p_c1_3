@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-Last update: 2026-11-21 09:55 UTC
+Last update: 2026-11-21 10:30 UTC
 
 ## Selected target journal
 Battery Energy (Wiley; eISSN 2768-1696). See Target_Journal_Submission/journal_selection/.
@@ -41,8 +41,13 @@ Target_Journal_Submission/code (package batscreen, run_all.py quick/full).
 
 ## Next steps (exact)
 1. DONE 2026-11-21 09:50: full run E1-E10 + analysis + figures complete; manuscript_numbers.json rebuilt.
-2. NOW: write Results for E2-E10 in
-   manuscript/src/part2_results.md (only E1 written) -> update Discussion (part3) -> render via manuscript/build/render.py.
-3. Redo the lost pre-review/citation audit (prep-audit-build); save outputs to Target_Journal_Submission/REVIEW/ and commit.
-4. Ten-reviewer cycle 1 (agents), consolidate, fix, rerun affected experiments; further cycles.
-5. DOCX/PDF, cover letter, audits, manifest, risk report, decision.
+2. DONE 2026-11-21 10:30: Results 4.4-4.7 written (E2, E3, E4, E5, E6, E7, E9, E10; error analysis now 4.8);
+   Discussion/Limitations/abstract aligned (shift claim: failure shown for *batch* shift; cross-lab runs used
+   target calibration and were valid). Table S1 now generated (tables/S1_experiments.csv). First complete draft:
+   manuscript/Draft_Manuscript.{md,docx,pdf} (32 pp) + Supporting_Information.* (23 pp); check_docx passes
+   (only author-detail placeholders remain -> need real author info from the user).
+   Rebuild: `python manuscript/build_numbers.py && python manuscript/build/render.py --pdf --si --out $PWD/manuscript/Draft_Manuscript.docx`
+   (run from Target_Journal_Submission; without --out it writes Final_Manuscript.*).
+3. NEXT: redo the lost pre-review/citation audit (prep-audit-build); save to Target_Journal_Submission/REVIEW/ and commit.
+4. Ten-reviewer cycle 1 (agents) -> REVIEW/cycle01/, consolidate, fix, rerun affected experiments; further cycles.
+5. Final DOCX/PDF, cover letter, audits, manifest, risk report, decision. Ask user for author names/affiliations/ORCID/funding.

@@ -1,0 +1,11 @@
+id,purpose,models,splits,output
+E1,Main comparison of screening rules,Elastic net,"1,000 per data set",results/raw/E1_*_splits.csv
+E2,Base predictors,"Logistic, GBR, RF, GP, CNN","1,000 (logistic), 200 (GBR, RF, GP), 30 (CNN)",results/raw/E2_models_splits.csv
+E3,Checkpoint-grid ablation,Elastic net,200,results/raw/E3_ablation_grid_splits.csv
+E4,"Calibration/training size, feature noise",Elastic net,200,results/raw/E4_robustness_splits.csv
+E5,Batch and laboratory shift,Elastic net,200,results/raw/E5_shift_splits.csv
+E6,Run time and memory,All,5 repetitions,results/raw/E6_compute.csv
+E7,"Sensitivity to alpha, beta and L*",Elastic net,200,results/raw/E7_sensitivity_splits.csv
+E8,Error analysis,Elastic net (from E1),-,results/E8_percell_*.csv
+E9,Protocol-disjoint splits (MATR/CLO),Elastic net,200,results/raw/E9_protocol_grouped_splits.csv
+E10,Training-conditional (PAC) calibration,Elastic net,200,results/raw/E10_pac_splits.csv

@@ -194,6 +194,22 @@ def main():
     for n0 in (9, 10, 15, 20, 25, 30, 40, 60):
         r = int(np.ceil((n0 + 1) * (1 - a)))
         put(f"PAC.p_exceed_n{n0}", float(_beta.cdf(1 - a, r, n0 + 1 - r)) if r <= n0 else 0.0, "pct0")
+    # ---- Table S1 (experiment overview), generated so that split counts come from the run config
+    ns, sec = c["n_splits"], c.get("n_splits_secondary", 0)
+    f = lambda v: f"{int(v):,}"
+    rows = [("E1", "Main comparison of screening rules", "Elastic net", f"{f(ns['en'])} per data set", "results/raw/E1_*_splits.csv"),
+            ("E2", "Base predictors", "Logistic, GBR, RF, GP, CNN",
+             f"{f(ns['logit'])} (logistic), {f(ns['gbr'])} (GBR, RF, GP), {f(ns['cnn'])} (CNN)", "results/raw/E2_models_splits.csv"),
+            ("E3", "Checkpoint-grid ablation", "Elastic net", f(sec), "results/raw/E3_ablation_grid_splits.csv"),
+            ("E4", "Calibration/training size, feature noise", "Elastic net", f(sec), "results/raw/E4_robustness_splits.csv"),
+            ("E5", "Batch and laboratory shift", "Elastic net", f(sec), "results/raw/E5_shift_splits.csv"),
+            ("E6", "Run time and memory", "All", "5 repetitions", "results/raw/E6_compute.csv"),
+            ("E7", "Sensitivity to alpha, beta and L*", "Elastic net", f(sec), "results/raw/E7_sensitivity_splits.csv"),
+            ("E8", "Error analysis", "Elastic net (from E1)", "-", "results/E8_percell_*.csv"),
+            ("E9", "Protocol-disjoint splits (MATR/CLO)", "Elastic net", f(sec), "results/raw/E9_protocol_grouped_splits.csv"),
+            ("E10", "Training-conditional (PAC) calibration", "Elastic net", f(sec), "results/raw/E10_pac_splits.csv")]
+    pd.DataFrame(rows, columns=["id", "purpose", "models", "splits", "output"]).to_csv(
+        os.path.join(ROOT, "tables", "S1_experiments.csv"), index=False)
     out = os.path.join(ROOT, "results", "manuscript_numbers.json")
     old = json.load(open(out)) if os.path.exists(out) else {}
     for k in ("ABSTRACT",):  # text blocks written by the authors are kept

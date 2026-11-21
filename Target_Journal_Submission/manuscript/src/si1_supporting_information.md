@@ -4,20 +4,9 @@
 
 ## S1 Experiments, splits and seeds
 
-Table S1 lists every experiment. Split seeds are `seed_base + offset + i` with `seed_base = 20261115` and experiment offsets fixed in `code/experiments/suite.py`; they were fixed before any experiment was run. E9 and E10 were added after the design freeze to answer questions about protocol novelty and training-conditional validity; they are reported as additional analyses.
+{{STABREF:tables/S1_experiments.csv}} lists every experiment. Split seeds are `seed_base + offset + i` with `seed_base = 20261115` and experiment offsets fixed in `code/experiments/suite.py`; they were fixed before any experiment was run. E9 and E10 were added after the design freeze to answer questions about protocol novelty and training-conditional validity; they are reported as additional analyses.
 
-| ID | Purpose | Base model(s) | Splits per configuration | Output file |
-|---|---|---|---|---|
-| E1 | Main comparison of screening rules | Elastic net | {{CFG.n_main}} per dataset | results/raw/E1_*_splits.csv |
-| E2 | Base predictors | Logistic, GBR, RF, GP, CNN | {{CFG.n_logit}} (logistic), {{CFG.n_gbr}} (GBR, RF, GP), {{CFG.n_cnn}} (CNN) | results/raw/E2_models_splits.csv |
-| E3 | Checkpoint-grid ablation | Elastic net | {{CFG.n_secondary}} | results/raw/E3_ablation_grid_splits.csv |
-| E4 | Calibration/training size, feature noise | Elastic net | {{CFG.n_secondary}} | results/raw/E4_robustness_splits.csv |
-| E5 | Batch and laboratory shift | Elastic net | {{CFG.n_secondary}} | results/raw/E5_shift_splits.csv |
-| E6 | Run time and memory | all | 5 repetitions | results/raw/E6_compute.csv |
-| E7 | Sensitivity to alpha, beta and L* | Elastic net | {{CFG.n_secondary}} | results/raw/E7_sensitivity_splits.csv |
-| E8 | Error analysis | Elastic net (from E1) | — | results/E8_percell_*.csv |
-| E9 | Protocol-disjoint splits (MATR/CLO) | Elastic net | {{CFG.n_secondary}} | results/raw/E9_protocol_grouped_splits.csv |
-| E10 | Training-conditional (PAC) calibration | Elastic net | {{CFG.n_secondary}} | results/raw/E10_pac_splits.csv |
+{{STABLE:tables/S1_experiments.csv|Experiments, base models, number of random splits per configuration and output files. Splits of different experiments use disjoint seed ranges fixed before running.|id:ID:s,purpose:Purpose:s,models:Base model(s):s,splits:Splits per configuration:s,output:Output file:s}}
 
 ## S2 Data cleaning and labels
 
